@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>MiniGames Hub</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Orbitron:wght@400;700;900&display=swap');
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Orbitron', monospace;
+    }
+
+    body {
+      background: linear-gradient(45deg, #1a0000, #000a1a, #1a1a00);
+      color: #FFD700;
+      image-rendering: pixelated;
+      position: relative;
+      overflow-x: hidden;
+    }
+    
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: repeating-linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 0.15),
+        rgba(0, 0, 0, 0.15) 1px,
+        transparent 1px,
+        transparent 2px
+      );
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* NAVBAR */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: linear-gradient(90deg, #FFD700 0%, #0066CC 50%, #FF0000 100%);
+      padding: 15px 30px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      min-height: 100px;
+      border-bottom: 4px solid #000;
+      box-shadow: 0 4px 0 #FFD700, 0 8px 0 #0066CC, 0 12px 0 #FF0000;
+    }
+
+    .nav-content {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      width: 100%;
+      max-width: 1200px;
+      position: relative;
+    }
+
+    .logo-container {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10;
+    }
+
+    nav h1 {
+      font-size: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    nav h1 img {
+      height: 80px !important;
+      width: auto !important;
+      object-fit: contain !important;
+      max-width: none !important;
+      max-height: none !important;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    nav a {
+      color: #000;
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: bold;
+      padding: 6px 10px;
+      border: 2px solid #000;
+      background: #FFD700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      transition: all 0.2s;
+      position: relative;
+      white-space: nowrap;
+    }
+
+    nav a:hover {
+      background: #0066CC;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 0 #000;
+    }
+
+    nav a:nth-child(2) {
+      background: #0066CC;
+    }
+
+    nav a:nth-child(3) {
+      background: #FF0000;
+    }
+
+    nav a:nth-child(4) {
+      background: #FFD700;
+    }
+
+    /* HAMBURGER MENU */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      gap: 4px;
+    }
+
+    .hamburger span {
+      width: 25px;
+      height: 3px;
+      background: white;
+      transition: 0.3s;
+    }
+
+    .hamburger.active span:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 5px);
+    }
+
+    .hamburger.active span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .hamburger.active span:nth-child(3) {
+      transform: rotate(-45deg) translate(7px, -6px);
+    }
+
+    .nav-menu {
+      transition: 0.3s;
+    }
+
+    /* CONTENEDOR PRINCIPAL */
+    .container {
+      display: flex;
+      height: 100vh;
+      margin-top: 120px;
+    }
+
+    .section {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      transition: all 0.3s;
+      cursor: pointer;
+      position: relative;
+      border: 4px solid #000;
+      margin: 10px;
+    }
+
+    .section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 10px,
+        rgba(0, 0, 0, 0.1) 10px,
+        rgba(0, 0, 0, 0.1) 20px
+      );
+      pointer-events: none;
+    }
+
+    .section h2 {
+      font-size: 32px;
+      margin-bottom: 10px;
+      font-family: 'Press Start 2P', cursive;
+      text-transform: uppercase;
+      text-shadow: 2px 2px 0 #000, 4px 4px 0 rgba(255, 215, 0, 0.5);
+      z-index: 2;
+      position: relative;
+    }
+
+    .section p {
+      margin-bottom: 15px;
+      font-weight: bold;
+      text-shadow: 1px 1px 0 #000;
+      z-index: 2;
+      position: relative;
+    }
+
+    .section button {
+      padding: 12px 24px;
+      border: 3px solid #000;
+      cursor: pointer;
+      background: #FFD700;
+      color: #000;
+      font-weight: bold;
+      font-family: 'Press Start 2P', cursive;
+      font-size: 12px;
+      text-transform: uppercase;
+      position: relative;
+      transition: all 0.2s;
+      z-index: 2;
+    }
+
+    .section button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 0 #000;
+      background: #0066CC;
+      color: #FFD700;
+    }
+
+    .section:hover {
+      flex: 1.2;
+      transform: scale(1.05);
+      z-index: 10;
+      box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+    }
+
+    /* COLORES POR CATEGORÍA */
+    .futbol {
+      background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)),
+                  url('https://images.unsplash.com/photo-1517927033932-b3d18e61fb3a') center/cover;
+      position: relative;
+      border: 4px solid #FFD700;
+    }
+    
+    .futbol::after {
+      content: '⚽';
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-size: 40px;
+      opacity: 0.3;
+      transform: rotate(-15deg);
+    }
+
+    .f1 {
+      background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)),
+                  url('https://tse2.mm.bing.net/th/id/OIF.D3j6kinSGeId4u3fHfD0SA?r=0&rs=1&pid=ImgDetMain&o=7&rm=3') center/cover;
+      position: relative;
+      border: 4px solid #0066CC;
+    }
+    
+    .f1::after {
+      content: '🏎️';
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-size: 40px;
+      opacity: 0.3;
+      transform: rotate(-15deg);
+    }
+
+    .ajedrez {
+      background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)),
+                  url('https://images.unsplash.com/photo-1529699211952-734e80c4d42b') center/cover;
+      position: relative;
+      border: 4px solid #FF0000;
+    }
+    
+    .ajedrez::after {
+      content: '♟️';
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-size: 40px;
+      opacity: 0.3;
+      transform: rotate(-15deg);
+    }
+
+    /* QUIENES SOMOS */
+    .about {
+      padding: 80px 20px;
+      text-align: center;
+      background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #2a2a2a 100%);
+      position: relative;
+      border-top: 4px solid #FFD700;
+      border-bottom: 4px solid #FF0000;
+    }
+    
+    .about::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 50px,
+        rgba(255, 215, 0, 0.03) 50px,
+        rgba(255, 215, 0, 0.03) 51px
+      );
+      pointer-events: none;
+    }
+
+    .about h2 {
+      margin-bottom: 40px;
+      font-size: 36px;
+      font-family: 'Press Start 2P', cursive;
+      color: #FFD700;
+      text-shadow: 3px 3px 0 #000, 6px 6px 0 rgba(255, 215, 0, 0.3);
+      position: relative;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+    
+    .about h2::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 200px;
+      height: 3px;
+      background: linear-gradient(90deg, #FFD700, #0066CC, #FF0000);
+      border-radius: 2px;
+    }
+
+    .about h3 {
+      font-size: 28px;
+      margin-bottom: 20px;
+      color: #0066CC;
+      font-weight: bold;
+      font-family: 'Press Start 2P', cursive;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      text-shadow: 2px 2px 0 #000;
+    }
+
+    .mission {
+      font-size: 16px;
+      line-height: 1.8;
+      margin-bottom: 30px;
+      color: #FFD700;
+      background: rgba(0, 0, 0, 0.7);
+      padding: 25px;
+      border: 3px solid #000;
+      border-radius: 0;
+      position: relative;
+      font-weight: bold;
+      text-shadow: 1px 1px 0 #000;
+    }
+    
+ 
+    .objectives h4 {
+      font-size: 20px;
+      margin-bottom: 25px;
+      color: #FF0000;
+      font-weight: bold;
+      font-family: 'Press Start 2P', cursive;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      text-shadow: 2px 2px 0 #000;
+      position: relative;
+      display: inline-block;
+      padding: 10px 20px;
+      background: #000;
+      border: 2px solid #FF0000;
+    }
+
+    .objectives ul {
+      list-style: none;
+      text-align: left;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .objectives li {
+      font-size: 14px;
+      margin-bottom: 15px;
+      padding: 15px;
+      background: rgba(0, 0, 0, 0.5);
+      border: 2px solid #0066CC;
+      border-radius: 0;
+      transition: all 0.3s;
+      position: relative;
+      color: #FFD700;
+      font-weight: bold;
+      text-shadow: 1px 1px 0 #000;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    
+    .objectives li::before {
+      content: '▶';
+      margin-right: 10px;
+      color: #FF0000;
+      font-size: 12px;
+    }
+
+    .objectives li:hover {
+      transform: translateX(10px) scale(1.02);
+      background: rgba(255, 215, 0, 0.1);
+      border-color: #FFD700;
+      box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+    }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      padding: 30px 20px;
+      background: linear-gradient(90deg, #FFD700 0%, #0066CC 50%, #FF0000 100%);
+      font-size: 14px;
+      font-weight: bold;
+      border-top: 4px solid #000;
+      box-shadow: 0 -4px 0 #FFD700, 0 -8px 0 #0066CC, 0 -12px 0 #FF0000;
+      position: relative;
+      z-index: 2;
+    }
+    
+    footer p {
+      color: #000;
+      font-family: 'Press Start 2P', cursive;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.5);
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+        height: auto;
+      }
+
+      .section {
+        height: 33vh;
+      }
+
+      .hamburger {
+        display: flex;
+      }
+
+      .nav-menu {
+        position: fixed;
+        left: -100%;
+        top: 70px;
+        flex-direction: column;
+        background: #000;
+        width: 100%;
+        text-align: center;
+        transition: 0.3s;
+        box-shadow: 0 10px 27px rgba(0,0,0,0.05);
+        padding: 20px 0;
+      }
+
+      .nav-menu.active {
+        left: 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <nav>
+    <div class="nav-content">
+      <div class="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <ul class="nav-menu">
+        <li><a href="#">Inicio</a></li>
+        <li><a href="#about">Quiénes somos</a></li>
+        <li><a href="#">Login</a></li>
+        <li><a href="#">Registro</a></li>
+      </ul>
+    </div>
+    <div class="logo-container">
+      <h1><img src="../sports-hub-games/assets/images/NombreLogo.JPG" alt="SPORT HUB GAMES"></h1>
+    </div>
+  </nav>
+
+  <!-- SECCIONES -->
+  <div class="container">
+
+    <div class="section futbol">
+      <h2>Fútbol</h2>
+      <p>Penales, tiros libres y más</p>
+      <button>Jugar</button>
+    </div>
+
+    <div class="section f1">
+      <h2>F1</h2>
+      <p>Velocidad y reflejos</p>
+      <button>Jugar</button>
+    </div>
+
+    <div class="section ajedrez">
+      <h2>Ajedrez</h2>
+      <p>Estrategia y mente</p>
+      <button>Jugar</button>
+    </div>
+
+  </div>
+
+  <!-- QUIENES SOMOS -->
+  <section class="about" id="about">
+    <h2>¿Quiénes somos?</h2>
+    <div class="about-content">
+      <h3>Sports Hub Games</h3>
+      <p class="mission">
+        <strong>Objetivo general:</strong> Desarrollar una página web interactiva denominada "Sports Hub Games", orientada a la oferta de minijuegos deportivos que incorporan un sistema de ranking.
+      </p>
+      <div class="objectives">
+        <h4>Nuestra Misión</h4>
+        <ul>
+          <li>Promover el entretenimiento a través de minijuegos deportivos</li>
+          <li>Incentivar la competencia sana entre los usuarios</li>
+          <li>Contribuir a la estimulación de habilidades cognitivas</li>
+          <li>Ofrecer un sistema de ranking competitivo y justo</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p> 2026 MiniGames | Contacto</p>
+  </footer>
+
+  <script>
+    const hamburger = document.querySelector(".hamburger");
+    const navMenu = document.querySelector(".nav-menu");
+
+    hamburger.addEventListener("click", () => {
+      hamburger.classList.toggle("active");
+      navMenu.classList.toggle("active");
+    });
+
+    document.querySelectorAll(".nav-menu a").forEach(n => n.addEventListener("click", () => {
+      hamburger.classList.remove("active");
+      navMenu.classList.remove("active");
+    }));
+  </script>
+
+</body>
+</html>
