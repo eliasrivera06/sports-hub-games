@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Login - Sports Hub Games</title>
+<title>Registro - Sports Hub Games</title>
   <link rel="icon" href="/assets/images/logo_grande.png" type="image/png">
 
 <!-- Bootstrap -->
@@ -17,15 +17,14 @@
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 
 <!-- CSS propio -->
-<link rel="stylesheet" href="css/login.css">
+<link rel="stylesheet" href="css/registrarse.css">
 </head>
 
 <body>
 
-  <!-- NAVBAR -->
+<!-- NAVBAR -->
 <nav class="navbar navbar-expand-lg">
   <div class="container">
-
     <a class="navbar-brand" href="index.html">
       <img src="assets/images/logo.png" class="logo">
     </a>
@@ -37,54 +36,54 @@
         <li class="nav-item"><a class="nav-link" href="login.html">Login</a></li>
       </ul>
     </div>
-
   </div>
 </nav>
 
+<!-- FORM -->
 <div class="login-container">
   <div class="login-box animate__animated animate__zoomIn">
 
-  <!-- Barra tipo ventana -->
-  <div class="window-bar">
-    <div class="dots">
-      <div class="dot red"></div>
-      <div class="dot yellow"></div>
-      <div class="dot green"></div>
+    <div class="window-bar">
+      <div class="dots">
+        <div class="dot red"></div>
+        <div class="dot yellow"></div>
+        <div class="dot green"></div>
+      </div>
+      <div style="font-size:12px;font-weight:bold;">X</div>
     </div>
-<div style="font-size:12px; font-weight:bold;">X</div>
+
+    <div class="login-title">CREAR CUENTA</div>
+
+    <input type="text" class="input-retro" placeholder="Nombre completo">
+    <input type="text" class="input-retro" placeholder="Usuario">
+    <input type="email" class="input-retro" placeholder="Correo">
+
+    <div class="password-container">
+      <input type="password" id="password" class="input-retro" placeholder="Contraseña">
+      <div class="toggle-pass" onclick="togglePassword()" id="eyeBtn">👁</div>
+    </div>
+
+    <div class="password-container">
+      <input type="password" id="confirmPassword" class="input-retro" placeholder="Confirmar contraseña">
+      <div class="toggle-pass" onclick="togglePassword2()" id="eyeBtn2">👁</div>
+    </div>
+
+    <button class="btn-retro btn-login" onclick="register()">REGISTRARSE</button>
+
+    <button class="btn-retro btn-google" onclick="googleLogin()">GOOGLE</button>
+
+    <div class="register">
+      ¿Ya tienes cuenta? <br>
+      <a href="login.html">Inicia sesión</a>
+    </div>
+
   </div>
-
-  <div class="login-title">INICIAR SESION</div>
-
-  <input type="text" class="input-retro" placeholder="Nombre">
-  <input type="email" class="input-retro" placeholder="Correo">
-<div class="password-container">
-  <input type="password" id="password" class="input-retro" placeholder="Contraseña">
-
-  <button type="button" class="toggle-pass" onclick="togglePassword()" id="eyeBtn">
-    👁
-  </button>
 </div>
 
-  <button class="btn-retro btn-login" onclick="login()">
-    ENTRAR
-  </button>
-
-  <button class="btn-retro btn-google" onclick="googleLogin()">
-    GOOGLE
-  </button>
-
-  <div class="register">
-    ¿Aún no tienes una cuenta? <br>
-    <a href="registrarse.html">Regístrate</a>
-  </div>
-
-    </div>
-</div>
 <!-- SweetAlert -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <!-- JS propio -->
-<script src="js/login.js"></script>
+<script src="js/registrarse.js"></script>
 
 </body>
 </html>
