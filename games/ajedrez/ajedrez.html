@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Ajedrez - Sports Hub Games</title>
-  <link rel="icon" href="/assets/images/logo_grande.png" type="image/png">
+<link rel="icon" href="../../assets/images/logo_grande.png" type="image/png">
 
 <!-- Bootstrap -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -17,7 +17,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 
 <!-- CSS propio -->
-<link rel="stylesheet" href="../../css/ajedrez.css">
+<link rel="stylesheet" href="ajedrez.css">
 </head>
 
 <body>
@@ -26,7 +26,7 @@
 <nav class="navbar navbar-expand-lg">
   <div class="container">
     <a class="navbar-brand" href="../../index.html">
-      <img src="../../assets/images/logo.png" class="logo">
+      <img src="../../assets/images/logo.png" class="logo" alt="Sports Hub Games">
     </a>
 
     <div class="collapse navbar-collapse">
@@ -43,33 +43,30 @@
 
   <!-- TITULO -->
   <div class="title animate__animated animate__fadeInDown">
-    MODO AJEDREZ
+    &#9823; MODO AJEDREZ
   </div>
 
   <!-- JUEGOS -->
   <div class="games-container">
 
+    <!-- MOVIMIENTOS VÁLIDOS — DISPONIBLE -->
     <div class="game-card" onclick="goGame('movimientos-validos.html')">
-      <div class="game-img">IMAGEN</div>
+      <div class="game-img-icon">&#9822;</div>
       <div class="game-title">MOVIMIENTOS VALIDOS</div>
       <button class="btn-play">JUGAR</button>
     </div>
 
+    <!-- MATE EN 1 — DISPONIBLE -->
     <div class="game-card" onclick="goGame('mate-1.html')">
-      <div class="game-img">IMAGEN</div>
+      <div class="game-img-icon">&#9812;</div>
       <div class="game-title">MATE EN 1</div>
       <button class="btn-play">JUGAR</button>
     </div>
 
+    <!-- QUIZ DE AJEDREZ — DISPONIBLE -->
     <div class="game-card" onclick="goGame('quiz-ajedrez.html')">
-      <div class="game-img">IMAGEN</div>
+      <div class="game-img-icon">&#10067;</div>
       <div class="game-title">QUIZ DE AJEDREZ</div>
-      <button class="btn-play">JUGAR</button>
-    </div>
-
-    <div class="game-card" onclick="goGame('nombre.html')">
-      <div class="game-img">IMAGEN</div>
-      <div class="game-title">nombre</div>
       <button class="btn-play">JUGAR</button>
     </div>
 
@@ -79,12 +76,12 @@
 
 <!-- FOOTER -->
 <footer>
-  © 2026 Sports Hub Games
+  &#169; 2026 Sports Hub Games
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <!-- JS propio -->
-<script src="../../js/ajedrez.js"></script>
+<script src="ajedrez.js"></script>
 
 </body>
 </html>
