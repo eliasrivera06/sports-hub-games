@@ -1,12 +1,198 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="icon" href="/assets/images/logo_grande.png" type="image/png">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Quiz de Ajedrez — Pon a prueba tus conocimientos sobre historia, reglas, piezas y estrategia del ajedrez con preguntas de múltiple opción.">
+  <title>Quiz de Ajedrez | Ajedrez — Sports Hub Games</title>
+  <link rel="icon" href="../../assets/images/logo_grande.png" type="image/png">
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Animate.css -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  <!-- Fuente Retro -->
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <!-- CSS del juego -->
+  <link rel="stylesheet" href="quiz-ajedrez.css">
 </head>
 <body>
-    <H1>PRUEBA QUIZ</H1>
+
+<!-- ═══════════════════════════════════════════ -->
+<!--  NAVBAR                                     -->
+<!-- ═══════════════════════════════════════════ -->
+<nav class="navbar navbar-expand-lg">
+  <div class="container">
+    <a class="navbar-brand" href="../../index.html">
+      <img src="../../assets/images/logo.png" class="logo" alt="Sports Hub Games">
+    </a>
+    <div class="collapse navbar-collapse">
+      <ul class="navbar-nav ms-auto" role="list">
+        <li class="nav-item"><a class="nav-link" href="../../principal.html">Inicio</a></li>
+        <li class="nav-item"><a class="nav-link" href="ajedrez.html">&#9823; Ajedrez</a></li>
+        <li class="nav-item"><a class="nav-link" href="../../login.html">Login</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════════════ -->
+<!--  GAME WRAPPER                               -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="game-wrapper">
+
+  <!-- ─── PANEL IZQUIERDO ─────────────────────── -->
+  <div class="info-panel animate__animated animate__fadeInLeft">
+
+    <div class="panel-title">? QUIZ<br>AJEDREZ</div>
+
+    <!-- Stats -->
+    <div class="stats-grid">
+      <div class="stat-box">
+        <div class="stat-label">PREGUNTA</div>
+        <div class="stat-value" id="q-display">1 / 12</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-label">PUNTOS</div>
+        <div class="stat-value" id="score-display">0</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-label">TIEMPO</div>
+        <div class="stat-value" id="timer-display">20</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-label">CORRECTAS</div>
+        <div class="stat-value" id="correct-display">0</div>
+      </div>
+    </div>
+
+    <!-- Categoría de pregunta -->
+    <div class="category-box">
+      <div class="category-icon" id="cat-icon">♟</div>
+      <div class="category-name" id="cat-name">REGLAS</div>
+      <div class="category-diff" id="cat-diff">FÁCIL</div>
+    </div>
+
+    <!-- Instrucciones -->
+    <div class="instructions-box">
+      <p>&#128072; Selecciona la respuesta correcta</p>
+      <p>&#9989; Correcto: <span class="pts-pos">+100 pts</span></p>
+      <p>&#128293; Racha ×3+: <span class="pts-pos">+150 pts</span></p>
+      <p>&#9203; Tiempo restante: <span class="pts-pos">bonus</span></p>
+      <p>&#10060; Incorrecto: <span class="pts-neg">-0 pts</span></p>
+      <p>&#8987; Sin respuesta: <span class="pts-neg">-20 pts</span></p>
+    </div>
+
+    <!-- Barra de racha -->
+    <div class="streak-bar" id="streak-bar">
+      <div class="streak-label">RACHA</div>
+      <div class="streak-dots" id="streak-dots">
+        <span class="dot" id="dot-0"></span>
+        <span class="dot" id="dot-1"></span>
+        <span class="dot" id="dot-2"></span>
+        <span class="dot" id="dot-3"></span>
+        <span class="dot" id="dot-4"></span>
+      </div>
+    </div>
+
+  </div>
+  <!-- ─────────────────────────────────────────── -->
+
+
+  <!-- ─── CENTRO: Preguntas ────────────────────── -->
+  <div class="quiz-area animate__animated animate__fadeInUp">
+
+    <!-- Barra de progreso -->
+    <div class="progress-bar-wrapper">
+      <div class="progress-bar-track">
+        <div class="progress-bar-fill" id="progress-fill" style="width:0%"></div>
+      </div>
+      <div class="progress-bar-label" id="progress-label">0 / 12</div>
+    </div>
+
+    <!-- Tarjeta de pregunta -->
+    <div class="question-card" id="question-card">
+      <div class="question-number" id="q-number">PREGUNTA 1</div>
+      <div class="question-text" id="question-text">
+        Cargando pregunta...
+      </div>
+    </div>
+
+    <!-- Opciones de respuesta -->
+    <div class="options-grid" id="options-grid">
+      <button class="option-btn" id="opt-0" onclick="selectAnswer(0)">
+        <span class="opt-letter">A</span>
+        <span class="opt-text" id="opt-text-0"></span>
+      </button>
+      <button class="option-btn" id="opt-1" onclick="selectAnswer(1)">
+        <span class="opt-letter">B</span>
+        <span class="opt-text" id="opt-text-1"></span>
+      </button>
+      <button class="option-btn" id="opt-2" onclick="selectAnswer(2)">
+        <span class="opt-letter">C</span>
+        <span class="opt-text" id="opt-text-2"></span>
+      </button>
+      <button class="option-btn" id="opt-3" onclick="selectAnswer(3)">
+        <span class="opt-letter">D</span>
+        <span class="opt-text" id="opt-text-3"></span>
+      </button>
+    </div>
+
+    <!-- Explicación post-respuesta -->
+    <div class="explanation-box" id="explanation-box" style="display:none">
+      <div class="explanation-icon" id="explanation-icon">✅</div>
+      <div class="explanation-text" id="explanation-text"></div>
+    </div>
+
+    <!-- Botón siguiente -->
+    <div class="next-btn-wrapper">
+      <button class="btn-next" id="btn-next" onclick="nextQuestion()" style="display:none">
+        SIGUIENTE →
+      </button>
+    </div>
+
+  </div>
+  <!-- ─────────────────────────────────────────── -->
+
+
+  <!-- ─── PANEL DERECHO: Historial ────────────── -->
+  <div class="history-panel animate__animated animate__fadeInRight">
+
+    <div class="panel-title small">HISTORIAL</div>
+
+    <!-- Lista de respuestas -->
+    <div class="history-list" id="history-list"></div>
+
+    <!-- Leyenda de categorías -->
+    <div class="legend-box">
+      <div class="legend-title">CATEGORÍAS</div>
+      <div class="legend-item"><span class="cat-dot reglas"></span> Reglas</div>
+      <div class="legend-item"><span class="cat-dot historia"></span> Historia</div>
+      <div class="legend-item"><span class="cat-dot piezas"></span> Piezas</div>
+      <div class="legend-item"><span class="cat-dot estrategia"></span> Estrategia</div>
+      <div class="legend-item"><span class="cat-dot curiosidades"></span> Curiosidades</div>
+    </div>
+
+  </div>
+  <!-- ─────────────────────────────────────────── -->
+
+</div><!-- /game-wrapper -->
+
+
+<!-- ═══════════════════════════════════════════ -->
+<!--  FOOTER                                     -->
+<!-- ═══════════════════════════════════════════ -->
+<footer>
+  © 2026 Sports Hub Games — Quiz de Ajedrez
+</footer>
+
+
+<!-- SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Lógica del juego -->
+<script src="quiz-ajedrez.js"></script>
+
 </body>
 </html>
