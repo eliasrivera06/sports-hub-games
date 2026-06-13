@@ -1,12 +1,169 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="icon" href="/assets/images/logo_grande.png" type="image/png">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Duelo F1 - Sports Hub Games</title>
+  <link rel="icon" href="../../assets/images/logo_grande.png" type="image/png">
+  <meta name="description" content="Demuestra tu conocimiento de F1: adivina qué piloto ganó cada Gran Premio histórico e icónico.">
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Animate.css -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  <!-- Fuente Retro -->
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <!-- CSS Propio -->
+  <link rel="stylesheet" href="duelo-f1.css">
 </head>
 <body>
-    <h1>duelo f1</h1>
+
+  <!-- NAVBAR -->
+  <nav class="navbar navbar-expand-lg">
+    <div class="container">
+      <a class="navbar-brand" href="../../index.html">
+        <img src="../../assets/images/logo.png" class="logo" alt="Sports Hub Games">
+      </a>
+      <div class="collapse navbar-collapse">
+        <ul class="navbar-nav ms-auto">
+          <li><a class="nav-link" href="../../principal.html">Inicio</a></li>
+          <li><a class="nav-link active" href="f1.html">F1</a></li>
+          <li><a class="nav-link" href="../../perfil.html">Perfil</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <div class="main-wrapper">
+    <div class="game-container">
+
+      <!-- TÍTULO -->
+      <h1 class="game-title animate__animated animate__fadeInDown">
+        REY DE LA PISTA F1
+      </h1>
+      <p class="game-subtitle">Adivina qué leyenda tiene más victorias en Grandes Premios. ¿Cuántas rondas lograrás sobrevivir?</p>
+
+      <!-- HUD: RACHA + CANVAS + PISTAS -->
+      <div class="hud-row">
+
+        <div class="hud-cell hud-left">
+          <div class="streak-label">RACHA</div>
+          <div id="current-streak" class="streak-num text-green">0</div>
+          <div class="streak-label" style="margin-top:8px;">MEJOR</div>
+          <div id="best-streak" class="streak-num text-yellow">0</div>
+        </div>
+
+        <div class="hud-cell hud-center">
+          <canvas id="hudCanvas" width="380" height="80"></canvas>
+        </div>
+
+        <div class="hud-cell hud-right">
+          <button id="btn-hint" class="btn-hint" disabled>
+            💡 PISTA<br>
+            <span id="hints-left">3</span>/3
+          </button>
+        </div>
+
+      </div>
+
+      <!-- PANTALLA INICIO -->
+      <div id="start-screen" class="start-screen">
+        <div class="flag-deco">🏁</div>
+        <p class="start-msg">15 carreras icónicas te esperan.<br>¿Cuántas recuerdas?</p>
+        <button id="btn-start" class="btn-play-main animate__animated animate__pulse animate__infinite">
+          ¡INICIAR!
+        </button>
+        <a href="f1.html" class="btn-back-link">← Volver al Menú F1</a>
+      </div>
+
+      <!-- PANTALLA DE JUEGO -->
+      <div id="game-area" style="display:none;">
+
+        <!-- PREGUNTA DEL GP -->
+        <div class="gp-question-card animate__animated animate__fadeIn" id="gp-question-card">
+          <div class="gp-badge" id="gp-badge">DUELO DE LEYENDAS</div>
+          <p class="gp-question" id="gp-question">¿Quién tiene más victorias en Grandes Premios en la historia de la F1?</p>
+        </div>
+
+        <!-- TARJETAS DE PILOTOS -->
+        <div class="duel-area">
+
+          <!-- PILOTO 1 (EL REY) -->
+          <div class="driver-card animate__animated animate__fadeInLeft" id="card-0" onclick="selectDriver(0)">
+            <div class="driver-photo-wrap">
+              <img id="d0-img" src="./assets-f1/drivers/placeholder.png"
+                onerror="this.style.display='none'; document.getElementById('d0-initial').style.display='flex';"
+                class="driver-photo" alt="Piloto">
+              <div id="d0-initial" class="driver-initial" style="display:none;"></div>
+            </div>
+            <div class="driver-body">
+              <div class="driver-role" id="d0-role">EL REY</div>
+              <div class="driver-team-dot" id="d0-team-dot"></div>
+              <h2 class="driver-name" id="d0-name">—</h2>
+              <div class="driver-team" id="d0-team">Escudería</div>
+              <div class="driver-nationality" id="d0-nat">🌍</div>
+              
+              <div class="victory-badge" id="d0-wins-wrap">
+                <span class="victory-num" id="d0-wins">?</span>
+                <span class="victory-lbl">VICTORIAS</span>
+              </div>
+            </div>
+            <div class="card-footer-btn">ELEGIR ›</div>
+          </div>
+
+          <!-- VS -->
+          <div class="vs-col">
+            <div class="vs-badge animate__animated animate__pulse animate__infinite">VS</div>
+          </div>
+
+          <!-- PILOTO 2 (EL DESAFIANTE) -->
+          <div class="driver-card animate__animated animate__fadeInRight" id="card-1" onclick="selectDriver(1)">
+            <div class="driver-photo-wrap">
+              <img id="d1-img" src="./assets-f1/drivers/placeholder.png"
+                onerror="this.style.display='none'; document.getElementById('d1-initial').style.display='flex';"
+                class="driver-photo" alt="Piloto">
+              <div id="d1-initial" class="driver-initial" style="display:none;"></div>
+            </div>
+            <div class="driver-body">
+              <div class="driver-role" id="d1-role">DESAFIANTE</div>
+              <div class="driver-team-dot" id="d1-team-dot"></div>
+              <h2 class="driver-name" id="d1-name">—</h2>
+              <div class="driver-team" id="d1-team">Escudería</div>
+              <div class="driver-nationality" id="d1-nat">🌍</div>
+              
+              <div class="victory-badge" id="d1-wins-wrap">
+                <span class="victory-num" id="d1-wins">?</span>
+                <span class="victory-lbl">VICTORIAS</span>
+              </div>
+            </div>
+            <div class="card-footer-btn">ELEGIR ›</div>
+          </div>
+
+        </div>
+
+        <!-- CAJA DE PISTAS -->
+        <div id="hints-box" class="hints-box" style="display:none;">
+          <div class="hints-title">💡 Pistas reveladas:</div>
+          <ul class="hints-list" id="hints-list"></ul>
+        </div>
+
+        <!-- BOTÓN VOLVER -->
+        <div class="text-center mt-4">
+          <a href="f1.html" class="btn-back-link">← Volver al Menú F1</a>
+        </div>
+
+      </div><!-- /game-area -->
+
+    </div><!-- /game-container -->
+  </div><!-- /main-wrapper -->
+
+  <!-- FOOTER -->
+  <footer>© 2026 Sports Hub Games</footer>
+
+  <!-- SweetAlert -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <!-- JS Propio -->
+  <script src="duelo-f1.js"></script>
 </body>
 </html>
