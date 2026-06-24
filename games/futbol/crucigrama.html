@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crucigrama Futbolero - Sports Hub Games</title>
+  <link rel="icon" href="../../assets/images/logo_grande.png" type="image/png">
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Animate.css -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+  <!-- SweetAlert2 -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <!-- CSS propio -->
+  <link rel="stylesheet" href="crucigrama.css">
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="../../index.html">
+        <img src="../../assets/images/logo.png" class="logo" onerror="this.style.display='none'">
+      </a>
+      <div class="collapse navbar-collapse">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="../../principal.html">Inicio</a></li>
+          <li class="nav-item"><a class="nav-link" href="../../perfil.html">Perfil</a></li>
+          <li class="nav-item"><a class="nav-link" href="../../login.html">Login</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- PAGE -->
+  <div class="page animate__animated animate__fadeIn">
+
+    <div class="game-title">CRUCIGRAMA FUTBOLERO</div>
+    <div class="game-subtitle">COMPLETA LAS PALABRAS RELACIONADAS AL FUTBOL</div>
+
+    <!-- SELECCIÓN DE NIVEL -->
+    <div class="score-bar" style="margin-bottom: 20px;">
+      <button class="btn-retro btn-back" style="padding: 10px 16px; font-size: 12px; border-width: 2px;" onclick="prevLevel()">◀ ANT</button>
+      <div class="score-box" style="padding: 10px 20px;">
+        <div class="score-label" style="font-size: 10px; margin-bottom: 4px;">NIVEL</div>
+        <div class="score-value" id="levelName">1 / 11</div>
+      </div>
+      <button class="btn-retro btn-back" style="padding: 10px 16px; font-size: 12px; border-width: 2px;" onclick="nextLevel()">SIG ▶</button>
+    </div>
+
+    <!-- SCORE -->
+    <div class="score-bar">
+      <div class="score-box">
+        <div class="score-label">PALABRAS</div>
+        <div class="score-value" id="wordsCount">0 / 6</div>
+      </div>
+      <div class="score-box">
+        <div class="score-label">PISTAS</div>
+        <div class="score-value" id="cluesLeft">3</div>
+      </div>
+      <div class="score-box">
+        <div class="score-label">PUNTOS</div>
+        <div class="score-value" id="score">0</div>
+      </div>
+    </div>
+
+    <!-- TOP BAR -->
+    <div class="top-bar">
+      <button class="btn-retro btn-back" onclick="goBack()">← VOLVER</button>
+      <div style="display:flex; gap:8px; flex-wrap:wrap;">
+        <button class="btn-retro btn-help" onclick="showHelpModal()">❓ AYUDA</button>
+        <button class="btn-retro btn-clue" onclick="useClue()" id="btnClue">? PISTA (3)</button>
+        <button class="btn-retro btn-check" onclick="checkAll()">✓ VERIFICAR</button>
+        <button class="btn-retro btn-reset" onclick="resetGame()">↺ REINICIAR</button>
+      </div>
+    </div>
+
+    <!-- PISTA ACTIVA -->
+    <div class="clue-active" id="clueBox">
+      Selecciona una casilla o una pista para comenzar...
+    </div>
+
+    <!-- GRID + PISTAS -->
+    <div class="game-layout">
+      <div class="cw-grid" id="cwGrid"></div>
+      <div class="clues-panel">
+        <div class="clues-section-title">PISTAS</div>
+        <div id="cluesList"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    <p>© 2026 Sports Hub Games — Módulo de Fútbol</p>
+  </footer>
+
+  <!-- ⚠️ ORDEN IMPORTANTE: primero data, luego lógica -->
+  <script src="crucigrama-data.js"></script>
+  <script src="crucigrama.js"></script>
+
+</body>
+
+</html>

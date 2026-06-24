@@ -1,0 +1,332 @@
+/* ============================================
+   CSS — Crucigrama Futbol | Sports Hub Games
+   ============================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: #0d1117;
+  font-family: 'Press Start 2P', monospace;
+  color: #e2e8f0;
+  min-height: 100vh;
+}
+
+/* ── NAVBAR ── */
+.navbar {
+  background: #161b22;
+  border-bottom: 2px solid #30d158;
+  padding: 10px 24px;
+}
+
+.navbar-brand img.logo {
+  height: 38px;
+}
+
+.nav-link {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 14px;
+  color: #ffd60a !important;
+  margin-left: 18px;
+  letter-spacing: 1px;
+}
+
+.nav-link:hover {
+  color: #30d158 !important;
+}
+
+/* ── PAGE ── */
+.page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 28px 24px 40px;
+}
+
+.game-title {
+  text-align: center;
+  color: #30d158;
+  font-size: 42px;
+  letter-spacing: 3px;
+  margin-bottom: 8px;
+}
+
+.game-subtitle {
+  text-align: center;
+  color: #ffd60a;
+  font-size: 25px;
+  margin-bottom: 24px;
+  letter-spacing: 1px;
+}
+
+/* ── SCORE BAR ── */
+.score-bar {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-bottom: 18px;
+  flex-wrap: wrap;
+}
+
+.score-box {
+  background: #161b22;
+  border: 1px solid #2a3448;
+  padding: 20px 30px;
+  text-align: center;
+}
+
+.score-label {
+  font-size: 14px;
+  color: #7a8a9a;
+  margin-bottom: 6px;
+}
+
+.score-value {
+  font-size: 26px;
+  color: #ffd60a;
+}
+
+/* ── TOP BAR ── */
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.btn-retro {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 16px;
+  padding: 20px 32px;
+  border: 4px solid;
+  cursor: pointer;
+  background: transparent;
+  letter-spacing: 1px;
+  transition: background 0.15s, color 0.15s;
+}
+
+.btn-back {
+  color: #e2e8f0;
+  border-color: #e2e8f0;
+}
+
+.btn-back:hover {
+  background: #e2e8f0;
+  color: #0d1117;
+}
+
+.btn-clue {
+  color: #ffd60a;
+  border-color: #ffd60a;
+}
+
+.btn-clue:hover {
+  background: #ffd60a;
+  color: #0d1117;
+}
+
+.btn-check {
+  color: #30d158;
+  border-color: #30d158;
+}
+
+.btn-check:hover {
+  background: #30d158;
+  color: #0d1117;
+}
+
+.btn-reset {
+  color: #ff6b6b;
+  border-color: #ff6b6b;
+}
+
+.btn-reset:hover {
+  background: #ff6b6b;
+  color: #0d1117;
+}
+
+.btn-help {
+  color: #00d2ff;
+  border-color: #00d2ff;
+}
+
+.btn-help:hover {
+  background: #00d2ff;
+  color: #0d1117;
+}
+
+/* ── CLUE BOX ── */
+.clue-active {
+  background: #161b22;
+  border: 1px solid #30d158;
+  color: #30d158;
+  font-size: 14px;
+  padding: 18px 20px;
+  margin-bottom: 30px;
+  line-height: 2;
+  min-height: 60px;
+}
+
+/* ── LAYOUT ── */
+.game-layout {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* ── GRID ── */
+.cw-grid {
+  display: grid;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.cw-cell {
+  width: 52px;
+  height: 52px;
+  background: #1c2230;
+  border: 1px solid #2a3448;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  color: #30d158;
+  position: relative;
+  font-family: 'Press Start 2P', monospace;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+  text-transform: uppercase;
+  user-select: none;
+}
+
+.cw-cell.blocked {
+  background: #0d1117;
+  border-color: #0d1117;
+  cursor: default;
+}
+
+.cw-cell.active-word {
+  background: #0f2020;
+  border-color: #30d158;
+}
+
+.cw-cell.selected {
+  background: #1a4a2a;
+  border-color: #ffd60a;
+  color: #ffd60a;
+}
+
+.cw-cell.correct {
+  background: #0f2a10;
+  border-color: #30d158;
+  color: #30d158;
+}
+
+.cw-cell.wrong {
+  background: #2a0f0f;
+  border-color: #ff6b6b;
+  color: #ff6b6b;
+}
+
+.cw-cell.cross {
+  border-color: #30d15866;
+}
+
+.cw-num {
+  position: absolute;
+  top: 3px;
+  left: 4px;
+  font-size: 7px;
+  color: #ffd60a;
+  line-height: 1;
+  pointer-events: none;
+}
+
+.cw-letter {
+  pointer-events: none;
+  font-size: 18px;
+}
+
+/* ── CLUES PANEL ── */
+.clues-panel {
+  font-size: 16px;
+  min-width: 800px;
+  max-width: 400px;
+}
+
+.clues-section-title {
+  color: #ffd60a;
+  font-size: 16px;
+  margin-bottom: 14px;
+  border-bottom: 1px solid #ffd60a44;
+  padding-bottom: 6px;
+  letter-spacing: 1px;
+}
+
+.clue-item {
+  color: #7a8a9a;
+  margin-bottom: 20px;
+  line-height: 2.2;
+  cursor: pointer;
+  padding: 6px 8px;
+  border: 1px solid transparent;
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.clue-item:hover {
+  color: #e2e8f0;
+  border-color: #2a3448;
+}
+
+.clue-item.active {
+  color: #30d158;
+  border-color: #30d158;
+}
+
+.clue-item.solved {
+  color: #30d15855;
+  text-decoration: line-through;
+}
+
+.clue-item span {
+  color: #30d158;
+  margin-right: 8px;
+}
+
+/* ── FOOTER ── */
+footer {
+  text-align: center;
+  font-size: 12px;
+  color: #4a5568;
+  margin-top: 40px;
+  border-top: 1px solid #1c2230;
+  padding-top: 14px;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 700px) {
+  .cw-cell {
+    width: 34px;
+    height: 34px;
+    font-size: 12px;
+  }
+
+  .cw-num {
+    font-size: 5px;
+  }
+
+  .clues-panel {
+    min-width: 100%;
+    max-width: 100%;
+  }
+}
