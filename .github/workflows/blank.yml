@@ -1,0 +1,42 @@
+name: CI
+
+# Define cuándo se ejecutará el workflow
+on:
+  # Se ejecuta cuando hay un push a estas ramas
+  push:
+    branches:
+      - develop
+      - main
+
+  # Se ejecuta cuando se crea o actualiza un Pull Request
+  # cuyo destino sea develop o main
+  pull_request:
+    branches:
+      - develop
+      - main
+
+  # Permite ejecutar el workflow manualmente desde la pestaña Actions
+  workflow_dispatch:
+
+jobs:
+  # Nombre del trabajo que realizará la verificación
+  verify-project:
+    # Sistema operativo donde se ejecutará el workflow
+    runs-on: ubuntu-latest
+
+    steps:
+      # Descarga el contenido del repositorio para poder trabajar con él
+      - name: Descargar repositorio
+        uses: actions/checkout@v4
+
+      # Verifica que existan los archivos principales del proyecto.
+      # Si alguno no existe, el workflow finalizará con error.
+      - name: Verificar archivos principales
+        run: |
+          test -f index.html
+          test -f README.md
+
+      # Muestra la estructura completa de carpetas y archivos.
+      # Es útil para depuración y para revisar el contenido del proyecto.
+      - name: Mostrar estructura del proyecto
+        run: ls -R
