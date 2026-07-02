@@ -288,6 +288,9 @@ document.addEventListener("keydown", (e) => {
             `TU MEJOR TIEMPO: ${bestTime.toFixed(3)} s`;
     }
 
+    // Guardar en Supabase si hay sesión activa
+    saveReactionTimeToSupabase(reactionTime);
+
     let rating = "";
 
     if (reactionTime <= 0.200) {
@@ -318,7 +321,76 @@ document.addEventListener("keydown", (e) => {
 });
 
 // =========================
+// INTEGRACIÓN CON SUPABASE
+// =========================
+
+async function loadBestTimeFromSupabase() {
+    try {
+        if (!window.supabase) return;
+        const { data: { session } } = await window.supabase.auth.getSession();
+        if (session && session.user) {
+            const { data, error } = await window.supabase
+                .from('leaderboard_reaction_time')
+                .select('best_time')
+                .eq('user_id', session.user.id)
+                .maybeSingle();
+
+            if (data && data.best_time) {
+                bestTime = data.best_time / 1000;
+                bestTimeText.textContent = `TU MEJOR TIEMPO: ${bestTime.toFixed(3)} s`;
+            }
+        }
+    } catch (err) {
+        console.error("Error al cargar mejor tiempo de Supabase:", err);
+    }
+}
+
+async function saveReactionTimeToSupabase(reactionTimeSec) {
+    try {
+        if (!window.supabase) return;
+        const { data: { session } } = await window.supabase.auth.getSession();
+        if (!session || !session.user) return;
+
+        const userId = session.user.id;
+        const timeInMs = Math.round(reactionTimeSec * 1000);
+
+        const { data, error } = await window.supabase
+            .from('leaderboard_reaction_time')
+            .select('best_time')
+            .eq('user_id', userId)
+            .maybeSingle();
+
+        if (error) {
+            console.error("Error al buscar récord anterior:", error.message);
+            return;
+        }
+
+        if (!data) {
+            const { error: insertError } = await window.supabase
+                .from('leaderboard_reaction_time')
+                .insert({ user_id: userId, best_time: timeInMs });
+            
+            if (insertError) {
+                console.error("Error al insertar récord:", insertError.message);
+            }
+        } else if (timeInMs < data.best_time) {
+            const { error: updateError } = await window.supabase
+                .from('leaderboard_reaction_time')
+                .update({ best_time: timeInMs, updated_at: new Date().toISOString() })
+                .eq('user_id', userId);
+
+            if (updateError) {
+                console.error("Error al actualizar récord:", updateError.message);
+            }
+        }
+    } catch (err) {
+        console.error("Error al intentar guardar tiempo en Supabase:", err);
+    }
+}
+
+// =========================
 // ESTADO INICIAL
 // =========================
 
-drawScene();
+loadBestTimeFromSupabase();
+drawScene();

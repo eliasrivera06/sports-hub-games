@@ -18,6 +18,8 @@
 
 <!-- CSS propio -->
 <link rel="stylesheet" href="css/login.css">
+<!-- CSS unificado de navbar/footer -->
+<link rel="stylesheet" href="css/navbar-footer.css">
 </head>
 
 <body>
@@ -56,10 +58,9 @@
 
   <div class="login-title">INICIAR SESION</div>
 
-  <input type="text" class="input-retro" placeholder="Nombre">
-  <input type="email" class="input-retro" placeholder="Correo">
+  <input type="email" id="email" class="input-retro" placeholder="Correo" required>
 <div class="password-container">
-  <input type="password" id="password" class="input-retro" placeholder="Contraseña">
+  <input type="password" id="password" class="input-retro" placeholder="Contraseña" required>
 
   <button type="button" class="toggle-pass" onclick="togglePassword()" id="eyeBtn">
     👁
@@ -81,6 +82,10 @@
 
     </div>
 </div>
+<!-- Supabase CDN -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<!-- Supabase Config -->
+<script src="js/supabase-config.js"></script>
 <!-- SweetAlert -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <!-- JS propio -->

@@ -1,0 +1,179 @@
+/* 🎨 PALETA */
+:root {
+  --bg: #2b2d42;
+  --cream: #fff3e0;
+  --green: #00ff9f;
+  --red: #ff3c38;
+  --yellow: #ffd166;
+  --panel-bg: #121420;
+}
+
+/* FONDO */
+body {
+  margin: 0;
+  font-family: 'Press Start 2P', cursive;
+  background:
+    linear-gradient(rgba(10,10,20,0.8), rgba(0,0,0,0.9)),
+    url('../assets/images/fondo.jpg');
+  background-size: cover;
+  background-position: center;
+  color: var(--cream);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* CONTENEDOR */
+.ranking-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+}
+
+/* CAJA DE RANKING */
+.ranking-box {
+  width: 100%;
+  max-width: 700px;
+  background: var(--panel-bg);
+  border: 4px solid var(--yellow);
+  box-shadow: 0 8px 0 #000;
+  padding: 30px;
+  text-align: center;
+  position: relative;
+}
+
+.ranking-title {
+  font-size: 18px;
+  color: var(--yellow);
+  margin-bottom: 25px;
+  text-shadow: 0 0 10px var(--yellow);
+  letter-spacing: 1px;
+}
+
+/* TABLA RETRO */
+.ranking-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 8px; /* Espacio entre filas */
+  margin-top: 15px;
+}
+
+.ranking-table th {
+  font-size: 10px;
+  color: var(--green);
+  text-transform: uppercase;
+  padding: 10px;
+  border-bottom: 3px solid var(--yellow);
+  letter-spacing: 1px;
+}
+
+.ranking-table td {
+  font-size: 11px;
+  padding: 12px 10px;
+  background: #1b1d2d;
+  border-top: 2px solid rgba(255, 209, 102, 0.1);
+  border-bottom: 2px solid rgba(255, 209, 102, 0.1);
+  vertical-align: middle;
+}
+
+/* Bordes redondeados retro por fila */
+.ranking-table tr td:first-child {
+  border-left: 3px solid var(--yellow);
+}
+
+.ranking-table tr td:last-child {
+  border-right: 3px solid var(--yellow);
+}
+
+/* Resaltar top 3 */
+.ranking-table tr.top-1 td {
+  background: rgba(255, 209, 102, 0.15); /* Color oro */
+  border-color: var(--yellow);
+  color: var(--yellow);
+}
+
+.ranking-table tr.top-2 td {
+  background: rgba(255, 255, 255, 0.1); /* Plata */
+  border-color: #fff;
+  color: #fff;
+}
+
+.ranking-table tr.top-3 td {
+  background: rgba(205, 127, 50, 0.15); /* Bronce */
+  border-color: #cd7f32;
+  color: #cd7f32;
+}
+
+.rank-badge {
+  font-weight: bold;
+  font-size: 12px;
+}
+
+/* Loading spinner */
+.loading-spinner {
+  margin: 30px 0;
+  font-size: 10px;
+  color: var(--green);
+  letter-spacing: 2px;
+}
+
+/* PESTAÑAS (TABS) DE RANKING */
+.ranking-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 25px;
+  flex-wrap: wrap;
+}
+
+.tab-btn {
+  background: #1b1d2d;
+  color: var(--cream);
+  border: 2px solid var(--yellow);
+  padding: 10px 20px;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 10px;
+  cursor: pointer;
+  box-shadow: 0 4px 0 #000;
+  transition: all 0.2s ease;
+}
+
+.tab-btn:hover {
+  background: var(--yellow);
+  color: black;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 0 #000;
+}
+
+.tab-btn:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 #000;
+}
+
+.tab-btn.active {
+  background: var(--green);
+  color: black;
+  border-color: var(--green);
+  box-shadow: 0 4px 0 #000;
+}
+
+/* No data message */
+.no-data {
+  margin: 30px 0;
+  font-size: 10px;
+  color: var(--red);
+}
+
+
+@media (max-width: 768px) {
+  .ranking-title {
+    font-size: 14px;
+  }
+  .ranking-table th, 
+  .ranking-table td {
+    font-size: 8px;
+    padding: 8px 4px;
+  }
+}

@@ -19,6 +19,8 @@
 
 <!-- CSS propio -->
 <link rel="stylesheet" href="css/perfil.css">
+<!-- CSS unificado de navbar/footer -->
+<link rel="stylesheet" href="css/navbar-footer.css">
 </head>
 
 <body>
@@ -63,16 +65,16 @@
 <hr style="border-color:rgba(255,255,255,0.1); margin:12px 0;">
 
 <!-- STATS -->
-<div class="info">🏆 Puntos totales: 1500</div>
-<div class="info">🌍 Ranking global: #12</div>
+<div class="info">🏆 Puntos totales: 0</div>
+<div class="info">🌍 Ranking global: 0</div>
 
 <!-- SEPARADOR -->
 <hr style="border-color:rgba(255,255,255,0.1); margin:12px 0;">
 
 <!-- JUEGOS -->
-<div class="info">⚽ Fútbol: 600 pts</div>
-<div class="info">🏎️ F1: 500 pts</div>
-<div class="info">♟️ Ajedrez: 400 pts</div>
+<div class="info">⚽ Fútbol: 0 pts</div>
+<div class="info">🏎️ F1: 0 pts</div>
+<div class="info">♟️ Ajedrez: 0 pts</div>
 
     <button class="btn-retro btn-edit" onclick="editProfile()">EDITAR PERFIL</button>
     <button class="btn-retro btn-logout" onclick="logout()">CERRAR SESION</button>
@@ -80,6 +82,10 @@
   </div>
 </div>
 
+<!-- Supabase CDN -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<!-- Supabase Config -->
+<script src="js/supabase-config.js"></script>
 <!-- SweetAlert -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
