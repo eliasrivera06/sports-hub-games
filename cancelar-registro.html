@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Eliminar Registro - Sports Hub Games</title>
+<link rel="icon" href="assets/images/logo_grande.png" type="image/png">
+
+<!-- Bootstrap -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Animate -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+<!-- Fuente retro -->
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
+<!-- CSS propio (reutilizando estilos de login para consistencia visual) -->
+<link rel="stylesheet" href="css/login.css">
+<!-- CSS unificado de navbar/footer -->
+<link rel="stylesheet" href="css/navbar-footer.css">
+<style>
+  .message-text {
+    font-size: 11px;
+    line-height: 1.8;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #fff3e0;
+  }
+  .spinner-retro {
+    border: 4px solid #1a1d2e;
+    border-top: 4px solid #ffd166;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin: 20px auto;
+  }
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+</style>
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg">
+  <div class="container">
+    <a class="navbar-brand" href="index.html">
+      <img src="assets/images/logo.png" class="logo">
+    </a>
+  </div>
+</nav>
+
+<div class="login-container">
+  <div class="login-box animate__animated animate__zoomIn">
+
+  <!-- Barra tipo ventana -->
+  <div class="window-bar">
+    <div class="dots">
+      <div class="dot red"></div>
+      <div class="dot yellow"></div>
+      <div class="dot green"></div>
+    </div>
+    <div style="font-size:12px; font-weight:bold;">X</div>
+  </div>
+
+  <div class="login-title" id="actionTitle">PROCESANDO...</div>
+
+  <div id="loaderContainer">
+    <div class="spinner-retro"></div>
+    <div class="message-text">Estamos procesando tu solicitud de cancelación. Por favor, espera un momento...</div>
+  </div>
+
+  <div id="statusMessage" class="message-text d-none"></div>
+
+  <button class="btn-retro btn-login" onclick="goToHome()" style="margin-top: 15px;">
+    IR AL INICIO
+  </button>
+
+  </div>
+</div>
+
+<!-- Supabase CDN -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<!-- Supabase Config -->
+<script src="js/supabase-config.js"></script>
+<!-- SweetAlert -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+  function goToHome() {
+    window.location.href = 'index.html';
+  }
+
+  window.addEventListener('load', async () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const email = urlParams.get('email');
+
+    const actionTitle = document.getElementById('actionTitle');
+    const loaderContainer = document.getElementById('loaderContainer');
+    const statusMessage = document.getElementById('statusMessage');
+
+    if (!email) {
+      actionTitle.innerText = "ERROR";
+      loaderContainer.classList.add('d-none');
+      statusMessage.classList.remove('d-none');
+      statusMessage.innerText = "❌ No se proporcionó ningún correo electrónico en el enlace.";
+      
+      Swal.fire({
+        title: 'Error de Solicitud',
+        text: 'El enlace de cancelación no contiene un correo válido.',
+        icon: 'error',
+        background: '#121420',
+        color: '#ff3c38'
+      });
+      return;
+    }
+
+    try {
+      // Llamar a la función RPC de Supabase para borrar el usuario no confirmado
+      // Se pasa el parámetro user_email tal como está definido en PostgreSQL
+      const { data: wasDeleted, error } = await supabase.rpc('delete_unconfirmed_user_by_email', { 
+        user_email: email 
+      });
+
+      loaderContainer.classList.add('d-none');
+      statusMessage.classList.remove('d-none');
+
+      if (error) {
+        throw new Error(error.message);
+      }
+
+      if (wasDeleted) {
+        actionTitle.innerText = "ELIMINADO";
+        statusMessage.innerHTML = `✅ El registro asociado al correo <br><strong style="color: #ffd166;">${email}</strong><br> ha sido eliminado con éxito de nuestra base de datos.`;
+        
+        Swal.fire({
+          title: 'Registro Cancelado',
+          text: 'Tus datos han sido eliminados de Sports Hub Games. Lamentamos las molestias.',
+          icon: 'success',
+          background: '#121420',
+          color: '#00ff9f'
+        });
+      } else {
+        actionTitle.innerText = "INFORMACIÓN";
+        statusMessage.innerHTML = `⚠️ No se pudo eliminar el registro para <br><strong style="color: #ffd166;">${email}</strong>.<br><br>Es posible que la cuenta ya haya sido confirmada o no exista.`;
+        
+        Swal.fire({
+          title: 'No se pudo cancelar',
+          text: 'La cuenta ya está confirmada o el registro no existe.',
+          icon: 'info',
+          background: '#121420',
+          color: '#ffd166'
+        });
+      }
+
+    } catch (err) {
+      console.error(err);
+      actionTitle.innerText = "ERROR";
+      loaderContainer.classList.add('d-none');
+      statusMessage.classList.remove('d-none');
+      statusMessage.innerText = "❌ Ocurrió un error al intentar eliminar la cuenta: " + err.message;
+
+      Swal.fire({
+        title: 'Error',
+        text: 'Ocurrió un error de base de datos al cancelar el registro: ' + err.message,
+        icon: 'error',
+        background: '#121420',
+        color: '#ff3c38'
+      });
+    }
+  });
+</script>
+
+</body>
+</html>

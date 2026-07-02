@@ -117,6 +117,9 @@ window.addEventListener("DOMContentLoaded", () => {
   btnStart.addEventListener("click", startGame);
   btnHint.addEventListener("click", useHint);
   drawHUD(15.0);
+  
+  // Cargar de Supabase si hay sesión activa
+  loadBestStreakFromSupabase();
 });
 
 // ==========================================================================
@@ -320,6 +323,9 @@ function selectDriver(index) {
       const winnerWins = index === 0 ? wins1 : wins0;
       const loserWins = index === 0 ? wins0 : wins1;
 
+      // Guardar mejor racha en Supabase
+      saveBestStreakToSupabase(currentStreak);
+
       Swal.fire({
         title: "🚨 PERDISTE EL TRONO",
         html: `
@@ -357,6 +363,9 @@ function onTimeout() {
   d1Wins.textContent = wins1;
 
   const winner = wins0 >= wins1 ? currentKing : currentChallenger;
+
+  // Guardar mejor racha en Supabase
+  saveBestStreakToSupabase(currentStreak);
 
   Swal.fire({
     title: "💥 ¡TIEMPO!",
@@ -525,3 +534,63 @@ function drawHUD(time) {
   }
   ctx.fillText(`T: ${time.toFixed(1)}s`, W - 82, 64);
 }
+
+// ==========================================================================
+// INTEGRACIÓN CON SUPABASE (LEADERBOARD)
+// ==========================================================================
+async function loadBestStreakFromSupabase() {
+  try {
+    if (!window.supabase) return;
+    const { data: { session } } = await window.supabase.auth.getSession();
+    if (session && session.user) {
+      const { data, error } = await window.supabase
+        .from('leaderboard_f1_duels')
+        .select('best_streak')
+        .eq('user_id', session.user.id)
+        .maybeSingle();
+
+      if (data && data.best_streak) {
+        bestStreak = data.best_streak;
+        elBest.textContent = bestStreak;
+        localStorage.setItem("dueloF1_bestStreak", bestStreak);
+      }
+    }
+  } catch (err) {
+    console.error("Error al cargar mejor racha de Supabase:", err);
+  }
+}
+
+async function saveBestStreakToSupabase(streakVal) {
+  try {
+    if (!window.supabase) return;
+    const { data: { session } } = await window.supabase.auth.getSession();
+    if (!session || !session.user) return;
+
+    const userId = session.user.id;
+
+    const { data, error } = await window.supabase
+      .from('leaderboard_f1_duels')
+      .select('best_streak')
+      .eq('user_id', userId)
+      .maybeSingle();
+
+    if (error) {
+      console.error("Error al buscar mejor racha anterior:", error.message);
+      return;
+    }
+
+    if (!data) {
+      await window.supabase
+        .from('leaderboard_f1_duels')
+        .insert({ user_id: userId, best_streak: streakVal });
+    } else if (streakVal > data.best_streak) {
+      await window.supabase
+        .from('leaderboard_f1_duels')
+        .update({ best_streak: streakVal, updated_at: new Date().toISOString() })
+        .eq('user_id', userId);
+    }
+  } catch (err) {
+    console.error("Error al guardar mejor racha en Supabase:", err);
+  }
+}
+

@@ -19,6 +19,8 @@
 
   <!-- CSS propio -->
   <link rel="stylesheet" href="../../css/futbol.css">
+  <!-- CSS unificado de navbar/footer -->
+  <link rel="stylesheet" href="../../css/navbar-footer.css">
 </head>
 
 <body>
@@ -29,12 +31,11 @@
       <a class="navbar-brand" href="../../index.html">
         <img src="../../assets/images/logo.png" class="logo" alt="Logo">
       </a>
-
       <div class="collapse navbar-collapse">
         <ul class="navbar-nav ms-auto">
-          <li><a class="nav-link" href="../../principal.html">Inicio</a></li>
-          <li><a class="nav-link" href="../../perfil.html">Perfil</a></li>
-          <li><a class="nav-link" href="../../login.html">Login</a></li>
+          <li class="nav-item"><a class="nav-link" href="../../principal.html">Inicio</a></li>
+          <li class="nav-item"><a class="nav-link" href="../../perfil.html">Perfil</a></li>
+          <li class="nav-item"><a class="nav-link" href="../../login.html">Login</a></li>
         </ul>
       </div>
     </div>
@@ -55,7 +56,7 @@
         <div class="game-img">
           <img src="./assets-futbol/tres-en-raya.jpeg" alt="3 en raya futbolero" class="game-img">
         </div>
-        <div class="game-title">3 EN RAYA FUTBOLERO</div>
+        <div class="game-title">CRUCE FUTBOLERO</div>
         <button class="btn-play">JUGAR</button>
       </div>
 
@@ -90,11 +91,16 @@
 
   <!-- FOOTER -->
   <footer>
-    © 2026 Sports Hub Games
+    <p>© 2026 Sports Hub Games</p>
+    <p>contacto@minigames.com</p>
   </footer>
 
+  <!-- Supabase CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <!-- Supabase Config -->
+  <script src="../../js/supabase-config.js"></script>
+  <!-- SweetAlert -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
   <!-- JS propio -->
   <script src="../../js/futbol.js"></script>
 

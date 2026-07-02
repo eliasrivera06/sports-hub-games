@@ -18,6 +18,8 @@
 
 <!-- CSS propio -->
 <link rel="stylesheet" href="ajedrez.css">
+<!-- CSS unificado de navbar/footer -->
+<link rel="stylesheet" href="../../css/navbar-footer.css">
 </head>
 
 <body>
@@ -26,14 +28,13 @@
 <nav class="navbar navbar-expand-lg">
   <div class="container">
     <a class="navbar-brand" href="../../index.html">
-      <img src="../../assets/images/logo.png" class="logo" alt="Sports Hub Games">
+      <img src="../../assets/images/logo.png" class="logo">
     </a>
-
     <div class="collapse navbar-collapse">
       <ul class="navbar-nav ms-auto">
-        <li><a class="nav-link" href="../../principal.html">Inicio</a></li>
-        <li><a class="nav-link" href="../../perfil.html">Perfil</a></li>
-        <li><a class="nav-link" href="../../login.html">Login</a></li>
+        <li class="nav-item"><a class="nav-link" href="../../principal.html">Inicio</a></li>
+        <li class="nav-item"><a class="nav-link" href="../../perfil.html">Perfil</a></li>
+        <li class="nav-item"><a class="nav-link" href="../../login.html">Login</a></li>
       </ul>
     </div>
   </div>
@@ -76,9 +77,15 @@
 
 <!-- FOOTER -->
 <footer>
-  &#169; 2026 Sports Hub Games
+  <p>© 2026 Sports Hub Games</p>
+  <p>contacto@minigames.com</p>
 </footer>
 
+<!-- Supabase CDN -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<!-- Supabase Config -->
+<script src="../../js/supabase-config.js"></script>
+<!-- SweetAlert -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <!-- JS propio -->
 <script src="ajedrez.js"></script>

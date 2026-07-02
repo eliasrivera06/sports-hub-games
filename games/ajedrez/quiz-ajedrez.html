@@ -15,21 +15,24 @@
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
   <!-- CSS del juego -->
   <link rel="stylesheet" href="quiz-ajedrez.css">
+  <!-- CSS unificado de navbar/footer -->
+  <link rel="stylesheet" href="../../css/navbar-footer.css">
 </head>
 <body>
 
 <!-- ═══════════════════════════════════════════ -->
 <!--  NAVBAR                                     -->
 <!-- ═══════════════════════════════════════════ -->
+<!-- NAVBAR -->
 <nav class="navbar navbar-expand-lg">
   <div class="container">
     <a class="navbar-brand" href="../../index.html">
-      <img src="../../assets/images/logo.png" class="logo" alt="Sports Hub Games">
+      <img src="../../assets/images/logo.png" class="logo">
     </a>
     <div class="collapse navbar-collapse">
-      <ul class="navbar-nav ms-auto" role="list">
+      <ul class="navbar-nav ms-auto">
         <li class="nav-item"><a class="nav-link" href="../../principal.html">Inicio</a></li>
-        <li class="nav-item"><a class="nav-link" href="ajedrez.html">&#9823; Ajedrez</a></li>
+        <li class="nav-item"><a class="nav-link" href="../../perfil.html">Perfil</a></li>
         <li class="nav-item"><a class="nav-link" href="../../login.html">Login</a></li>
       </ul>
     </div>
@@ -183,10 +186,14 @@
 <!--  FOOTER                                     -->
 <!-- ═══════════════════════════════════════════ -->
 <footer>
-  © 2026 Sports Hub Games — Quiz de Ajedrez
+  <p>© 2026 Sports Hub Games</p>
+  <p>contacto@minigames.com</p>
 </footer>
 
-
+<!-- Supabase CDN -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<!-- Supabase Config -->
+<script src="../../js/supabase-config.js"></script>
 <!-- SweetAlert2 -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <!-- Bootstrap JS -->

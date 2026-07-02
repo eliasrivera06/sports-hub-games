@@ -653,6 +653,9 @@ function handleGameOver(isTimeout) {
 function handleVictory() {
     sounds.victory();
 
+    // Guardar victoria en Supabase si hay sesión activa
+    incrementCircuitsCompletionInSupabase();
+
     const bodyHtml = `
         <p style="color:#00ff9f; font-size:13px; margin-bottom:15px;">¡VICTORIA PERFECTA!</p>
         <p>Has completado con éxito las 5 preguntas del circuito.</p>
@@ -716,3 +719,41 @@ ctx.fillText("¡PRUEBA DE CIRCUITOS F1!", canvas.width / 2, canvas.height / 2 - 
 ctx.fillStyle = "#fff3e0";
 ctx.font = '10px "Press Start 2P"';
 ctx.fillText("Presiona Listo para empezar", canvas.width / 2, canvas.height / 2 + 15);
+
+// ==========================================================================
+// INTEGRACIÓN CON SUPABASE (LEADERBOARD)
+// ==========================================================================
+async function incrementCircuitsCompletionInSupabase() {
+    try {
+        if (!window.supabase) return;
+        const { data: { session } } = await window.supabase.auth.getSession();
+        if (!session || !session.user) return;
+
+        const userId = session.user.id;
+
+        const { data, error } = await window.supabase
+            .from('leaderboard_f1_circuits')
+            .select('completions')
+            .eq('user_id', userId)
+            .maybeSingle();
+
+        if (error) {
+            console.error("Error al consultar victorias de circuito:", error.message);
+            return;
+        }
+
+        if (!data) {
+            await window.supabase
+                .from('leaderboard_f1_circuits')
+                .insert({ user_id: userId, completions: 1 });
+        } else {
+            await window.supabase
+                .from('leaderboard_f1_circuits')
+                .update({ completions: data.completions + 1, updated_at: new Date().toISOString() })
+                .eq('user_id', userId);
+        }
+    } catch (err) {
+        console.error("Error al guardar victoria de circuito en Supabase:", err);
+    }
+}
+

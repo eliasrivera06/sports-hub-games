@@ -17,6 +17,8 @@
 
 <!-- CSS propio -->
 <link rel="stylesheet" href="css/principal.css">
+<!-- CSS unificado de navbar/footer -->
+<link rel="stylesheet" href="css/navbar-footer.css">
 </head>
 
 <body>
@@ -44,7 +46,7 @@
 
 <!-- HERO -->
 <div class="hero animate__animated animate__fadeInDown">
-  <h1>BIENVENIDO A SPORTS HUB GAMES</h1>
+  <h1 id="welcomeMessage">BIENVENIDO A SPORTS HUB GAMES</h1>
   <p>Compite, mejora y diviértete</p>
 </div>
 
@@ -161,6 +163,10 @@
   <p>contacto@minigames.com</p>
 </footer>
 
+<!-- Supabase CDN -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<!-- Supabase Config -->
+<script src="js/supabase-config.js"></script>
 <!-- SweetAlert -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 

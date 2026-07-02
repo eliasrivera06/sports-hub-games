@@ -18,6 +18,8 @@
 
 <!-- CSS propio -->
 <link rel="stylesheet" href="css/registrarse.css">
+<!-- CSS unificado de navbar/footer -->
+<link rel="stylesheet" href="css/navbar-footer.css">
 </head>
 
 <body>
@@ -54,9 +56,9 @@
 
     <div class="login-title">CREAR CUENTA</div>
 
-    <input type="text" class="input-retro" placeholder="Nombre completo">
-    <input type="text" class="input-retro" placeholder="Usuario">
-    <input type="email" class="input-retro" placeholder="Correo">
+    <input type="text" id="fullName" class="input-retro" placeholder="Nombre completo" required>
+    <input type="text" id="username" class="input-retro" placeholder="Usuario" required>
+    <input type="email" id="email" class="input-retro" placeholder="Correo" required>
 
     <div class="password-container">
       <input type="password" id="password" class="input-retro" placeholder="Contraseña">
@@ -80,6 +82,10 @@
   </div>
 </div>
 
+<!-- Supabase CDN -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<!-- Supabase Config -->
+<script src="js/supabase-config.js"></script>
 <!-- SweetAlert -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <!-- JS propio -->
