@@ -312,6 +312,7 @@ document.addEventListener('DOMContentLoaded', () => {
           totalScore += currentLvlScore;
           updateScoreBar();
           saveProgress();
+          saveCrucigramaLevelToSupabase(completedLevels.size);
         }
         setTimeout(showWin, 400);
       }
@@ -417,6 +418,7 @@ document.addEventListener('DOMContentLoaded', () => {
         totalScore += currentLvlScore;
         updateScoreBar();
         saveProgress();
+        saveCrucigramaLevelToSupabase(completedLevels.size);
       }
       setTimeout(showWin, 400);
       return;
@@ -604,3 +606,53 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
 }); // fin DOMContentLoaded
+
+// ========================================================
+// CONEXIÓN LEADERBOARD SUPABASE - CRUCIGRAMA FUTBOLERO
+// Guarda/actualiza el total de niveles completados en Supabase.
+// levelCount = completedLevels.size (ya incluye el recién completado)
+// ========================================================
+async function saveCrucigramaLevelToSupabase(levelCount) {
+    try {
+        if (!window.supabase) return;
+        const { data: { session } } = await window.supabase.auth.getSession();
+        if (!session || !session.user) return;
+
+        const userId = session.user.id;
+
+        // Consultar si ya existe registro del usuario
+        const { data, error } = await window.supabase
+            .from('leaderboard_futbol_crucigrama')
+            .select('levels_completed')
+            .eq('user_id', userId)
+            .maybeSingle();
+
+        if (error) {
+            console.error('Error al consultar ranking de crucigrama:', error.message);
+            return;
+        }
+
+        if (!data) {
+            // Primera vez: insertar
+            const { error: insertError } = await window.supabase
+                .from('leaderboard_futbol_crucigrama')
+                .insert({
+                    user_id: userId,
+                    levels_completed: levelCount
+                });
+            if (insertError) console.error('Error al insertar ranking crucigrama:', insertError.message);
+        } else if (levelCount > data.levels_completed) {
+            // Solo actualizar si el nuevo total es mayor (por si acaso)
+            const { error: updateError } = await window.supabase
+                .from('leaderboard_futbol_crucigrama')
+                .update({
+                    levels_completed: levelCount,
+                    updated_at: new Date().toISOString()
+                })
+                .eq('user_id', userId);
+            if (updateError) console.error('Error al actualizar ranking crucigrama:', updateError.message);
+        }
+    } catch (e) {
+        console.error('Error al guardar nivel de crucigrama en Supabase:', e);
+    }
+}

@@ -49,10 +49,98 @@ const hintTextElement = document.getElementById("hintText");
 
 // 3. INICIALIZACION
 window.addEventListener("DOMContentLoaded", () => {
-    initGame();
+    checkDailyStatus();
     setupPhysicalKeyboard();
     setupVirtualKeyboard();
 });
+
+// Verifica si el usuario ya ganó hoy. Si sí, muestra pantalla de "completado".
+// Si no (o no está logueado), inicia el juego normalmente.
+async function checkDailyStatus() {
+    // Intentar verificar con Supabase si hay sesión activa
+    try {
+        if (window.supabase) {
+            const { data: { session } } = await window.supabase.auth.getSession();
+            if (session && session.user) {
+                const today = new Date();
+                const todayStr = today.getFullYear() + '-' +
+                    String(today.getMonth() + 1).padStart(2, '0') + '-' +
+                    String(today.getDate()).padStart(2, '0');
+
+                const { data } = await window.supabase
+                    .from('leaderboard_futbol_jugadordia')
+                    .select('last_win_date')
+                    .eq('user_id', session.user.id)
+                    .maybeSingle();
+
+                if (data && data.last_win_date === todayStr) {
+                    // Ya ganó hoy → mostrar pantalla bloqueada
+                    showDailyCompletedScreen();
+                    return;
+                }
+            }
+        }
+    } catch (e) {
+        console.warn("No se pudo verificar estado diario:", e);
+    }
+
+    // Si no hay sesión o no ganó hoy, iniciar juego normal
+    initGame();
+}
+
+// Muestra pantalla de "Ya completaste el reto de hoy"
+function showDailyCompletedScreen() {
+    // Calcular qué jugador era hoy (para mostrarlo)
+    const todayPlayer = selectTargetPlayer();
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    tomorrow.setHours(0, 0, 0, 0);
+    const msLeft = tomorrow - Date.now();
+    const hrsLeft = Math.floor(msLeft / 3600000);
+    const minsLeft = Math.floor((msLeft % 3600000) / 60000);
+
+    // Revelar el tablero como ganado (6 celdas verdes con el nombre)
+    targetPlayer = todayPlayer;
+    targetWord = todayPlayer.nombre.toUpperCase();
+    wordLength = targetWord.length;
+    boardState = Array(6).fill().map(() => Array(wordLength).fill(""));
+    buildBoardDOM();
+
+    // Pintar primera fila con la respuesta correcta en verde
+    for (let c = 0; c < wordLength; c++) {
+        const tile = document.getElementById(`tile-0-${c}`);
+        if (tile) {
+            tile.textContent = targetWord[c];
+            tile.classList.add("correct");
+        }
+    }
+
+    // Bloquear teclado y mostrar banner de completado
+    gameOver = true;
+
+    // Mostrar un banner en pantalla
+    Swal.fire({
+        title: '✅ ¡YA LO COMPLETASTE!',
+        html: `
+            <p style="font-size:11px; line-height:1.8;">
+                El jugador de hoy era:<br>
+                <strong style="color:#00ff9f; font-size:16px;">${targetWord}</strong><br><br>
+                Vuelve en <strong>${hrsLeft}h ${minsLeft}m</strong> para el siguiente reto.
+            </p>
+        `,
+        icon: 'info',
+        confirmButtonText: '⬅ VOLVER AL MENÚ',
+        allowOutsideClick: true,
+        customClass: {
+            popup: 'swal-retro-popup',
+            title: 'swal-retro-title',
+            htmlContainer: 'swal-retro-html',
+            confirmButton: 'swal-retro-confirm'
+        }
+    }).then(() => {
+        window.location.href = "futbol.html";
+    });
+}
 
 // Selección de jugador basado en la fecha o aleatorio
 function selectTargetPlayer() {
@@ -301,6 +389,10 @@ function handleEndGame(isVictory) {
             Intentos: <b>${currentRow + 1} de 6</b><br>
             Pistas usadas: <b>${hintsUsed}</b>
         `;
+        // Guardar victoria diaria en Supabase (solo en modo diario, no práctica)
+        if (!isPracticeMode) {
+            saveJugadorDiaWin();
+        }
     } else {
         titleText = "💀 GAME OVER";
         htmlContent = `
@@ -375,4 +467,63 @@ function setupPhysicalKeyboard() {
             addLetter(e.key);
         }
     });
+}
+
+// ========================================================
+// CONEXIÓN LEADERBOARD SUPABASE - JUGADOR DEL DÍA
+// ========================================================
+async function saveJugadorDiaWin() {
+    try {
+        if (!window.supabase) return;
+        const { data: { session } } = await window.supabase.auth.getSession();
+        if (!session || !session.user) return;
+
+        const userId = session.user.id;
+
+        // Obtener la fecha de hoy como string YYYY-MM-DD
+        const today = new Date();
+        const todayStr = today.getFullYear() + '-' +
+            String(today.getMonth() + 1).padStart(2, '0') + '-' +
+            String(today.getDate()).padStart(2, '0');
+
+        // Consultar registro actual del usuario
+        const { data, error } = await window.supabase
+            .from('leaderboard_futbol_jugadordia')
+            .select('daily_wins, last_win_date')
+            .eq('user_id', userId)
+            .maybeSingle();
+
+        if (error) {
+            console.error("Error al consultar ranking de jugador del día:", error.message);
+            return;
+        }
+
+        if (!data) {
+            // Primera victoria del usuario: insertar registro
+            const { error: insertError } = await window.supabase
+                .from('leaderboard_futbol_jugadordia')
+                .insert({
+                    user_id: userId,
+                    daily_wins: 1,
+                    last_win_date: todayStr
+                });
+            if (insertError) console.error("Error al insertar victoria de jugador del día:", insertError.message);
+        } else if (data.last_win_date === todayStr) {
+            // Ya ganó hoy, no contar doble
+            console.log("Ya registraste tu victoria del día de hoy.");
+        } else {
+            // Nueva victoria en un día distinto: sumar un punto
+            const { error: updateError } = await window.supabase
+                .from('leaderboard_futbol_jugadordia')
+                .update({
+                    daily_wins: data.daily_wins + 1,
+                    last_win_date: todayStr,
+                    updated_at: new Date().toISOString()
+                })
+                .eq('user_id', userId);
+            if (updateError) console.error("Error al actualizar victoria de jugador del día:", updateError.message);
+        }
+    } catch (e) {
+        console.error("Error al guardar victoria del jugador del día:", e);
+    }
 }

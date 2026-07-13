@@ -39,13 +39,44 @@
   <div class="ranking-container animate__animated animate__fadeIn">
     <div class="ranking-box">
       
-      <h1 class="ranking-title" id="rankingMainTitle">🏆 RANKING F1 🏆</h1>
+      <h1 class="ranking-title" id="rankingMainTitle">🏆 TABLA DE CLASIFICACIÓN 🏆</h1>
       
-      <!-- TABS RETRO -->
-      <div class="ranking-tabs">
+      <!-- CATEGORY SELECTOR -->
+      <div class="mode-selector" style="margin-bottom: 25px;">
+        <button id="mode-f1" class="mode-btn active" onclick="switchMode('f1')">🏁 MODO F1</button>
+        <button id="mode-futbol" class="mode-btn" onclick="switchMode('futbol')">⚽ MODO FÚTBOL</button>
+        <button id="mode-ajedrez" class="mode-btn" onclick="switchMode('ajedrez')">♟️ MODO AJEDREZ</button>
+      </div>
+
+      <!-- TABS RETRO F1 -->
+      <div id="tabs-f1" class="ranking-tabs">
         <button id="tab-reaction" class="tab-btn active" onclick="switchTab('reaction')">REACCIÓN</button>
         <button id="tab-duels" class="tab-btn" onclick="switchTab('duels')">DUELOS</button>
         <button id="tab-circuits" class="tab-btn" onclick="switchTab('circuits')">CIRCUITOS</button>
+      </div>
+
+      <!-- TABS AJEDREZ -->
+      <div id="tabs-ajedrez" class="ranking-tabs d-none">
+        <button id="tab-quiz-ajedrez" class="tab-btn active" onclick="switchTab('quiz-ajedrez')">QUIZ ♟️</button>
+        <button id="tab-movimientos" class="tab-btn" onclick="switchTab('movimientos')">MOVIMIENTOS ♞</button>
+        <button id="tab-mate" class="tab-btn" onclick="switchTab('mate')">MATE EN 1 ♛</button>
+      </div>
+
+      <!-- TABS RETRO FÚTBOL - Sub-modo selector -->
+      <div id="tabs-futbol" class="d-none">
+        <!-- Selector de juego dentro de Fútbol -->
+        <div class="ranking-tabs">
+          <button id="tab-cruce" class="tab-btn active" onclick="switchFutbolSubmode('cruce')">⚽ CRUCE FUTBOLERO</button>
+          <button id="tab-crucigrama" class="tab-btn" onclick="switchFutbolSubmode('crucigrama')">📝 CRUCIGRAMA</button>
+          <button id="tab-jugadordia" class="tab-btn" onclick="switchFutbolSubmode('jugadordia')">🌟 JUGADOR DEL DÍA</button>
+        </div>
+
+        <!-- Dificultades de Cruce Futbolero -->
+        <div id="tabs-cruce" class="ranking-tabs" style="margin-top: 12px;">
+          <button id="tab-futbol-easy" class="tab-btn" onclick="switchTab('futbol-easy')">FÁCIL</button>
+          <button id="tab-futbol-medium" class="tab-btn" onclick="switchTab('futbol-medium')">MEDIO</button>
+          <button id="tab-futbol-hard" class="tab-btn" onclick="switchTab('futbol-hard')">DIFÍCIL</button>
+        </div>
       </div>
 
       <div id="rankingSubtitle" style="font-size: 8px; color: #fff3e0; margin-bottom: 20px; letter-spacing: 1px; text-transform: uppercase;">
