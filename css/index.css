@@ -1,0 +1,370 @@
+/* Base */
+body {
+  margin: 0;
+  background: #2b2d42;
+  color: white;
+  font-family: sans-serif;
+}
+
+/* Preloader */
+#preloader {
+  position: fixed;
+  inset: 0; /* reemplaza top/left/width/height */
+  height: 100vh;
+
+  background: 
+    linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
+    url("../assets/images/fondo_carga.png") no-repeat center/cover;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  z-index: 9999;
+  overflow: hidden;
+}
+
+/* Contenedor de puertas */
+.door-container {
+  position: relative;
+  width: 400px; /* ajustable */
+  height: 400px;
+}
+
+/* Puertas (base única) */
+.door {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 50%;
+  object-fit: cover;
+  transition: transform 1.2s ease-in-out;
+}
+
+/* Posición */
+.top { top: 0; }
+.bottom { bottom: 0; }
+
+/* Animación */
+.open .top {
+  transform: translateY(-100%);
+}
+
+.open .bottom {
+  transform: translateY(100%);
+}
+
+/* Contenido de página — oculto hasta que el preloader termine */
+#page-content {
+  opacity: 0;
+  transition: opacity 0.6s ease;
+  /* display se maneja desde JS: empieza en "none", pasa a "flex" */
+}
+
+html, body{
+  height: 100%;
+  margin: 0;
+  overflow: hidden; /* 🚫 elimina scroll */
+}
+
+body{
+  margin:0;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  height:100vh;
+  background: var(--bg-main);
+  color:white;
+  font-family: 'Press Start 2P', cursive;
+  overflow-x:hidden;
+}
+
+/* 🎨 PALETA */
+:root{
+  --bg-main:#2b2d42;
+  --cream:#fff3e0;
+  --green:#00ff9f;
+  --red:#ff3c38;
+  --yellow:#ffd166;
+}
+
+/* NAVBAR */
+.navbar{
+  background: #1a1c2c;
+  border-bottom: 3px solid var(--yellow);
+  height:70px;
+}
+.navbar-nav{
+  gap: 25px; /* espacio entre Inicio, Perfil, Login */
+}
+
+.logo{
+  height:50px;
+}
+
+.nav-link{
+  color: var(--cream) !important;
+  font-size:14px;  /* antes 10px */
+  letter-spacing: 0.5px;
+  text-shadow: 0 0 5px rgba(255,255,255,0.5);
+}
+
+
+.nav-link:hover{
+  color: var(--green) !important;
+}
+
+/* TEXTO */
+.hero-text{
+  text-align:center;
+  padding:20px;
+  font-size:20px; /* antes era más pequeño */
+  color: var(--yellow);
+  text-shadow: 0 0 12px var(--yellow);
+  letter-spacing: 2px;
+  height:80px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+/* CATEGORIAS FULL SCREEN */
+.categories{
+  display:flex;
+  width:100%;
+  height:calc(100vh - 100px);
+  position:relative;
+  flex:1; /* 🔥 ocupa TODO lo restante */
+}
+
+/* CARD FULL */
+.card-game{
+  flex:1;
+  position:relative;
+  cursor:pointer;
+  transition: all 0.3s ease;
+  overflow:hidden;
+  z-index:1;
+}
+
+/* EFECTO RETRO PIXEL OVERLAY */
+.card-game::before{
+  content:"";
+  position:absolute;
+  width:100%;
+  height:100%;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0,0,0,0.2),
+    rgba(0,0,0,0.2) 2px,
+    transparent 2px,
+    transparent 4px
+  );
+  z-index:1;
+}
+
+/* HOVER POTENTE */
+.card-game:hover{
+  flex:1.2;
+  filter: brightness(1.2);
+  transform: scale(1.08);
+  z-index:10; /* SIEMPRE ENCIMA */
+}
+
+/* FONDOS */
+.futbol{
+  background: 
+    linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)),
+    url('../assets/images/futbol.png') center/cover no-repeat;
+  border: 4px solid #00ff9f;
+  box-shadow: 0 0 15px #00ff9f;
+}
+
+.f1{
+  background: 
+    linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)),
+    url('../assets/images/f1.png') center/cover no-repeat;
+  border: 4px solid #ff3c38;
+  box-shadow: 0 0 15px #ff3c38;
+}
+
+.ajedrez{
+  background: 
+    linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)),
+    url('../assets/images/ajedez.png') center/cover no-repeat;
+  border: 4px solid #ffd166;
+  box-shadow: 0 0 15px #ffd166;
+}
+/* OVERLAY */
+.overlay{
+  position:absolute;
+  width:100%;
+  height:100%;
+  background: rgba(0,0,0,0.6);
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  z-index:2;
+}
+
+/* TITULOS */
+.overlay h2{
+  font-size:30px;
+  margin-bottom:20px;
+  text-shadow: 0 0 10px white;
+}
+
+/* DESCRIPCION */
+.overlay p{
+  font-size:20px;
+  margin-bottom:20px;
+}
+
+/* BOTONES */
+.btn-custom{
+  font-size:15px;
+  padding:12px 18px;
+  border:none;
+  cursor:pointer;
+  transition: all 0.3s;
+}
+
+/* COLORES POR CATEGORIA */
+.btn-futbol{
+  background: var(--green);
+  color:black;
+  box-shadow: 0 0 10px var(--green);
+}
+
+.btn-f1{
+  background: var(--red);
+  color:white;
+  box-shadow: 0 0 10px var(--red);
+}
+
+.btn-ajedrez{
+  background: var(--cream);
+  color:black;
+  box-shadow: 0 0 10px var(--cream);
+}
+
+/* BOTON HOVER */
+.btn-custom:hover{
+  transform: scale(1.1);
+}
+
+/* BASE SWEETALERT */
+.swal2-popup{
+  font-family: 'Press Start 2P', cursive;
+  border-radius: 10px;
+}
+
+/* ⚽ FUTBOL */
+.swal-futbol{
+  background: #0f172a;
+  border: 4px solid #00ff9f;
+  box-shadow: 0 0 20px #00ff9f;
+  color: #00ff9f;
+}
+
+.swal-futbol .swal2-confirm{
+  background: #00ff9f !important;
+  color: black !important;
+  box-shadow: 0 0 10px #00ff9f;
+}
+
+/* 🏎️ F1 */
+.swal-f1{
+  background: #1a0f0f;
+  border: 4px solid #ff3c38;
+  box-shadow: 0 0 20px #ff3c38;
+  color: #ff3c38;
+}
+
+.swal-f1 .swal2-confirm{
+  background: #ff3c38 !important;
+  color: white !important;
+  box-shadow: 0 0 10px #ff3c38;
+}
+
+/* ♟️ AJEDREZ */
+.swal-ajedrez{
+  background: #111;
+  border: 4px solid #ffd166;
+  box-shadow: 0 0 20px #ffd166;
+  color: #ffd166;
+}
+
+.swal-ajedrez .swal2-confirm{
+  background: #ffd166 !important;
+  color: black !important;
+  box-shadow: 0 0 10px #ffd166;
+}
+
+/* RESPONSIVE */
+@media (max-width: 991px) {
+  .navbar {
+    height: auto;
+    padding: 10px 0;
+  }
+  .navbar .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+  .navbar-collapse {
+    display: flex !important;
+    flex-basis: auto;
+  }
+  .navbar-nav {
+    flex-direction: row;
+    gap: 15px;
+    justify-content: center;
+  }
+  .nav-link {
+    font-size: 12px;
+  }
+  .categories {
+    flex-direction: column;
+    height: calc(100vh - 120px);
+  }
+  .hero-text {
+    font-size: 14px;
+    height: 50px;
+  }
+  .card-game:hover {
+    flex: 1.1;
+    transform: scale(1.02);
+  }
+  .overlay h2 {
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+  .overlay p {
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+  .btn-custom {
+    padding: 8px 14px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .nav-link {
+    font-size: 10px;
+    padding: 5px;
+  }
+  .hero-text {
+    font-size: 12px;
+  }
+  .overlay h2 {
+    font-size: 18px;
+  }
+  .overlay p {
+    font-size: 12px;
+  }
+}

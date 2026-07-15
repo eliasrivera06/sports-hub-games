@@ -1,0 +1,632 @@
+/* ============================================================
+   QUIZ DE AJEDREZ — Estilos del juego
+   Paleta: #fff3e0 | #2b2d42 | #00ff9f | #ff3c38 | #ffd166
+   ============================================================ */
+
+:root {
+  --bg:        #2b2d42;
+  --cream:     #fff3e0;
+  --neon:      #00ff9f;
+  --red:       #ff3c38;
+  --gold:      #ffd166;
+  --panel-bg:  #1a1c2e;
+  --border:    rgba(255, 209, 102, 0.28);
+  --font:      'Press Start 2P', cursive;
+
+  /* Colores de categorías */
+  --cat-reglas:       #64b5f6;
+  --cat-historia:     #ce93d8;
+  --cat-piezas:       #a5d6a7;
+  --cat-estrategia:   #ffb74d;
+  --cat-curiosidades: #f48fb1;
+}
+
+/* ─── RESET ─────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ─── BODY ───────────────────────────────────── */
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  background-image:
+    radial-gradient(ellipse at 15% 30%, rgba(100,181,246,0.04) 0%, transparent 55%),
+    radial-gradient(ellipse at 85% 70%, rgba(255,209,102,0.04) 0%, transparent 55%);
+  color: var(--cream);
+  min-height: 100vh;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ─── NAVBAR ─────────────────────────────────── */
+.navbar {
+  background: #0f1120 !important;
+  border-bottom: 3px solid var(--gold);
+  min-height: 68px;
+}
+.logo { height: 48px; }
+.nav-link {
+  color: var(--cream) !important;
+  font-size: 9px;
+  letter-spacing: 2px;
+  transition: color 0.2s;
+}
+.nav-link:hover { color: var(--gold) !important; }
+
+/* ─── GAME WRAPPER ───────────────────────────── */
+.game-wrapper {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 240px 1fr 200px;
+  align-items: stretch;
+  gap: 16px;
+  padding: 14px 20px;
+  max-width: 1500px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* ─── PANELES LATERALES ──────────────────────── */
+.info-panel,
+.history-panel {
+  background: var(--panel-bg);
+  border: 2px solid var(--border);
+  border-radius: 4px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow-y: auto;
+  min-height: 0;
+}
+
+.panel-title {
+  font-size: 11px;
+  color: var(--gold);
+  text-align: center;
+  line-height: 2;
+  border-bottom: 2px solid var(--border);
+  padding-bottom: 12px;
+  text-shadow: 0 0 14px rgba(255,209,102,0.5);
+}
+.panel-title.small { font-size: 10px; }
+
+/* ─── ESTADÍSTICAS ───────────────────────────── */
+.stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.stat-box {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 10px 8px;
+  text-align: center;
+}
+.stat-label {
+  font-size: 6px;
+  color: var(--gold);
+  letter-spacing: 1px;
+  margin-bottom: 6px;
+}
+.stat-value {
+  font-size: 12px;
+  color: var(--cream);
+}
+#score-display   { color: var(--neon); }
+#timer-display   { color: var(--cream); }
+#timer-display.warning {
+  color: var(--red);
+  animation: timerPulse 0.5s ease-in-out infinite alternate;
+}
+@keyframes timerPulse {
+  from { opacity:1; text-shadow:none; }
+  to   { opacity:0.4; text-shadow:0 0 10px var(--red); }
+}
+
+/* ─── CATEGORÍA ──────────────────────────────── */
+.category-box {
+  background: rgba(255,209,102,0.07);
+  border: 2px solid rgba(255,209,102,0.35);
+  border-radius: 4px;
+  padding: 14px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.category-icon {
+  font-size: 40px;
+  filter: drop-shadow(0 0 10px rgba(255,209,102,0.6));
+  animation: iconFloat 3s ease-in-out infinite;
+}
+@keyframes iconFloat {
+  0%,100% { transform: translateY(0); }
+  50%      { transform: translateY(-4px); }
+}
+.category-name {
+  font-size: 9px;
+  color: var(--gold);
+  letter-spacing: 1px;
+}
+.category-diff {
+  font-size: 6px;
+  padding: 3px 10px;
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  border-radius: 2px;
+}
+
+/* ─── INSTRUCCIONES ──────────────────────────── */
+.instructions-box {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 10px 12px;
+}
+.instructions-box p {
+  font-size: 7px;
+  color: rgba(255,243,224,0.7);
+  line-height: 2.2;
+}
+.pts-pos { color: var(--neon); }
+.pts-neg { color: var(--red); }
+
+/* ─── RACHA BAR ──────────────────────────────── */
+.streak-bar {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: auto;
+}
+.streak-label {
+  font-size: 6px;
+  color: var(--gold);
+  letter-spacing: 1px;
+}
+.streak-dots {
+  display: flex;
+  gap: 6px;
+}
+.dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.15);
+  transition: all 0.3s;
+  display: block;
+}
+.dot.active {
+  background: var(--gold);
+  border-color: var(--gold);
+  box-shadow: 0 0 8px rgba(255,209,102,0.7);
+}
+.dot.correct {
+  background: var(--neon);
+  border-color: var(--neon);
+  box-shadow: 0 0 8px rgba(0,255,159,0.7);
+}
+.dot.wrong {
+  background: var(--red);
+  border-color: var(--red);
+  box-shadow: 0 0 8px rgba(255,60,56,0.7);
+}
+
+/* ─── ÁREA DE QUIZ ───────────────────────────── */
+.quiz-area {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 8px 0;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+/* ─── BARRA DE PROGRESO ──────────────────────── */
+.progress-bar-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.progress-bar-track {
+  flex: 1;
+  height: 10px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 5px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--neon), #00c97f);
+  border-radius: 5px;
+  transition: width 0.4s ease;
+  box-shadow: 0 0 10px rgba(0,255,159,0.5);
+}
+.progress-bar-label {
+  font-size: 8px;
+  color: var(--gold);
+  min-width: 55px;
+  text-align: right;
+}
+
+/* ─── TARJETA DE PREGUNTA ────────────────────── */
+.question-card {
+  background: var(--panel-bg);
+  border: 2px solid var(--border);
+  border-radius: 6px;
+  padding: 32px 36px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 14px;
+  box-shadow: 0 0 30px rgba(255,209,102,0.12), 0 8px 40px rgba(0,0,0,0.4);
+  transition: border-color 0.3s;
+}
+.question-card.correct-bg {
+  border-color: rgba(0,255,159,0.6);
+  box-shadow: 0 0 30px rgba(0,255,159,0.2);
+}
+.question-card.wrong-bg {
+  border-color: rgba(255,60,56,0.6);
+  box-shadow: 0 0 30px rgba(255,60,56,0.2);
+}
+
+.question-number {
+  font-size: 8px;
+  color: var(--gold);
+  letter-spacing: 1px;
+}
+.question-text {
+  font-size: 12px;
+  color: var(--cream);
+  line-height: 2.2;
+}
+
+/* ─── GRID DE OPCIONES ───────────────────────── */
+.options-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.option-btn {
+  font-family: var(--font);
+  background: rgba(255,255,255,0.04);
+  border: 2px solid var(--border);
+  border-radius: 4px;
+  padding: 16px 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-align: left;
+  transition: all 0.18s;
+  min-height: 78px;
+  color: var(--cream);
+}
+.option-btn:hover:not(:disabled) {
+  background: rgba(255,209,102,0.1);
+  border-color: var(--gold);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(255,209,102,0.2);
+}
+
+.opt-letter {
+  font-size: 10px;
+  color: var(--gold);
+  min-width: 20px;
+  flex-shrink: 0;
+}
+.opt-text {
+  font-size: 8px;
+  line-height: 1.9;
+  color: var(--cream);
+}
+
+/* Estados de respuesta */
+.option-btn.selected {
+  border-color: rgba(100,200,255,0.8);
+  background: rgba(100,200,255,0.12);
+}
+.option-btn.correct-ans {
+  border-color: var(--neon) !important;
+  background: rgba(0,255,159,0.2) !important;
+  box-shadow: 0 0 20px rgba(0,255,159,0.4) !important;
+  animation: correctPop 0.3s ease;
+}
+@keyframes correctPop {
+  0%   { transform: scale(1.04); }
+  100% { transform: scale(1); }
+}
+.option-btn.wrong-ans {
+  border-color: var(--red) !important;
+  background: rgba(255,60,56,0.2) !important;
+  box-shadow: 0 0 16px rgba(255,60,56,0.3) !important;
+  animation: wrongShake 0.3s ease;
+}
+@keyframes wrongShake {
+  0%,100% { transform: translateX(0); }
+  25%      { transform: translateX(-5px); }
+  75%      { transform: translateX(5px); }
+}
+.option-btn:disabled { cursor: default; }
+
+/* ─── CAJA DE EXPLICACIÓN ────────────────────── */
+.explanation-box {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 14px 18px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  animation: fadeInUp 0.3s ease;
+}
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.explanation-icon { font-size: 18px; flex-shrink: 0; }
+.explanation-text {
+  font-size: 7.5px;
+  color: rgba(255,243,224,0.85);
+  line-height: 2;
+}
+
+/* ─── BOTÓN SIGUIENTE ────────────────────────── */
+.next-btn-wrapper { display: flex; justify-content: center; }
+.btn-next {
+  font-family: var(--font);
+  font-size: 9px;
+  padding: 14px 28px;
+  border: 2px solid var(--neon);
+  border-radius: 3px;
+  background: rgba(0,255,159,0.12);
+  color: var(--neon);
+  cursor: pointer;
+  letter-spacing: 1px;
+  transition: all 0.2s;
+  animation: nextGlow 1.6s ease-in-out infinite;
+}
+.btn-next:hover {
+  background: var(--neon);
+  color: var(--panel-bg);
+  box-shadow: 0 0 24px rgba(0,255,159,0.6);
+}
+@keyframes nextGlow {
+  0%,100% { box-shadow: 0 0 6px rgba(0,255,159,0.25); }
+  50%      { box-shadow: 0 0 22px rgba(0,255,159,0.65); }
+}
+
+/* ─── HISTORIAL ──────────────────────────────── */
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-height: 360px;
+  overflow-y: auto;
+  padding-right: 2px;
+}
+.history-list::-webkit-scrollbar { width: 4px; }
+.history-list::-webkit-scrollbar-track { background: rgba(255,255,255,0.04); }
+.history-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+.history-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 6.5px;
+  padding: 6px 8px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+}
+.history-item.h-correct { border-left: 3px solid var(--neon); }
+.history-item.h-wrong   { border-left: 3px solid var(--red); }
+.history-item.h-timeout { border-left: 3px solid rgba(255,209,102,0.5); }
+
+.h-num    { font-size: 8px; color: var(--gold); min-width: 18px; }
+.h-text   { flex: 1; color: rgba(255,243,224,0.7); overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.h-status { font-size: 10px; }
+
+/* ─── LEYENDA DE CATEGORÍAS ──────────────────── */
+.legend-box {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 10px 12px;
+}
+.legend-title {
+  font-size: 6px;
+  color: var(--gold);
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 6.5px;
+  color: rgba(255,243,224,0.7);
+  margin-bottom: 6px;
+}
+.legend-item:last-child { margin-bottom: 0; }
+.cat-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.cat-dot.reglas       { background: var(--cat-reglas); }
+.cat-dot.historia     { background: var(--cat-historia); }
+.cat-dot.piezas       { background: var(--cat-piezas); }
+.cat-dot.estrategia   { background: var(--cat-estrategia); }
+.cat-dot.curiosidades { background: var(--cat-curiosidades); }
+
+/* ─── FOOTER ─────────────────────────────────── */
+footer {
+  text-align: center;
+  padding: 14px;
+  border-top: 2px solid rgba(255,209,102,0.2);
+  background: #0f1120;
+  font-size: 7px;
+  color: rgba(255,243,224,0.35);
+  letter-spacing: 1px;
+}
+
+/* ─── RESPONSIVE ─────────────────────────────── */
+@media (max-width: 1400px) {
+  .game-wrapper {
+    grid-template-columns: 220px 1fr 185px;
+    gap: 12px;
+    padding: 12px 16px;
+  }
+  .question-card { padding: 22px 24px; }
+}
+
+@media (max-width: 900px) {
+  body { height: auto; overflow: auto; }
+  .game-wrapper {
+    grid-template-columns: 1fr;
+    padding: 10px;
+    min-height: unset;
+  }
+  .quiz-area { order: -1; overflow-y: visible; }
+  .info-panel, .history-panel {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 10px;
+    overflow-y: visible;
+  }
+  .stats-grid, .category-box, .instructions-box,
+  .streak-bar, .history-list, .legend-box {
+    flex: 1;
+    min-width: 140px;
+  }
+  .panel-title { width: 100%; }
+  .options-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 480px) {
+  .question-text { font-size: 9px; }
+  .opt-text { font-size: 7px; }
+  .navbar { min-height: auto; padding: 8px 0; }
+}
+
+/* ═══════════════════════════════════════════════════════
+   MEJORAS FINALES: LAYOUT CORRECTO + TIPOGRAFÍA GRANDE
+   ═══════════════════════════════════════════════════════ */
+
+/*
+  PROBLEMA ORIGINAL: .question-card tenia flex:1 haciendo que
+  ocupara TODO el espacio disponible, empujando las opciones
+  fuera de la pantalla.
+
+  SOLUCION: Convertir .quiz-area en un CSS Grid con filas
+  explicitas. La tarjeta de pregunta ocupa 1fr del espacio
+  disponible DESPUES de las opciones (que son auto-size).
+  Las opciones siempre quedan visibles.
+*/
+
+/* ── Quiz-area: Grid con distribuón exacta ──────────── */
+.quiz-area {
+  display: grid !important;
+  grid-template-rows: auto 1fr auto auto auto !important;
+  /* fila 1: barra de progreso (auto)
+     fila 2: tarjeta de pregunta (1fr = espacio disponible)
+     fila 3: grid de opciones (auto)
+     fila 4: caja de explicación (auto, colapsa cuando display:none)
+     fila 5: botón siguiente (auto) */
+  gap: 14px !important;
+  padding: 8px 0 !important;
+  min-height: 0 !important;
+  overflow-y: auto !important;
+}
+
+/* ── Tarjeta de pregunta: llena el espacio entre barra y opciones */
+.question-card {
+  flex: unset !important;
+  min-height: 0 !important;
+  overflow-y: auto !important;
+  align-self: stretch !important;
+}
+
+/* ── Opciones: siempre visibles, tamaño natural ─────── */
+.options-grid {
+  align-self: start !important;
+}
+.option-btn {
+  min-height: 82px !important;
+  padding: 18px 20px !important;
+}
+
+/* ── Tipografía general — ampliada ────────────────── */
+.panel-title        { font-size: 13px !important; line-height: 1.8 !important; padding-bottom: 10px !important; }
+.stat-label         { font-size: 9px  !important; letter-spacing: 0.5px !important; margin-bottom: 8px !important; }
+.stat-value         { font-size: 22px !important; }
+.stat-box           { padding: 12px 8px !important; }
+
+/* Pregunta */
+.question-number    { font-size: 9px  !important; letter-spacing: 1.5px !important; }
+.question-text      { font-size: 13px !important; line-height: 2.3 !important; }
+
+/* Opciones */
+.opt-letter         { font-size: 12px !important; min-width: 22px !important; }
+.opt-text           { font-size: 9px  !important; line-height: 2 !important; }
+
+/* Progreso */
+.progress-bar-label { font-size: 9px  !important; }
+.progress-bar-track { height: 12px !important; }
+
+/* Categoría */
+.category-icon      { font-size: 48px !important; }
+.category-name      { font-size: 11px !important; }
+.category-diff      { font-size: 8px  !important; padding: 4px 12px !important; }
+
+/* Instrucciones */
+.instructions-box p { font-size: 8px  !important; line-height: 2.3 !important; }
+
+/* Racha */
+.streak-label       { font-size: 8px  !important; }
+.dot                { width: 16px !important; height: 16px !important; }
+
+/* Explicación */
+.explanation-text   { font-size: 9px  !important; line-height: 2 !important; }
+.explanation-icon   { font-size: 22px !important; }
+
+/* Botón siguiente */
+.btn-next           { font-size: 10px !important; padding: 16px 32px !important; }
+
+/* Historial */
+.history-item       { font-size: 8px  !important; padding: 8px 10px !important; }
+.h-num              { font-size: 9px  !important; }
+.h-text             { font-size: 8px  !important; }
+.h-status           { font-size: 11px !important; }
+
+/* Leyenda */
+.legend-title       { font-size: 7px  !important; margin-bottom: 10px !important; }
+.legend-item        { font-size: 8px  !important; gap: 10px !important; margin-bottom: 8px !important; }
+.cat-dot            { width: 14px !important; height: 14px !important; }
+
+/* ── Responsive ───────────────────────────────────── */
+@media (max-width: 900px) {
+  .quiz-area {
+    grid-template-rows: auto auto auto auto auto !important;
+    overflow-y: visible !important;
+  }
+  .stat-value { font-size: 18px !important; }
+  .stat-label { font-size: 8px !important; }
+  .panel-title { font-size: 11px !important; }
+  .question-text { font-size: 11px !important; }
+}
+

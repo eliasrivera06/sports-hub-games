@@ -1,0 +1,725 @@
+/* ========================================================
+   3 EN RAYA FUTBOLERO - ESTILOS RETRO ARCADE
+   ======================================================== */
+
+:root {
+    --bg-primary: #121420;
+    --bg-dark: #1A1C28;
+    --text-primary: #FFF3E0;
+    --color-correct: #00FF9F;
+    --color-error: #FF3C38;
+    --color-highlight: #FFD166;
+    --font-retro: 'Press Start 2P', cursive;
+    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* NAVBAR RETRO */
+.navbar {
+    background-color: var(--bg-dark);
+    border-bottom: 4px solid #3F4257;
+    padding: 10px 0;
+}
+
+.logo {
+    height: 40px;
+    image-rendering: pixelated;
+}
+
+.nav-link {
+    color: var(--text-primary) !important;
+    font-family: var(--font-retro);
+    font-size: 10px;
+    margin-left: 15px;
+    text-transform: uppercase;
+    transition: color 0.3s;
+}
+
+.nav-link:hover {
+    color: var(--color-correct) !important;
+}
+
+/* CONTENEDORES DE PANTALLA */
+.screen-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    max-width: 800px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.title-main {
+    font-family: var(--font-retro);
+    color: var(--color-correct);
+    font-size: 28px;
+    text-align: center;
+    margin-bottom: 15px;
+    text-shadow: 4px 4px 0px var(--color-error);
+    letter-spacing: 2px;
+    line-height: 1.4;
+}
+
+.subtitle {
+    font-family: var(--font-retro);
+    font-size: 10px;
+    color: var(--color-highlight);
+    text-align: center;
+    margin-bottom: 30px;
+    line-height: 1.6;
+}
+
+/* BOTONES RETRO */
+.btn-retro {
+    font-family: var(--font-retro);
+    background-color: var(--bg-dark);
+    color: var(--text-primary);
+    border: 4px solid var(--text-primary);
+    padding: 12px 20px;
+    font-size: 11px;
+    cursor: pointer;
+    box-shadow: 4px 4px 0px var(--color-highlight);
+    transition: all 0.1s ease;
+    text-transform: uppercase;
+    margin: 10px;
+}
+
+.btn-retro:active {
+    transform: translate(4px, 4px);
+    box-shadow: 0px 0px 0px transparent;
+}
+
+.btn-retro:hover {
+    background-color: var(--text-primary);
+    color: var(--bg-dark);
+    border-color: var(--color-highlight);
+}
+
+.btn-retro.active {
+    background-color: var(--color-highlight);
+    color: var(--bg-dark);
+    border-color: var(--text-primary);
+}
+
+/* DIFICULTAD SELECTOR */
+.difficulty-selector {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 25px;
+}
+
+.difficulty-btn {
+    font-size: 9px;
+    padding: 8px 12px;
+}
+
+/* PANTALLA INICIAL */
+.home-card {
+    background-color: var(--bg-dark);
+    border: 5px solid var(--text-primary);
+    padding: 30px;
+    width: 100%;
+    box-shadow: 8px 8px 0px var(--color-error);
+    text-align: center;
+}
+
+/* TABLERO DE JUEGO (4x4) */
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 8px;
+    width: 100%;
+    max-width: 440px;
+    margin: 0 auto 12px auto;
+}
+
+/* CELDAS DEL TABLERO */
+.grid-cell {
+    aspect-ratio: 1 / 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background-color: var(--bg-dark);
+    border: 3px solid #3F4257;
+    padding: 5px;
+    overflow: hidden;
+    position: relative;
+    user-select: none;
+    box-sizing: border-box;
+}
+
+/* Esquina superior izquierda */
+.grid-corner {
+    background: transparent;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.grid-corner-icon {
+    font-size: 28px;
+    filter: drop-shadow(2px 2px 0px var(--color-highlight));
+    animation: pulse 2s infinite alternate;
+}
+
+/* Cabeceras de columnas (Selecciones) */
+.grid-header-col {
+    border-color: var(--color-highlight);
+    font-family: var(--font-retro);
+    font-size: 8px;
+    color: var(--color-highlight);
+}
+
+.grid-header-col img.flag {
+    width: 40px;
+    height: auto;
+    border: 2px solid var(--text-primary);
+    margin-bottom: 4px;
+    image-rendering: auto;
+}
+
+/* Cabeceras de filas (Clubes) */
+.grid-header-row {
+    border-color: var(--color-highlight);
+    font-family: var(--font-retro);
+    font-size: 8px;
+    color: var(--color-highlight);
+}
+
+.grid-header-row img.logo-club {
+    max-height: 40px;
+    max-width: 40px;
+    object-fit: contain;
+    margin-bottom: 4px;
+}
+
+/* Casillas de juego interactivas */
+.grid-play-cell {
+    border: 3px solid #3F4257;
+    background-color: #1F212E;
+    cursor: pointer;
+    font-family: var(--font-retro);
+    font-size: 24px;
+    color: #3F4257;
+    transition: all 0.2s ease;
+}
+
+.grid-play-cell:hover {
+    border-color: var(--color-highlight);
+    background-color: #26293A;
+    color: var(--color-highlight);
+    box-shadow: inset 0 0 10px rgba(255, 209, 102, 0.2);
+}
+
+/* Casilla completada correctamente */
+.grid-play-cell.correct {
+    border-color: var(--color-correct);
+    background-color: var(--bg-dark);
+    color: var(--text-primary);
+    cursor: default;
+    box-shadow: 0 0 15px rgba(0, 255, 159, 0.3);
+}
+
+/* Casillas con coincidencia múltiple resaltadas */
+.grid-play-cell.highlighted {
+    border-color: var(--color-highlight) !important;
+    background-color: rgba(255, 209, 102, 0.25) !important;
+    color: var(--color-highlight) !important;
+    animation: pulseHighlight 0.8s infinite alternate;
+    cursor: pointer;
+}
+
+/* Casillas oscurecidas cuando hay selección múltiple activa */
+.grid-play-cell.dimmed {
+    opacity: 0.25;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+@keyframes pulseHighlight {
+    0% {
+        box-shadow: inset 0 0 5px var(--color-highlight);
+    }
+    100% {
+        box-shadow: inset 0 0 20px var(--color-highlight), 0 0 10px var(--color-highlight);
+    }
+}
+
+.player-card {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+}
+
+.player-img {
+    width: 100%;
+    height: 70%;
+    object-fit: cover;
+    border-bottom: 2px solid var(--color-correct);
+    background-color: #121420;
+}
+
+.player-name {
+    font-size: 7px;
+    font-family: var(--font-retro);
+    text-transform: uppercase;
+    text-align: center;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 3px 2px;
+    background-color: rgba(0, 0, 0, 0.4);
+    color: var(--text-primary);
+}
+
+.player-badges {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    display: flex;
+    gap: 3px;
+    z-index: 2;
+}
+
+.badge-mini {
+    width: 15px;
+    height: 15px;
+    object-fit: contain;
+    border: 1px solid var(--text-primary);
+    background-color: var(--bg-dark);
+}
+
+/* SECCIÓN DE BÚSQUEDA */
+.search-section {
+    width: 100%;
+    max-width: 440px;
+    margin: 0 auto;
+    position: relative;
+    background-color: var(--bg-dark);
+    border: 4px solid var(--text-primary);
+    padding: 10px;
+    box-shadow: 4px 4px 0px var(--color-highlight);
+}
+
+.search-label {
+    font-family: var(--font-retro);
+    font-size: 9px;
+    color: var(--color-highlight);
+    margin-bottom: 6px;
+    display: block;
+}
+
+.search-input-wrapper {
+    position: relative;
+}
+
+.search-input {
+    width: 100%;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    border: 3px solid var(--text-primary);
+    padding: 10px;
+    font-family: var(--font-retro);
+    font-size: 10px;
+    box-sizing: border-box;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: var(--color-correct);
+    box-shadow: 0 0 8px rgba(0, 255, 159, 0.4);
+}
+
+/* SUGERENCIAS DE AUTOCOMPLETADO */
+.suggestions-box {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: var(--bg-dark);
+    border: 3px solid var(--text-primary);
+    border-top: none;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 100;
+    box-shadow: 0px 5px 15px rgba(0,0,0,0.5);
+}
+
+.suggestion-item {
+    padding: 10px;
+    cursor: pointer;
+    font-size: 11px;
+    font-weight: bold;
+    border-bottom: 1px solid #3F4257;
+    transition: all 0.2s ease;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.suggestion-item:hover {
+    background-color: var(--color-highlight);
+    color: var(--bg-dark);
+}
+
+.suggestion-item .nat-tag {
+    font-size: 9px;
+    font-family: var(--font-retro);
+    color: var(--color-correct);
+}
+
+.suggestion-item:hover .nat-tag {
+    color: var(--bg-dark);
+}
+
+/* CANVAS DE CONFETI */
+#victory-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 1000;
+}
+
+/* ESTADÍSTICAS MODAL */
+.stats-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 10px;
+    margin: 15px 0;
+}
+
+.stat-item {
+    background-color: #1F212E;
+    border: 2px solid var(--text-primary);
+    padding: 10px;
+    text-align: center;
+}
+
+.stat-value {
+    font-size: 16px;
+    font-family: var(--font-retro);
+    color: var(--color-correct);
+    margin-bottom: 5px;
+}
+
+.stat-label {
+    font-size: 8px;
+    font-family: var(--font-retro);
+    text-transform: uppercase;
+    color: var(--text-primary);
+}
+
+/* PIXEL LOGO IN GAME */
+.in-game-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+/* AJUSTES RESPONSIVOS */
+@media (max-width: 576px) {
+    .title-main {
+        font-size: 16px;
+    }
+    
+    .subtitle {
+        font-size: 8px;
+    }
+    
+    .grid-container {
+        grid-template-columns: repeat(4, 1fr);
+        grid-gap: 5px;
+        max-width: 320px;
+    }
+
+    .search-section {
+        max-width: 320px;
+        padding: 8px;
+    }
+
+    .timer-bar-container {
+        max-width: 320px;
+        margin: 8px auto;
+    }
+    
+    .grid-cell {
+        border-width: 2px;
+        padding: 2px;
+    }
+    
+    .grid-header-col {
+        font-size: 6px;
+    }
+    
+    .grid-header-col img.flag {
+        width: 25px;
+    }
+    
+    .grid-header-row {
+        font-size: 6px;
+        max-width: none;
+    }
+    
+    .grid-header-row img.logo-club {
+        max-height: 25px;
+        max-width: 25px;
+    }
+    
+    .grid-play-cell {
+        font-size: 18px;
+    }
+    
+    .player-name {
+        font-size: 5px;
+        padding: 1px;
+    }
+    
+    .btn-retro {
+        font-size: 8px;
+        padding: 8px 12px;
+        margin: 5px;
+    }
+}
+
+/* ANIMACIONES */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    100% {
+        transform: scale(1.15);
+    }
+}
+
+/* ESTILOS DE ALERTAS RETRO (SweetAlert2) */
+.swal-retro-popup {
+    background-color: var(--bg-dark) !important;
+    border: 5px solid var(--text-primary) !important;
+    font-family: var(--font-retro);
+    color: var(--text-primary) !important;
+    box-shadow: 8px 8px 0px var(--color-error) !important;
+}
+
+.swal-retro-title {
+    color: var(--color-correct) !important;
+    font-size: 14px !important;
+    text-transform: uppercase;
+    text-shadow: 2px 2px 0px var(--bg-primary);
+}
+
+.swal-retro-html {
+    font-size: 8px !important;
+    line-height: 1.8 !important;
+    color: var(--text-primary) !important;
+}
+
+.swal-retro-confirm {
+    background-color: var(--color-correct) !important;
+    color: var(--bg-dark) !important;
+    border: 3px solid var(--bg-dark) !important;
+    font-family: var(--font-retro) !important;
+    font-size: 9px !important;
+    box-shadow: 3px 3px 0px var(--text-primary) !important;
+}
+
+.swal-retro-confirm:hover {
+    background-color: var(--text-primary) !important;
+    color: var(--bg-dark) !important;
+}
+
+.swal-retro-cancel {
+    background-color: var(--color-error) !important;
+    color: var(--text-primary) !important;
+    border: 3px solid var(--bg-dark) !important;
+    font-family: var(--font-retro) !important;
+    font-size: 9px !important;
+    box-shadow: 3px 3px 0px var(--text-primary) !important;
+}
+
+/* MODAL DE SELECCIÓN DE CASILLA (CUSTOM SWAL GRID) */
+.swal-grid-selection {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 10px;
+    margin-top: 15px;
+}
+
+.swal-selection-btn {
+    background-color: #1F212E;
+    border: 2px solid var(--text-primary);
+    color: var(--text-primary);
+    padding: 10px;
+    font-family: var(--font-retro);
+    font-size: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.swal-selection-btn:hover {
+    background-color: var(--color-highlight);
+    color: var(--bg-dark);
+}
+
+/* FOOTER RETRO */
+footer {
+    background-color: var(--bg-dark);
+    color: rgba(255, 243, 224, 0.4);
+    text-align: center;
+    padding: 15px;
+    font-size: 8px;
+    font-family: var(--font-retro);
+    border-top: 4px solid #3F4257;
+    margin-top: 25px;
+}
+
+/* HEADER TIMER DECORATION */
+.header-timer {
+    font-family: var(--font-retro);
+    font-size: 12px;
+    color: var(--color-highlight);
+    background-color: var(--bg-primary);
+    border: 3px solid var(--color-highlight);
+    padding: 4px 10px;
+    box-shadow: 3px 3px 0px var(--text-primary);
+    display: inline-block;
+    transition: all 0.2s ease;
+    text-shadow: none;
+    line-height: 1;
+    margin-left: 10px;
+}
+
+.header-timer.danger-timer {
+    color: var(--color-error);
+    border-color: var(--color-error);
+    box-shadow: 3px 3px 0px var(--color-error);
+    animation: vibrate 0.1s infinite;
+}
+
+@keyframes vibrate {
+    0% { transform: translate(0, 0); }
+    10% { transform: translate(-1px, -1px); }
+    20% { transform: translate(1px, -1px); }
+    30% { transform: translate(-1.5px, 1.5px); }
+    40% { transform: translate(1.5px, -1px); }
+    50% { transform: translate(-1px, 2px); }
+    60% { transform: translate(2px, 1px); }
+    70% { transform: translate(-2px, -1.5px); }
+    80% { transform: translate(1.5px, 1.5px); }
+    90% { transform: translate(-1px, -2px); }
+    100% { transform: translate(0, 0); }
+}
+
+/* TIMER BAR */
+.timer-bar-container {
+    width: 100%;
+    max-width: 440px;
+    margin: 8px auto;
+    text-align: center;
+    font-family: var(--font-retro);
+    font-size: 8px;
+    color: var(--text-primary);
+}
+
+.timer-label {
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+}
+
+#timer-count {
+    color: var(--color-highlight);
+    font-weight: bold;
+}
+
+.timer-bar-outer {
+    width: 100%;
+    height: 14px;
+    background-color: var(--bg-primary);
+    border: 3px solid var(--text-primary);
+    box-shadow: 2px 2px 0px var(--color-error);
+    position: relative;
+    overflow: hidden;
+}
+
+.timer-bar-inner {
+    width: 100%;
+    height: 100%;
+    background-color: var(--color-correct);
+    transition: width 0.1s linear, background-color 0.5s ease;
+}
+
+.timer-bar-inner.warning {
+    background-color: var(--color-highlight);
+}
+
+.timer-bar-inner.danger {
+    background-color: var(--color-error);
+}
+
+/* HISTORIAL EN ESTADÍSTICAS */
+.stats-history-container {
+    font-family: var(--font-retro);
+    font-size: 7px;
+    text-align: left;
+    margin-top: 15px;
+    border: 3px solid var(--text-primary);
+    padding: 8px;
+    background-color: var(--bg-primary);
+    max-height: 130px;
+    overflow-y: auto;
+    box-shadow: 2px 2px 0px var(--color-error);
+}
+
+.stats-history-header {
+    color: var(--color-highlight);
+    border-bottom: 2px solid #3F4257;
+    padding-bottom: 4px;
+    margin-bottom: 6px;
+    text-align: center;
+    font-size: 8px;
+}
+
+.stats-history-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 3px 0;
+    border-bottom: 1px solid rgba(255, 243, 224, 0.1);
+}
+
+.stats-history-row:last-child {
+    border-bottom: none;
+}
+
+.result-win {
+    color: var(--color-correct);
+}
+
+.result-loss {
+    color: var(--color-error);
+}

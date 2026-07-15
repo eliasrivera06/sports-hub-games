@@ -1,0 +1,166 @@
+/* ==========================================================================
+   SHARABLE STANDARD RETRO NAVBAR & FOOTER STYLES
+   ========================================================================== */
+
+/* NAVBAR STANDARD */
+.navbar {
+  background: #1a1c2c !important;
+  border-bottom: 3px solid #ffd166 !important; /* var(--yellow) */
+  height: 70px !important;
+  padding: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  font-family: 'Press Start 2P', cursive !important;
+  box-shadow: 0 4px 0 #000 !important;
+  z-index: 9999 !important;
+  width: 100% !important;
+}
+
+.navbar .container, 
+.navbar .container-fluid {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  height: 100% !important;
+  padding-left: 20px !important;
+  padding-right: 20px !important;
+  width: 100% !important;
+  max-width: 1320px !important;
+  margin: 0 auto !important;
+  box-sizing: border-box !important;
+}
+
+.navbar-brand {
+  display: flex !important;
+  align-items: center !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.logo {
+  height: 50px !important;
+  width: auto !important;
+  image-rendering: auto !important;
+}
+
+.navbar-collapse {
+  display: flex !important;
+  flex-basis: auto !important;
+  flex-grow: 1 !important;
+  justify-content: flex-end !important; /* ← empuja el menú hacia la derecha */
+}
+
+.navbar-nav {
+  display: flex !important;
+  flex-direction: row !important;
+  gap: 25px !important;
+  align-items: center !important;
+  margin: 0 !important;
+  margin-left: auto !important;   /* ← empuja hacia la derecha dentro del collapse */
+  padding: 0 !important;
+  list-style: none !important;
+}
+
+.nav-item {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.nav-link {
+  color: #fff3e0 !important; /* var(--cream) */
+  font-family: 'Press Start 2P', cursive !important;
+  font-size: 14px !important;
+  letter-spacing: 0.5px !important;
+  text-shadow: 0 0 5px rgba(255,255,255,0.5) !important;
+  text-decoration: none !important;
+  transition: 0.2s !important;
+  padding: 0 !important;
+}
+
+.nav-link:hover {
+  color: #00ff9f !important; /* var(--green) */
+  text-shadow: 0 0 8px #00ff9f, 0 0 12px #00ff9f !important;
+}
+
+/* Dropdown override if inside navbar */
+.user-dropdown-menu {
+  position: absolute !important;
+  top: 100% !important;
+  right: 0 !important;
+  background: #121420 !important;
+  border: 3px solid #ffd166 !important;
+  box-shadow: 0 4px 0 #000 !important;
+  z-index: 10000 !important;
+  min-width: 180px !important;
+  padding: 5px 0 !important;
+  border-radius: 0 !important;
+  margin-top: 5px !important;
+}
+
+.user-dropdown-item {
+  display: block !important;
+  width: 100% !important;
+  padding: 12px 15px !important;
+  text-decoration: none !important;
+  font-size: 11px !important;
+  font-family: 'Press Start 2P', cursive !important;
+  color: #ff3c38 !important;
+  background: transparent !important;
+  border: none !important;
+  text-align: center !important;
+  transition: 0.2s !important;
+}
+
+.user-dropdown-item:hover {
+  background: #1a1d2e !important;
+  color: #00ff9f !important;
+  text-shadow: 0 0 5px #00ff9f !important;
+}
+
+/* FOOTER STANDARD */
+footer {
+  background: #121420 !important;
+  padding: 40px 20px !important;
+  text-align: center !important;
+  margin-top: auto !important;   /* en flex-column, empuja el footer siempre al final */
+  border-top: 3px solid #ffd166 !important;
+  box-shadow: 0 -4px 0 #000 !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+  font-family: 'Press Start 2P', cursive !important;
+  display: block !important;
+}
+
+footer p {
+  color: #fff3e0 !important; /* var(--cream) */
+  font-size: 12px !important;
+  margin: 10px 0 !important;
+  letter-spacing: 1px !important;
+  text-shadow: 0 0 3px rgba(0,0,0,0.8) !important;
+  line-height: 1.5 !important;
+}
+
+/* RESPONSIVE OVERRIDES FOR NAVBAR */
+@media (max-width: 991px) {
+  .navbar {
+    height: auto !important;
+    padding: 10px 0 !important;
+  }
+  .navbar .container, 
+  .navbar .container-fluid {
+    flex-direction: column !important;
+    gap: 10px !important;
+  }
+  .navbar-nav {
+    gap: 15px !important;
+  }
+  .nav-link {
+    font-size: 12px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .nav-link {
+    font-size: 10px !important;
+  }
+}

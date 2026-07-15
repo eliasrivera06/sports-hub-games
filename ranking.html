@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ranking - Sports Hub Games</title>
+  <link rel="icon" href="/sports-hub-games/assets/images/logo_grande.png" type="image/png">
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Animate.css -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+  <!-- Fuente Retro -->
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <!-- CSS unificado de navbar/footer -->
+  <link rel="stylesheet" href="css/navbar-footer.css">
+  <!-- CSS propio -->
+  <link rel="stylesheet" href="css/ranking.css">
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar navbar-expand-lg">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">
+        <img src="assets/images/logo.png" class="logo" alt="Sports Hub Logo">
+      </a>
+      <div class="collapse navbar-collapse">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="principal.html">Inicio</a></li>
+          <li class="nav-item"><a class="nav-link" href="perfil.html">Perfil</a></li>
+          <li class="nav-item"><a class="nav-link" href="login.html">Login</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- CONTENEDOR PRINCIPAL -->
+  <div class="ranking-container animate__animated animate__fadeIn">
+    <div class="ranking-box">
+      
+      <h1 class="ranking-title" id="rankingMainTitle">🏆 TABLA DE CLASIFICACIÓN 🏆</h1>
+      
+      <!-- CATEGORY SELECTOR -->
+      <div class="mode-selector" style="margin-bottom: 25px;">
+        <button id="mode-f1" class="mode-btn active" onclick="switchMode('f1')">🏁 MODO F1</button>
+        <button id="mode-futbol" class="mode-btn" onclick="switchMode('futbol')">⚽ MODO FÚTBOL</button>
+        <button id="mode-ajedrez" class="mode-btn" onclick="switchMode('ajedrez')">♟️ MODO AJEDREZ</button>
+      </div>
+
+      <!-- TABS RETRO F1 -->
+      <div id="tabs-f1" class="ranking-tabs">
+        <button id="tab-reaction" class="tab-btn active" onclick="switchTab('reaction')">REACCIÓN</button>
+        <button id="tab-duels" class="tab-btn" onclick="switchTab('duels')">DUELOS</button>
+        <button id="tab-circuits" class="tab-btn" onclick="switchTab('circuits')">CIRCUITOS</button>
+      </div>
+
+      <!-- TABS AJEDREZ -->
+      <div id="tabs-ajedrez" class="ranking-tabs d-none">
+        <button id="tab-quiz-ajedrez" class="tab-btn active" onclick="switchTab('quiz-ajedrez')">QUIZ ♟️</button>
+        <button id="tab-movimientos" class="tab-btn" onclick="switchTab('movimientos')">MOVIMIENTOS ♞</button>
+        <button id="tab-mate" class="tab-btn" onclick="switchTab('mate')">MATE EN 1 ♛</button>
+      </div>
+
+      <!-- TABS RETRO FÚTBOL - Sub-modo selector -->
+      <div id="tabs-futbol" class="d-none">
+        <!-- Selector de juego dentro de Fútbol -->
+        <div class="ranking-tabs">
+          <button id="tab-cruce" class="tab-btn active" onclick="switchFutbolSubmode('cruce')">⚽ CRUCE FUTBOLERO</button>
+          <button id="tab-crucigrama" class="tab-btn" onclick="switchFutbolSubmode('crucigrama')">📝 CRUCIGRAMA</button>
+          <button id="tab-jugadordia" class="tab-btn" onclick="switchFutbolSubmode('jugadordia')">🌟 JUGADOR DEL DÍA</button>
+        </div>
+
+        <!-- Dificultades de Cruce Futbolero -->
+        <div id="tabs-cruce" class="ranking-tabs" style="margin-top: 12px;">
+          <button id="tab-futbol-easy" class="tab-btn" onclick="switchTab('futbol-easy')">FÁCIL</button>
+          <button id="tab-futbol-medium" class="tab-btn" onclick="switchTab('futbol-medium')">MEDIO</button>
+          <button id="tab-futbol-hard" class="tab-btn" onclick="switchTab('futbol-hard')">DIFÍCIL</button>
+        </div>
+      </div>
+
+      <div id="rankingSubtitle" style="font-size: 8px; color: #fff3e0; margin-bottom: 20px; letter-spacing: 1px; text-transform: uppercase;">
+        TOP JUGADORES MÁS RÁPIDOS
+      </div>
+
+      <!-- Spinner de carga -->
+      <div id="loading" class="loading-spinner">
+        CARGANDO RANKING...
+      </div>
+
+      <!-- Contenedor de la tabla -->
+      <div id="rankingTableContainer" class="d-none">
+        <table class="ranking-table">
+          <thead>
+            <tr id="tableHeaderRow">
+              <th style="width: 15%">POS</th>
+              <th style="width: 50%">JUGADOR</th>
+              <th style="width: 35%" id="scoreHeader">TIEMPO (s)</th>
+            </tr>
+          </thead>
+          <tbody id="rankingBody">
+            <!-- Rellenado dinámicamente -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Mensaje si no hay datos -->
+      <div id="noData" class="no-data d-none">
+        AÚN NO HAY REGISTROS EN ESTE JUEGO
+      </div>
+
+
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2026 Sports Hub Games</p>
+    <p>contacto@minigames.com</p>
+  </footer>
+
+  <!-- Supabase CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <!-- Supabase Config -->
+  <script src="js/supabase-config.js"></script>
+  <!-- SweetAlert -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <!-- JS propio -->
+  <script src="js/ranking.js"></script>
+
+</body>
+</html>

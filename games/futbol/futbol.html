@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Fútbol - Sports Hub Games</title>
+  <link rel="icon" href="../../assets/images/logo_grande.png" type="image/png">
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Animate -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
+  <!-- Fuente retro -->
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
+  <!-- CSS propio -->
+  <link rel="stylesheet" href="../../css/futbol.css">
+  <!-- CSS unificado de navbar/footer -->
+  <link rel="stylesheet" href="../../css/navbar-footer.css">
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar navbar-expand-lg">
+    <div class="container">
+      <a class="navbar-brand" href="../../index.html">
+        <img src="../../assets/images/logo.png" class="logo" alt="Logo">
+      </a>
+      <div class="collapse navbar-collapse">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="../../principal.html">Inicio</a></li>
+          <li class="nav-item"><a class="nav-link" href="../../perfil.html">Perfil</a></li>
+          <li class="nav-item"><a class="nav-link" href="../../login.html">Login</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="main-content">
+
+    <!-- TITULO -->
+    <div class="title animate__animated animate__fadeInDown">
+      MODO FUTBOL
+    </div>
+
+    <!-- JUEGOS -->
+    <div class="games-container">
+
+      <!-- 3 EN RAYA -->
+      <div class="game-card" onclick="goGame('3-raya.html')">
+        <div class="game-img">
+          <img src="./assets-futbol/tres-en-raya.jpeg" alt="3 en raya futbolero" class="game-img">
+        </div>
+        <div class="game-title">CRUCE FUTBOLERO</div>
+        <button class="btn-play">JUGAR</button>
+      </div>
+
+      <!-- JUGADOR DEL DIA -->
+      <div class="game-card" onclick="goGame('jugador-dia.html')">
+        <div class="game-img">
+          <img src="./assets-futbol/jugador-dia.jpeg" alt="Jugador del día" class="game-img">
+        </div>
+        <div class="game-title">EL JUGADOR DEL DIA</div>
+        <button class="btn-play">JUGAR</button>
+      </div>
+
+      <!-- CRUCIGRAMA -->
+      <div class="game-card" onclick="goGame('crucigrama.html')">
+        <div class="game-img">
+          <img src="./assets-futbol/crucigrama.png" alt="Crucigrama futbolero" class="game-img">
+        </div>
+        <div class="game-title">CRUCIGRAMA FUTBOLERO</div>
+        <button class="btn-play">JUGAR</button>
+      </div>
+
+      <!-- PRECISION
+      <div class="game-card" onclick="goGame('precision.html')">
+        <div class="game-img">IMAGEN</div>
+        <div class="game-title">NOMBRE</div>
+        <button class="btn-play">JUGAR</button>
+      </div> -->
+
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2026 Sports Hub Games</p>
+    <p>contacto@minigames.com</p>
+  </footer>
+
+  <!-- Supabase CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <!-- Supabase Config -->
+  <script src="../../js/supabase-config.js"></script>
+  <!-- SweetAlert -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <!-- JS propio -->
+  <script src="../../js/futbol.js"></script>
+
+</body>
+
+</html>

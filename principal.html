@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Sports Hub Games</title>
+  <link rel="icon" href="../sports-hub-games/assets/images/logo_grande.png" type="image/png">
+<!-- Bootstrap -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Animate -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+<!-- Fuente retro -->
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
+<!-- CSS propio -->
+<link rel="stylesheet" href="css/principal.css">
+<!-- CSS unificado de navbar/footer -->
+<link rel="stylesheet" href="css/navbar-footer.css">
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg">
+  <div class="container">
+
+    <!-- LOGO -->
+    <a class="navbar-brand" href="index.html">
+      <img src="assets/images/logo.png" class="logo">
+    </a>
+
+    <!-- MENÚ -->
+    <div class="collapse navbar-collapse">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link" href="principal.html">Inicio</a></li>
+        <li class="nav-item"><a class="nav-link" href="perfil.html">Perfil</a></li>
+        <li class="nav-item"><a class="nav-link" href="login.html">Login</a></li>
+      </ul>
+    </div>
+
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero animate__animated animate__fadeInDown">
+  <h1 id="welcomeMessage">BIENVENIDO A SPORTS HUB GAMES</h1>
+  <p>Compite, mejora y diviértete</p>
+</div>
+
+<!-- QUIENES SOMOS -->
+<div class="section">
+  <h2>¿QUIENES SOMOS?</h2>
+
+  <div class="box-retro">
+    <p>
+      Sports Hub Games nace como una solución al estrés cotidiano y la falta de
+      plataformas interactivas que realmente aporten valor.
+    </p>
+
+    <p>
+      En lugar de consumir contenido pasivo, aquí los usuarios pueden
+      participar activamente en minijuegos diseñados para estimular habilidades
+      cognitivas mientras se divierten.
+    </p>
+  </div>
+</div>
+
+<!-- DESCRIPCIÓN PRO -->
+<div class="section">
+  <h2>NUESTRA MISION</h2>
+  <p>
+    Creamos experiencias interactivas donde puedes relajarte mientras desarrollas
+    habilidades cognitivas como memoria, reflejos y estrategia.
+  </p>
+</div>
+<div class="section">
+  <h2>¿QUE DESARROLLAS?</h2>
+
+  <div class="benefits">
+    <div class="benefit">Memoria y precisión</div>
+    <div class="benefit">Reflejos y reacción</div>
+    <div class="benefit">Estrategia y lógica</div>
+  </div>
+</div>
+<div class="section">
+  <h2>¿COMO FUNCIONA?</h2>
+
+  <div class="box-retro">
+    <p>✔ Puedes jugar sin registrarte</p>
+    <p>✔ Si inicias sesión, entras al ranking</p>
+    <p>✔ Cada juego tiene puntuación propia</p>
+    <p>✔ Compites con otros jugadores</p>
+  </div>
+</div>
+
+<!-- RANKING -->
+<div class="section">
+  <h2>TOP JUGADORES</h2>
+
+  <div class="ranking">
+    <p>1. Juan - 1500 pts</p>
+    <p>2. Ana - 1300 pts</p>
+    <p>3. Luis - 1100 pts</p>
+  </div>
+</div>
+
+<div class="section">
+  <h2>NUESTRO EQUIPO</h2>
+
+  <div class="team">
+
+    <div class="member">
+      <img src="assets/images/Elias.png" class="avatar">
+      <p>ELIAS RIVERA</p>
+    </div>
+
+    <div class="member">
+      <img src="assets/images/fabrizio.png" class="avatar">
+      <p>FABRIZIO TIZNADO</p>
+    </div>
+
+    <div class="member">
+      <img src="assets/images/juan.png" class="avatar">
+      <p>JUAN ALVAREZ</p>
+    </div>
+
+    <div class="member">
+      <img src="assets/images/willian.png" class="avatar">
+      <p>WILLIAN TORRES</p>
+    </div>
+
+    <div class="member">
+      <img src="assets/images/david.png" class="avatar">
+      <p>DAVID SAENZ</p>
+    </div>
+
+    <div class="member">
+      <img src="assets/images/angel.png" class="avatar">
+      <p>ANGEL VASQUEZ</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="section">
+  <div class="cta-box">
+    <h2>¿LISTO PARA JUGAR?</h2>
+    <p>Entra ahora y demuestra tus habilidades</p>
+
+    <button class="btn-retro" onclick="goGames()">
+      IR A JUEGOS
+    </button>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2026 Sports Hub Games</p>
+  <p>contacto@minigames.com</p>
+</footer>
+
+<!-- Supabase CDN -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<!-- Supabase Config -->
+<script src="js/supabase-config.js"></script>
+<!-- SweetAlert -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<!-- JS propio -->
+<script src="js/principal.js"></script>
+
+</body>
+</html>

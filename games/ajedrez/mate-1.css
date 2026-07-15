@@ -1,0 +1,598 @@
+/* ============================================================
+   MATE EN 1 — Estilos del juego
+   Paleta: #fff3e0 | #2b2d42 | #00ff9f | #ff3c38 | #ffd166
+   ============================================================ */
+
+:root {
+  --bg:        #2b2d42;
+  --cream:     #fff3e0;
+  --neon:      #00ff9f;
+  --red:       #ff3c38;
+  --gold:      #ffd166;
+  --panel-bg:  #1a1c2e;
+  --board-lt:  #e8d5b7;
+  --board-dk:  #3d3f5a;
+  --border:    rgba(255, 209, 102, 0.28);
+  --font:      'Press Start 2P', cursive;
+  --selected:  rgba(100, 200, 255, 0.85);
+  --valid-mv:  rgba(0, 255, 159, 0.55);
+  --mate-glow: rgba(255, 60, 56, 0.9);
+}
+
+/* ─── RESET ─────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ─── BODY ───────────────────────────────────── */
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  background-image:
+    radial-gradient(ellipse at 20% 20%, rgba(0,255,159,0.04) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 80%, rgba(255,209,102,0.04) 0%, transparent 60%);
+  color: var(--cream);
+  min-height: 100vh;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ─── NAVBAR ─────────────────────────────────── */
+.navbar {
+  background: #0f1120 !important;
+  border-bottom: 3px solid var(--gold);
+  min-height: 68px;
+}
+.logo { height: 48px; }
+.nav-link {
+  color: var(--cream) !important;
+  font-size: 9px;
+  letter-spacing: 2px;
+  transition: color 0.2s;
+}
+.nav-link:hover { color: var(--gold) !important; }
+
+/* ─── GAME WRAPPER ───────────────────────────── */
+.game-wrapper {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 260px 1fr 200px;
+  align-items: stretch;
+  gap: 16px;
+  padding: 14px 20px;
+  max-width: 1500px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* ─── PANELES LATERALES ──────────────────────── */
+.info-panel,
+.progress-panel {
+  background: var(--panel-bg);
+  border: 2px solid var(--border);
+  border-radius: 4px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow-y: auto;
+  min-height: 0;
+}
+
+.panel-title {
+  font-size: 11px;
+  color: var(--gold);
+  text-align: center;
+  line-height: 2;
+  border-bottom: 2px solid var(--border);
+  padding-bottom: 12px;
+  text-shadow: 0 0 14px rgba(255,209,102,0.5);
+}
+.panel-title.small { font-size: 10px; }
+
+/* ─── ESTADÍSTICAS ───────────────────────────── */
+.stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.stat-box {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 10px 8px;
+  text-align: center;
+}
+.stat-label {
+  font-size: 6px;
+  color: var(--gold);
+  letter-spacing: 1px;
+  margin-bottom: 6px;
+}
+.stat-value {
+  font-size: 13px;
+  color: var(--cream);
+}
+#score-display { color: var(--neon); }
+#timer-display { color: var(--cream); }
+#timer-display.warning {
+  color: var(--red);
+  animation: timerPulse 0.5s ease-in-out infinite alternate;
+}
+@keyframes timerPulse {
+  from { opacity: 1; text-shadow: none; }
+  to   { opacity: 0.4; text-shadow: 0 0 10px var(--red); }
+}
+
+/* ─── INFO PUZZLE ────────────────────────────── */
+.puzzle-info-box {
+  background: rgba(255,209,102,0.08);
+  border: 2px solid rgba(255,209,102,0.4);
+  border-radius: 4px;
+  padding: 14px 12px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.puzzle-turn {
+  font-size: 8px;
+  color: var(--cream);
+  letter-spacing: 1px;
+}
+.puzzle-hint {
+  font-size: 7px;
+  color: rgba(255,243,224,0.7);
+  line-height: 1.9;
+}
+.puzzle-diff-badge {
+  display: inline-block;
+  font-size: 6px;
+  padding: 4px 10px;
+  border-radius: 2px;
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  align-self: center;
+}
+
+/* ─── INSTRUCCIONES ──────────────────────────── */
+.instructions-box {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 10px 12px;
+}
+.instructions-box p {
+  font-size: 7px;
+  color: rgba(255,243,224,0.7);
+  line-height: 2.2;
+}
+.pts-pos { color: var(--neon); font-weight: bold; }
+.pts-neg { color: var(--red);  font-weight: bold; }
+
+/* ─── BOTONES ────────────────────────────────── */
+.btn-group-custom {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: auto;
+}
+.btn-action {
+  font-family: var(--font);
+  font-size: 8px;
+  padding: 11px;
+  border: 2px solid transparent;
+  border-radius: 2px;
+  cursor: pointer;
+  letter-spacing: 1px;
+  transition: all 0.2s;
+  text-align: center;
+}
+.btn-hint {
+  background: rgba(255,209,102,0.1);
+  color: var(--gold);
+  border-color: var(--gold);
+}
+.btn-hint:hover:not(:disabled) {
+  background: var(--gold);
+  color: var(--panel-bg);
+  box-shadow: 0 0 18px rgba(255,209,102,0.55);
+}
+.btn-hint:disabled { opacity: 0.35; cursor: default; }
+
+.btn-skip {
+  background: rgba(255,255,255,0.05);
+  color: rgba(255,243,224,0.5);
+  border-color: rgba(255,243,224,0.2);
+}
+.btn-skip:hover:not(:disabled) {
+  background: rgba(255,255,255,0.1);
+  color: var(--cream);
+}
+.btn-skip:disabled { opacity: 0.3; cursor: default; }
+
+.btn-next {
+  background: rgba(0,255,159,0.12);
+  color: var(--neon);
+  border-color: var(--neon);
+  animation: nextGlow 1.6s ease-in-out infinite;
+}
+.btn-next:hover {
+  background: var(--neon);
+  color: var(--panel-bg);
+  box-shadow: 0 0 24px rgba(0,255,159,0.6);
+}
+@keyframes nextGlow {
+  0%,100% { box-shadow: 0 0 6px rgba(0,255,159,0.25); }
+  50%      { box-shadow: 0 0 22px rgba(0,255,159,0.65); }
+}
+
+/* ─── ÁREA DEL TABLERO ───────────────────────── */
+.board-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 8px 0;
+  overflow: hidden;
+}
+
+.board-coords-top {
+  display: flex;
+  padding-left: 40px;
+}
+.board-coords-top span {
+  width: 76px;
+  text-align: center;
+  font-size: 13px;
+  color: rgba(255,209,102,0.85);
+  letter-spacing: 1px;
+}
+
+.board-row-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.board-coords-left,
+.board-coords-right {
+  display: flex;
+  flex-direction: column;
+}
+.board-coords-left span,
+.board-coords-right span {
+  height: 76px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  color: rgba(255,209,102,0.85);
+  width: 28px;
+}
+
+/* ─── TABLERO ────────────────────────────────── */
+.chess-board {
+  display: grid;
+  grid-template-columns: repeat(8, 76px);
+  grid-template-rows: repeat(8, 76px);
+  border: 3px solid var(--gold);
+  box-shadow:
+    0 0 0 1px rgba(255,209,102,0.15),
+    0 0 50px rgba(255,209,102,0.3),
+    0 10px 70px rgba(0,0,0,0.6);
+}
+
+/* ─── CASILLAS ───────────────────────────────── */
+.cell {
+  width: 76px;
+  height: 76px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 48px;
+  position: relative;
+  transition: filter 0.12s, transform 0.12s;
+  user-select: none;
+}
+.cell.light { background: var(--board-lt); }
+.cell.dark  { background: var(--board-dk); }
+
+/* Hover normal */
+.cell:not(.no-hover):hover {
+  filter: brightness(1.3);
+  transform: scale(0.94);
+  z-index: 2;
+}
+
+/* Pieza seleccionada */
+.cell.selected {
+  background: var(--selected) !important;
+  box-shadow: inset 0 0 18px rgba(100,200,255,0.5);
+  cursor: default;
+}
+
+/* Movimiento válido dot */
+.cell.valid-move::after {
+  content: '';
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--valid-mv);
+  box-shadow: 0 0 10px rgba(0,255,159,0.4);
+  pointer-events: none;
+}
+
+/* Movimiento válido con pieza enemiga (captura) */
+.cell.valid-capture {
+  background: rgba(255,60,56,0.3) !important;
+  border: 3px solid var(--red);
+  box-shadow: inset 0 0 14px rgba(255,60,56,0.3);
+}
+
+/* Jaque mate */
+.cell.mated {
+  background: var(--red) !important;
+  box-shadow: 0 0 40px rgba(255,60,56,1), inset 0 0 20px rgba(0,0,0,0.3);
+  animation: mateFlash 0.5s ease 3;
+}
+@keyframes mateFlash {
+  0%,100% { box-shadow: 0 0 40px rgba(255,60,56,1); }
+  50%      { box-shadow: 0 0 80px rgba(255,60,56,1), 0 0 120px rgba(255,60,56,0.6); }
+}
+
+/* Último movimiento */
+.cell.last-from { background: rgba(255,209,102,0.35) !important; }
+.cell.last-to   { background: rgba(255,209,102,0.55) !important; }
+
+/* Sin cursor */
+.cell.no-hover { cursor: default; }
+.cell.no-hover:hover { filter: none; transform: none; }
+
+/* Hint highlight */
+.cell.hint-highlight {
+  animation: hintPulse 0.8s ease-in-out 3;
+}
+@keyframes hintPulse {
+  0%,100% { box-shadow: none; }
+  50%      { box-shadow: 0 0 30px rgba(255,209,102,0.9); }
+}
+
+/* ─── BARRA ÚLTIMA JUGADA ─────────────────────── */
+.last-move-bar {
+  background: rgba(255,209,102,0.1);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 8px 16px;
+  font-size: 8px;
+  color: var(--gold);
+  letter-spacing: 1px;
+  text-align: center;
+  margin-top: 4px;
+}
+
+/* ─── PANEL DERECHO: PROGRESO ────────────────── */
+.progress-list {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.progress-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 6.5px;
+  padding: 7px 8px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  transition: border-color 0.3s;
+}
+.progress-item.item-win  { border-color: rgba(0,255,159,0.5); }
+.progress-item.item-lose { border-color: rgba(255,60,56,0.4); }
+.progress-item.item-skip { border-color: rgba(255,209,102,0.3); }
+
+.progress-num    { font-size: 8px; color: var(--gold); min-width: 20px; }
+.progress-name   { flex: 1; color: rgba(255,243,224,0.7); }
+.progress-status { font-size: 9px; }
+.status-pending  { color: rgba(255,243,224,0.3); }
+.status-win      { color: var(--neon); }
+.status-lose     { color: var(--red); }
+.status-skip     { color: var(--gold); }
+
+/* ─── LEYENDA ────────────────────────────────── */
+.legend-box {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 10px 12px;
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 6.5px;
+  color: rgba(255,243,224,0.7);
+  margin-bottom: 7px;
+}
+.legend-item:last-child { margin-bottom: 0; }
+.leg-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 2px;
+  flex-shrink: 0;
+  display: inline-block;
+}
+.leg-dot.white-piece  { background: var(--cream); border: 1px solid #aaa; }
+.leg-dot.black-piece  { background: #222; border: 1px solid #555; }
+.leg-dot.selected-c   { background: var(--selected); }
+.leg-dot.valid-c      { background: var(--valid-mv); border-radius: 50%; }
+.leg-dot.mate-c       { background: var(--red); box-shadow: 0 0 6px var(--red); }
+
+/* ─── RACHA ──────────────────────────────────── */
+.streak-display {
+  background: rgba(255,209,102,0.1);
+  border: 2px solid var(--gold);
+  border-radius: 3px;
+  padding: 10px;
+  text-align: center;
+  animation: streakBounce 0.7s ease-in-out infinite alternate;
+}
+.streak-text {
+  font-size: 10px;
+  color: var(--gold);
+}
+@keyframes streakBounce {
+  from { box-shadow: 0 0 6px rgba(255,209,102,0.3); }
+  to   { box-shadow: 0 0 22px rgba(255,209,102,0.7); }
+}
+
+/* ─── FOOTER ─────────────────────────────────── */
+footer {
+  text-align: center;
+  padding: 14px;
+  border-top: 2px solid rgba(255,209,102,0.2);
+  background: #0f1120;
+  font-size: 7px;
+  color: rgba(255,243,224,0.35);
+  letter-spacing: 1px;
+}
+
+/* ─── RESPONSIVE ─────────────────────────────── */
+@media (max-width: 1400px) {
+  .game-wrapper {
+    grid-template-columns: 245px 1fr 190px;
+    gap: 12px;
+    padding: 12px 16px;
+  }
+}
+
+@media (max-width: 1100px) {
+  .cell { width: 66px; height: 66px; font-size: 42px; }
+  .chess-board {
+    grid-template-columns: repeat(8, 66px);
+    grid-template-rows: repeat(8, 66px);
+  }
+  .board-coords-top span { width: 66px; }
+  .board-coords-left span,
+  .board-coords-right span { height: 66px; }
+}
+
+@media (max-width: 900px) {
+  body { height: auto; overflow: auto; }
+  .cell { width: 52px; height: 52px; font-size: 32px; }
+  .chess-board {
+    grid-template-columns: repeat(8, 52px);
+    grid-template-rows: repeat(8, 52px);
+  }
+  .board-coords-top span { width: 52px; }
+  .board-coords-left span,
+  .board-coords-right span { height: 52px; }
+  .cell.valid-move::after { width: 20px; height: 20px; }
+  .game-wrapper {
+    grid-template-columns: 1fr;
+    padding: 10px;
+    min-height: unset;
+  }
+  .board-area { grid-column: 1; order: -1; }
+  .info-panel, .progress-panel {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 10px;
+    overflow-y: visible;
+  }
+  .stats-grid, .puzzle-info-box, .instructions-box,
+  .btn-group-custom, .progress-list, .legend-box {
+    flex: 1;
+    min-width: 140px;
+  }
+  .panel-title { width: 100%; }
+}
+
+@media (max-width: 480px) {
+  .cell { width: 38px; height: 38px; font-size: 22px; }
+  .chess-board {
+    grid-template-columns: repeat(8, 38px);
+    grid-template-rows: repeat(8, 38px);
+  }
+  .board-coords-top span { width: 38px; }
+  .board-coords-left span,
+  .board-coords-right span { height: 38px; }
+  .cell.valid-move::after { width: 14px; height: 14px; }
+  .navbar { min-height: auto; padding: 8px 0; }
+}
+
+/* ═══════════════════════════════════════════════════════
+   MEJORAS FINALES: TABLERO DINÁMICO + TIPOGRAFÍA GRANDE
+   Aplica por encima de todos los estilos anteriores.
+   ═══════════════════════════════════════════════════════ */
+
+/* ── Tamaño de celda dinámico: llena el alto disponible ── */
+:root {
+  /* (100vh) - navbar(68) - padding-top/bot(28) - coords-top(22) - gaps(12) */
+  --cell: clamp(74px, calc((100vh - 130px) / 8), 104px);
+}
+
+/* ── Tablero dinámico ─────────────────────────────────── */
+.chess-board {
+  grid-template-columns: repeat(8, var(--cell)) !important;
+  grid-template-rows:    repeat(8, var(--cell)) !important;
+}
+.cell {
+  width:     var(--cell) !important;
+  height:    var(--cell) !important;
+  font-size: calc(var(--cell) * 0.60) !important;
+}
+.board-coords-top span  { width:  var(--cell) !important; font-size: 14px !important; color: rgba(255,209,102,0.9) !important; }
+.board-coords-left span,
+.board-coords-right span { height: var(--cell) !important; font-size: 14px !important; color: rgba(255,209,102,0.9) !important; width: 28px !important; }
+.cell.valid-move::after {
+  width:  calc(var(--cell) * 0.36) !important;
+  height: calc(var(--cell) * 0.36) !important;
+}
+
+/* ── Tipografía general — mucho más legible ───────────── */
+.panel-title        { font-size: 13px !important; line-height: 1.8 !important; padding-bottom: 10px !important; }
+.stat-label         { font-size: 9px  !important; letter-spacing: 0.5px !important; margin-bottom: 8px !important; }
+.stat-value         { font-size: 22px !important; }
+.stat-box           { padding: 12px 8px !important; }
+
+/* Info del puzzle */
+.puzzle-turn        { font-size: 9px  !important; padding: 8px 10px !important; }
+.puzzle-hint        { font-size: 8px  !important; line-height: 2   !important; }
+.puzzle-diff-badge  { font-size: 8px  !important; padding: 5px 12px !important; }
+
+/* Instrucciones */
+.instructions-box p { font-size: 8px  !important; line-height: 2.2 !important; }
+
+/* Botones */
+.btn-action         { font-size: 9px  !important; padding: 13px 10px !important; letter-spacing: 1px !important; }
+
+/* Leyenda */
+.legend-item        { font-size: 8px  !important; gap: 10px !important; margin-bottom: 8px !important; }
+.leg-dot            { width: 18px !important; height: 18px !important; }
+
+/* Progreso */
+.progress-item      { font-size: 8px  !important; padding: 9px 10px !important; gap: 8px !important; }
+.progress-num       { font-size: 10px !important; min-width: 24px !important; }
+.progress-name      { font-size: 8px  !important; }
+.progress-status    { font-size: 11px !important; }
+
+/* Racha */
+.streak-text        { font-size: 12px !important; }
+
+/* Última jugada */
+.last-move-bar      { font-size: 9px  !important; padding: 10px 16px !important; }
+
+/* ── Responsive overrides ─────────────────────────────── */
+@media (max-width: 1200px) {
+  :root { --cell: clamp(68px, calc((100vh - 130px) / 8), 92px); }
+}
+@media (max-width: 900px) {
+  :root { --cell: clamp(44px, 10.5vw, 74px); }
+  .stat-value { font-size: 18px !important; }
+  .stat-label { font-size: 8px !important; }
+  .panel-title { font-size: 11px !important; }
+}
+

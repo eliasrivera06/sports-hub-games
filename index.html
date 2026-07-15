@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Sport Hub Games</title>
+  <link rel="icon" href="assets/images/logo_grande.png" type="image/png">
+
+  <!-- Bootstrap opcional -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Animate.css -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+  <!-- Fuente retro -->
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <!-- CSS propio -->
+  <link rel="stylesheet" href="css/index.css">
+  <!-- CSS unificado de navbar/footer -->
+  <link rel="stylesheet" href="css/navbar-footer.css">
+</head>
+
+<body>
+  <!-- CARGA -->
+  <div id="preloader">
+    <div class="door-container">
+      <img src="assets/images/mitad_arriba.png" class="door top">
+      <img src="assets/images/mitad abajo.png" class="door bottom">
+    </div>
+  </div>
+
+  <!-- CONTENIDO REAL (oculto hasta que termine la animación) -->
+  <div id="page-content" style="display:none; flex-direction:column; height:100vh; width:100%; overflow:hidden;">
+
+  <!-- NAVBAR -->
+  <nav class="navbar navbar-expand-lg">
+    <div class="container">
+
+      <!-- LOGO -->
+      <a class="navbar-brand" href="index.html">
+        <img src="assets/images/logo.png" class="logo">
+      </a>
+
+      <div class="collapse navbar-collapse">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="principal.html">Inicio</a></li>
+          <li class="nav-item"><a class="nav-link" href="perfil.html">Perfil</a></li>
+          <li class="nav-item"><a class="nav-link" href="login.html">Login</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- TEXTO -->
+  <div class="hero-text animate__animated animate__fadeInDown">
+    👇 ELIGE TU MODO DE JUEGO
+  </div>
+
+  <!-- CATEGORIAS FULL -->
+  <div class="categories">
+
+    <!-- FUTBOL -->
+    <div class="card-game futbol" onclick="go('futbol')">
+      <div class="overlay">
+        <h2>FUTBOL</h2>
+        <p>Penales y tiros libres</p>
+        <button class="btn-custom btn-futbol">JUGAR</button>
+      </div>
+    </div>
+
+    <!-- F1 -->
+    <div class="card-game f1" onclick="go('f1')">
+      <div class="overlay">
+        <h2>F1</h2>
+        <p>Velocidad extrema</p>
+        <button class="btn-custom btn-f1">JUGAR</button>
+      </div>
+    </div>
+
+    <!-- AJEDREZ -->
+    <div class="card-game ajedrez" onclick="go('ajedrez')">
+      <div class="overlay">
+        <h2>AJEDREZ</h2>
+        <p>Domina tu mente</p>
+        <button class="btn-custom btn-ajedrez">JUGAR</button>
+      </div>
+    </div>
+
+  </div>
+
+  </div><!-- fin #page-content -->
+
+  <!-- Supabase CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <!-- Supabase Config -->
+  <script src="js/supabase-config.js"></script>
+  <!-- SweetAlert -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <!-- JS propio -->
+  <script src="js/index.js"></script>
+
+</body>
+
+</html>

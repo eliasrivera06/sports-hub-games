@@ -126,6 +126,17 @@ Crear una plataforma que combine:
 Uso académico
 
 ---
+## Versión actual
+v1.0.0
+
+## Funcionalidades
+- Creación de intefaces.
+- Juego de Fútbol.
+- Juego de F1.
+- Juegos de Ajedrez.
+
+---
+
 
 <p align="center">
   ⭐ Si te gusta el proyecto, dale una estrella ⭐
