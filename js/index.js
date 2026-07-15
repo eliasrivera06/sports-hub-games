@@ -3,19 +3,26 @@
 //------------------------------------
 window.addEventListener("load", () => {
   const preloader = document.getElementById("preloader");
-  const content = document.getElementById("content");
+  const pageContent = document.getElementById("page-content");
 
-  // Espera un poco para simular carga
+  // Pequeña pausa para que se vea la pantalla de carga completa
   setTimeout(() => {
+    // Disparar animación de apertura de puertas
     preloader.classList.add("open");
 
-    // Mostrar contenido después de abrir
+    // Cuando termina la transición de puertas (1.2s), mostrar el contenido
     setTimeout(() => {
+      // Ocultar el preloader
       preloader.style.display = "none";
-      if (content) content.classList.add("show");
-    }, 1200);
 
-  }, 1000);
+      // Mostrar el contenido con fade-in
+      pageContent.style.display = "flex";
+      // Forzar reflow para que la transición CSS funcione
+      pageContent.offsetHeight;
+      pageContent.style.opacity = "1";
+    }, 1200); // Coincide con la duración de la transición CSS de .door
+
+  }, 800); // Tiempo mínimo que se ve la pantalla de carga
 });
 //------------------------------------
 // FIN CARGA DE INICIO

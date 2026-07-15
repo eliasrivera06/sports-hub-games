@@ -396,6 +396,9 @@ function nextQuestion() {
 function endGame() {
   stopTimer();
 
+  // Guardar puntaje en Supabase (solo si mejora el récord anterior)
+  saveQuizScoreToSupabase(state.score, state.correctCount, state.totalQuestions);
+
   const correct = state.correctCount;
   const total = state.totalQuestions;
   const score = state.score;
@@ -590,3 +593,58 @@ function addHistoryItem(num, questionText, correct) {
 // ARRANCAR AL CARGAR
 // ─────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', initGame);
+
+// ─────────────────────────────────────────────
+// LEADERBOARD SUPABASE - QUIZ DE AJEDREZ
+// Solo guarda si el nuevo puntaje SUPERA el último récord.
+// Así el ranking nunca puede bajar: el puntaje máximo se
+// mantiene aunque se vuelva a jugar con peor resultado.
+// ─────────────────────────────────────────────
+async function saveQuizScoreToSupabase(score, correctCount, totalQuestions) {
+  try {
+    if (!window.supabase) return;
+    const { data: { session } } = await window.supabase.auth.getSession();
+    if (!session || !session.user) return;
+
+    const userId = session.user.id;
+
+    // Consultar récord actual
+    const { data, error } = await window.supabase
+      .from('leaderboard_ajedrez_quiz')
+      .select('best_score, best_correct')
+      .eq('user_id', userId)
+      .maybeSingle();
+
+    if (error) {
+      console.error('Error al consultar ranking quiz ajedrez:', error.message);
+      return;
+    }
+
+    if (!data) {
+      // Primera partida: insertar
+      const { error: insertError } = await window.supabase
+        .from('leaderboard_ajedrez_quiz')
+        .insert({
+          user_id: userId,
+          best_score: score,
+          best_correct: correctCount,
+          total_questions: totalQuestions
+        });
+      if (insertError) console.error('Error al insertar quiz ajedrez:', insertError.message);
+    } else if (score > data.best_score) {
+      // Solo actualizar si el nuevo puntaje es mayor (el score nunca puede bajar)
+      const { error: updateError } = await window.supabase
+        .from('leaderboard_ajedrez_quiz')
+        .update({
+          best_score: score,
+          best_correct: correctCount,
+          updated_at: new Date().toISOString()
+        })
+        .eq('user_id', userId);
+      if (updateError) console.error('Error al actualizar quiz ajedrez:', updateError.message);
+    }
+    // Si score <= best_score: no se hace nada, el récord se mantiene intacto
+  } catch (e) {
+    console.error('Error al guardar quiz ajedrez en Supabase:', e);
+  }
+}

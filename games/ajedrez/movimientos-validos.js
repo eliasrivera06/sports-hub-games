@@ -463,6 +463,10 @@ function nextRound() {
 function endGame() {
   stopTimer();
 
+  // Guardar puntaje en Supabase (solo si mejora el récord anterior)
+  const winsAtEnd = state.roundResults.filter(r => r.success).length;
+  saveMovimientosScoreToSupabase(state.score, winsAtEnd, state.totalRounds);
+
   const wins = state.roundResults.filter(r => r.success).length;
   const total = state.totalRounds;
   const score = state.score;
@@ -623,3 +627,44 @@ function hideCombo() {
 // ARRANCAR AL CARGAR
 // ─────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', initGame);
+
+// ─────────────────────────────────────────────
+// LEADERBOARD SUPABASE - MOVIMIENTOS VÁLIDOS
+// El puntaje solo sube: si el nuevo score > best_score se actualiza.
+// Si ya llegó al puntaje máximo (6/6 perfectas) no puede mejorar.
+// ─────────────────────────────────────────────
+async function saveMovimientosScoreToSupabase(score, roundsWon, totalRounds) {
+  try {
+    if (!window.supabase) return;
+    const { data: { session } } = await window.supabase.auth.getSession();
+    if (!session || !session.user) return;
+
+    const userId = session.user.id;
+
+    const { data, error } = await window.supabase
+      .from('leaderboard_ajedrez_movimientos')
+      .select('best_score, best_rounds_won')
+      .eq('user_id', userId)
+      .maybeSingle();
+
+    if (error) {
+      console.error('Error al consultar ranking movimientos:', error.message);
+      return;
+    }
+
+    if (!data) {
+      await window.supabase
+        .from('leaderboard_ajedrez_movimientos')
+        .insert({ user_id: userId, best_score: score, best_rounds_won: roundsWon, total_rounds: totalRounds });
+    } else if (score > data.best_score) {
+      // Solo actualizar si mejora el puntaje anterior
+      await window.supabase
+        .from('leaderboard_ajedrez_movimientos')
+        .update({ best_score: score, best_rounds_won: roundsWon, updated_at: new Date().toISOString() })
+        .eq('user_id', userId);
+    }
+    // Si score <= best_score: no se hace nada
+  } catch (e) {
+    console.error('Error al guardar movimientos en Supabase:', e);
+  }
+}

@@ -719,6 +719,10 @@ function nextPuzzle() {
 function endGame() {
   stopTimer();
 
+  // Guardar puntaje en Supabase (solo si mejora el récord anterior)
+  const solvedAtEnd = state.puzzleResults.filter(r => r.solved).length;
+  saveMateScoreToSupabase(state.score, solvedAtEnd, state.totalPuzzles);
+
   const solved = state.puzzleResults.filter(r => r.solved).length;
   const total  = state.totalPuzzles;
   const score  = state.score;
@@ -916,3 +920,44 @@ function hideStreak() {
 // ARRANCAR
 // ─────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', initGame);
+
+// ─────────────────────────────────────────────
+// LEADERBOARD SUPABASE - MATE EN 1
+// El puntaje solo sube: si el nuevo score > best_score se actualiza.
+// Si ya resolvió 8/8 perfectos, ese es el tope máximo.
+// ─────────────────────────────────────────────
+async function saveMateScoreToSupabase(score, puzzlesSolved, totalPuzzles) {
+  try {
+    if (!window.supabase) return;
+    const { data: { session } } = await window.supabase.auth.getSession();
+    if (!session || !session.user) return;
+
+    const userId = session.user.id;
+
+    const { data, error } = await window.supabase
+      .from('leaderboard_ajedrez_mate')
+      .select('best_score, best_puzzles_solved')
+      .eq('user_id', userId)
+      .maybeSingle();
+
+    if (error) {
+      console.error('Error al consultar ranking mate en 1:', error.message);
+      return;
+    }
+
+    if (!data) {
+      await window.supabase
+        .from('leaderboard_ajedrez_mate')
+        .insert({ user_id: userId, best_score: score, best_puzzles_solved: puzzlesSolved, total_puzzles: totalPuzzles });
+    } else if (score > data.best_score) {
+      // Solo actualizar si mejora el puntaje anterior
+      await window.supabase
+        .from('leaderboard_ajedrez_mate')
+        .update({ best_score: score, best_puzzles_solved: puzzlesSolved, updated_at: new Date().toISOString() })
+        .eq('user_id', userId);
+    }
+    // Si score <= best_score: no se hace nada. El máximo es el tope.
+  } catch (e) {
+    console.error('Error al guardar mate en 1 en Supabase:', e);
+  }
+}

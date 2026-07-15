@@ -56,7 +56,7 @@ let highlightedCells = []; // Índices de celdas resaltadas
 let playerPendingPlacement = null; // Jugador en espera de colocación manual
 
 // CONFIGURACIÓN TEMPORIZADOR
-let timerDuration = "none"; // "none", "30", "60"
+let timerDuration = "none"; // "none", "120"
 let timerInterval = null;
 let timeLeft = 0;
 
@@ -215,17 +215,24 @@ function startGameplayTimer() {
     const bar = document.getElementById("timer-bar-inner");
     const headerTimer = document.getElementById("header-timer");
     
+    // Función auxiliar para dar formato de minutos y segundos (M:SS)
+    const formatTimeHelper = (seconds) => {
+        const mins = Math.floor(seconds / 60);
+        const secs = seconds % 60;
+        return mins > 0 ? `${mins}:${String(secs).padStart(2, '0')}` : `${secs}s`;
+    };
+    
     container.classList.remove("d-none");
     if (headerTimer) {
         headerTimer.classList.remove("d-none");
         headerTimer.classList.remove("danger-timer");
-        headerTimer.innerText = timerDuration + "s";
+        headerTimer.innerText = formatTimeHelper(parseInt(timerDuration));
     }
     
     const maxTime = parseInt(timerDuration);
     timeLeft = maxTime;
     
-    if (counterSpan) counterSpan.innerText = timeLeft + "s";
+    if (counterSpan) counterSpan.innerText = formatTimeHelper(timeLeft);
     bar.style.width = "100%";
     bar.className = "timer-bar-inner";
     
@@ -241,8 +248,8 @@ function startGameplayTimer() {
         }
         
         timeLeft--;
-        if (counterSpan) counterSpan.innerText = timeLeft + "s";
-        if (headerTimer) headerTimer.innerText = timeLeft + "s";
+        if (counterSpan) counterSpan.innerText = formatTimeHelper(timeLeft);
+        if (headerTimer) headerTimer.innerText = formatTimeHelper(timeLeft);
         
         const pct = (timeLeft / maxTime) * 100;
         bar.style.width = pct + "%";
@@ -745,6 +752,13 @@ function triggerVictoryEffects(updateStatsFlag) {
     if (updateStatsFlag) {
         // Registrar estadísticas
         updateStatistics(true);
+
+        // Guardar tiempo de Cruce Futbolero en Supabase (si se jugó con temporizador)
+        if (timerDuration !== "none") {
+            const maxTime = parseInt(timerDuration);
+            const elapsedTime = maxTime - timeLeft;
+            save3RayaTimeToSupabase(elapsedTime);
+        }
     }
     
     // Guardar estado
@@ -1123,3 +1137,56 @@ function showHowToPlay() {
         }
     });
 }
+
+// ========================================================
+// CONEXIÓN LEADERBOARD SUPABASE
+// ========================================================
+async function save3RayaTimeToSupabase(elapsedTimeSeconds) {
+    try {
+        if (!window.supabase) return;
+        const { data: { session } } = await window.supabase.auth.getSession();
+        if (!session || !session.user) return;
+
+        const userId = session.user.id;
+        const difficulty = currentDifficulty; // "easy", "medium", "hard"
+
+        // Consultar récord actual para esta dificultad
+        const { data, error } = await window.supabase
+            .from('leaderboard_futbol_3raya')
+            .select('best_time')
+            .eq('user_id', userId)
+            .eq('difficulty', difficulty)
+            .maybeSingle();
+
+        if (error) {
+            console.error("Error al consultar récord de 3 en raya:", error.message);
+            return;
+        }
+
+        if (!data) {
+            // No tiene puntuación previa en esta dificultad, insertar
+            const { error: insertError } = await window.supabase
+                .from('leaderboard_futbol_3raya')
+                .insert({ 
+                    user_id: userId, 
+                    difficulty: difficulty, 
+                    best_time: elapsedTimeSeconds 
+                });
+            if (insertError) console.error("Error al insertar tiempo de 3 en raya:", insertError.message);
+        } else if (elapsedTimeSeconds < data.best_time) {
+            // El tiempo actual es menor (mejor), actualizar
+            const { error: updateError } = await window.supabase
+                .from('leaderboard_futbol_3raya')
+                .update({ 
+                    best_time: elapsedTimeSeconds, 
+                    updated_at: new Date().toISOString() 
+                })
+                .eq('user_id', userId)
+                .eq('difficulty', difficulty);
+            if (updateError) console.error("Error al actualizar tiempo de 3 en raya:", updateError.message);
+        }
+    } catch (e) {
+        console.error("Error al guardar tiempo de 3 en raya en Supabase:", e);
+    }
+}
+
