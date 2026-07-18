@@ -723,3 +723,41 @@ footer {
 .result-loss {
     color: var(--color-error);
 }
+
+/* AJUSTES DE RESPONSIVIDAD PARA LOS ALERTAS (SWEETALERT2) EN MÓVIL */
+@media (max-width: 576px) {
+    .swal2-container {
+        align-items: flex-start !important;
+        padding: 15px 5px !important;
+        overflow-y: auto !important;
+    }
+
+    .swal-retro-popup {
+        margin: auto !important; /* Centra verticalmente si cabe; si no, se alinea arriba */
+        width: 95% !important;
+        padding: 12px 8px !important;
+        border-width: 3px !important;
+        box-shadow: 4px 4px 0px var(--color-error) !important;
+    }
+
+    .swal-retro-title {
+        font-size: 10px !important;
+    }
+
+    .swal-retro-html {
+        font-size: 7px !important;
+        line-height: 1.5 !important;
+    }
+
+    .swal2-icon {
+        transform: scale(0.65) !important;
+        margin: 10px auto !important;
+    }
+    
+    .swal-retro-confirm,
+    .swal-retro-cancel {
+        font-size: 8px !important;
+        padding: 8px 12px !important;
+    }
+}
+

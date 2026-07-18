@@ -277,18 +277,48 @@ canvas {
 
 /* Mobile responsive fixes */
 @media (max-width: 576px) {
+    .main-wrapper {
+        padding: 10px 6px !important;
+    }
+
     .game-container {
         height: auto;
-        min-height: 98vh;
-        justify-content: flex-start;
-        gap: 15px;
+        min-height: 0;
+        padding: 12px 8px !important;
+        border-radius: 12px !important;
+        gap: 12px;
+    }
+
+    .header-section {
+        flex-direction: column !important;
+        gap: 8px !important;
+        align-items: center !important;
+        text-align: center !important;
+        padding-bottom: 8px !important;
+    }
+
+    .header-section .back-btn {
+        font-size: 8px !important;
+        padding: 4px 8px !important;
+    }
+
+    .header-section .title {
+        font-size: 1.5rem !important;
+        margin: 0 !important;
+    }
+
+    /* Ocultar el espaciador vacío de 80px en móvil */
+    .header-section div[style*="width: 80px"] {
+        display: none !important;
     }
     
     .stats-panel {
-        flex-direction: column;
-        gap: 8px;
-        align-items: flex-start;
-        padding-left: 20px;
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 8px !important;
+        align-items: center !important;
+        padding: 8px !important;
+        font-size: 9px !important;
     }
     
     .options-grid {
@@ -297,7 +327,29 @@ canvas {
     }
 
     .option-btn {
-        padding: 12px 8px;
+        padding: 10px 8px !important;
+        font-size: 8px !important;
+        letter-spacing: 0.5px !important;
+        line-height: 1.4 !important;
+    }
+
+    #startOverlay {
+        padding: 15px 10px !important;
+    }
+
+    #startOverlay h2 {
+        font-size: 13px !important;
+    }
+
+    #startOverlay p {
+        font-size: 8px !important;
+        line-height: 1.5 !important;
+        margin-bottom: 15px !important;
+    }
+
+    #startOverlay button {
+        padding: 10px 20px !important;
+        font-size: 10px !important;
     }
 }
 

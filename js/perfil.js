@@ -69,8 +69,8 @@ async function editProfile() {
       
       <div style="text-align: left; margin-bottom: 8px; font-family: 'Press Start 2P', cursive; font-size: 10px;">Nueva contraseña (opcional):</div>
       <div class="swal-pass-container" style="position: relative; width: 80%; margin: 0 auto 16px auto;">
-        <input id="swal-pass" type="password" class="swal2-input" placeholder="Contraseña" style="width: 100%; margin: 0; background: #1a1d2e; color: #ffffff; border: 2px solid #00ff9f;">
-        <span onclick="toggleSwalPassword()" id="swalEye" style="position: absolute; right: 10px; top: 15px; cursor: pointer; color: #00ff9f; font-size: 18px;">👁</span>
+        <input id="swal-pass" type="password" class="swal2-input" placeholder="Contraseña" style="width: 100%; margin: 0; background: #1a1d2e; color: #ffffff; border: 2px solid #00ff9f; padding-right: 40px;">
+        <span onclick="toggleSwalPassword()" id="swalEye" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #00ff9f; font-size: 18px; display:flex; align-items:center;">👁</span>
       </div>
     `,
     showCancelButton: true,

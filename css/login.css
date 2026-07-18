@@ -259,3 +259,11 @@ body{
     padding: 5px;
   }
 }
+
+/* Título del popup de bienvenida — evita que la "o" salte de línea */
+.swal-title-fit {
+  font-size: 14px !important;
+  white-space: nowrap !important;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

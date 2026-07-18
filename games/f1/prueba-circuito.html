@@ -42,8 +42,27 @@
 </nav>
 
 <div class="main-wrapper">
-    <div class="game-container animate__animated animate__fadeIn">
+    <div class="game-container animate__animated animate__fadeIn" style="position: relative;">
         
+        <!-- OVERLAY DE BIENVENIDA -->
+        <div id="startOverlay" class="position-absolute w-100 h-100 d-flex flex-column align-items-center justify-content-center text-center p-3" style="background: rgba(18, 20, 32, 0.95); z-index: 10; border-radius: 20px; top: 0; left: 0;">
+            <h2 class="mb-3 text-warning animate__animated animate__pulse animate__infinite animate__slow" style="font-size: clamp(14px, 3vw, 20px);">PRUEBA DE CIRCUITOS F1</h2>
+            <p class="mb-4 text-light" style="font-size: clamp(8px, 1.8vw, 11px); line-height: 1.6; max-width: 600px;">
+                ¿Podrás reconocer los circuitos de la F1? 
+                <br><br>
+                - Tienes 5 preguntas aleatorias.
+                <br>
+                - Tiempo de 10 segundos por pregunta.
+                <br>
+                - Máximo 3 pistas por partida.
+                <br><br>
+                ¡Logra una racha perfecta de 5/5 para ganar la copa!
+            </p>
+            <button id="readyBtn" class="btn btn-danger py-3 px-5 retro-confirm" style="font-family: 'Press Start 2P', cursive; font-size: 12px; border: 3px solid var(--yellow-color);">
+                ¿LISTO?
+            </button>
+        </div>
+
         <!-- CABECERA -->
         <div class="header-section">
             <a href="f1.html" class="back-btn">← MENU F1</a>
@@ -69,25 +88,6 @@
 
         <!-- TABLERO PRINCIPAL (CANVAS) -->
         <div class="board-section">
-            <!-- OVERLAY DE BIENVENIDA -->
-            <div id="startOverlay" class="position-absolute w-100 h-100 d-flex flex-column align-items-center justify-content-center text-center p-3" style="background: rgba(18, 20, 32, 0.95); z-index: 10; border-radius: 8px;">
-                <h2 class="mb-3 text-warning animate__animated animate__pulse animate__infinite animate__slow" style="font-size: clamp(14px, 3vw, 20px);">PRUEBA DE CIRCUITOS F1</h2>
-                <p class="mb-4 text-light" style="font-size: clamp(8px, 1.8vw, 11px); line-height: 1.6; max-width: 600px;">
-                    ¿Podrás reconocer los circuitos de la F1? 
-                    <br><br>
-                    - Tienes 5 preguntas aleatorias.
-                    <br>
-                    - Tiempo de 10 segundos por pregunta.
-                    <br>
-                    - Máximo 3 pistas por partida.
-                    <br><br>
-                    ¡Logra una racha perfecta de 5/5 para ganar la copa!
-                </p>
-                <button id="readyBtn" class="btn btn-danger py-3 px-5 retro-confirm" style="font-family: 'Press Start 2P', cursive; font-size: 12px; border: 3px solid var(--yellow-color);">
-                    ¿LISTO?
-                </button>
-            </div>
-
             <!-- Canvas para el circuito F1 y cronómetro digital -->
             <canvas id="gameCanvas" width="800" height="360"></canvas>
         </div>

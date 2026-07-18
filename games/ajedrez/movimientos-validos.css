@@ -528,9 +528,96 @@ footer {
   :root { --cell: clamp(68px, calc((100vh - 130px) / 8), 92px); }
 }
 @media (max-width: 900px) {
-  :root { --cell: clamp(44px, 10.5vw, 74px); }
+  :root { --cell: clamp(32px, 8.5vw, 74px); }
   .stat-value { font-size: 18px !important; }
   .stat-label { font-size: 8px !important; }
   .panel-title { font-size: 11px !important; }
+
+  /* Reducir elementos de pieza e instrucciones para evitar superposición */
+  .piece-symbol { font-size: 36px !important; margin-bottom: 6px !important; }
+  .piece-name { font-size: 9px !important; margin-bottom: 4px !important; }
+  .piece-badge { font-size: 7px !important; padding: 3px 8px !important; margin-bottom: 6px !important; }
+  .piece-desc { font-size: 7.5px !important; line-height: 1.5 !important; }
+  .instructions-box p { font-size: 7.5px !important; line-height: 1.8 !important; }
+  .btn-action { font-size: 8px !important; padding: 10px !important; }
 }
+
+@media (max-width: 600px) {
+  .info-panel, .progress-panel {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 12px !important;
+  }
+  
+  .piece-symbol { font-size: 28px !important; margin-bottom: 4px !important; }
+
+  /* Encajar el tablero reduciendo el tamaño de las coordenadas y el espaciado */
+  .board-coords-left span,
+  .board-coords-right span {
+    width: 18px !important;
+    font-size: 10px !important;
+  }
+  .board-coords-top span {
+    font-size: 10px !important;
+  }
+  .board-row-wrapper {
+    gap: 2px !important;
+  }
+
+  /* Ajustes responsivos para SweetAlert de bienvenida */
+  .swal2-container {
+    align-items: flex-start !important;
+    padding: 15px 5px !important;
+    overflow-y: auto !important;
+  }
+
+  .swal-chess-popup {
+    margin: auto !important;
+    width: 95% !important;
+    padding: 15px 10px !important;
+    border-width: 2px !important;
+  }
+
+  .swal-chess-popup .swal2-html-container {
+    margin: 5px 0 !important;
+  }
+
+  .swal-chess-popup p {
+    margin-bottom: 8px !important;
+    font-size: 8px !important;
+    line-height: 1.6 !important;
+  }
+
+  .swal-chess-popup div[style*="font-size:48px"] {
+    font-size: 24px !important;
+    margin-bottom: 8px !important;
+  }
+
+  .swal-chess-popup p[style*="font-size:13px"] {
+    font-size: 10px !important;
+    margin-bottom: 10px !important;
+  }
+
+  .swal-chess-confirm {
+    font-size: 9px !important;
+    padding: 8px 16px !important;
+  }
+}
+
+/* ─── BOTON VOLVER ─── */
+.btn-back-menu {
+  background: rgba(255, 255, 255, 0.03) !important;
+  color: var(--cream) !important;
+  border: 2px solid var(--border) !important;
+  text-decoration: none !important;
+  display: block !important;
+}
+
+.btn-back-menu:hover {
+  background: var(--cream) !important;
+  color: var(--panel-bg) !important;
+  border-color: var(--cream) !important;
+  box-shadow: 0 0 18px rgba(255, 255, 255, 0.4) !important;
+}
+
 
