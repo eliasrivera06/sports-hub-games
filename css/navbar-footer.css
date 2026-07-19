@@ -164,3 +164,10 @@ footer p {
     font-size: 10px !important;
   }
 }
+
+/* SweetAlert2 Z-Index Fix:
+   Asegura que los modales y toasts se dibujen por encima de la navbar (que tiene z-index: 9999) */
+.swal2-container {
+  z-index: 100000 !important;
+}
+

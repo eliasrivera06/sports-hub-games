@@ -241,7 +241,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return document.querySelector(`.cw-cell[data-r="${r}"][data-c="${c}"]`);
   }
 
-  // ── Teclado ──────────────────────────────────
+  // ── Teclado físico (desktop) ─────────────────
   document.addEventListener('keydown', e => {
     if (completedLevels.has(currentLevelIdx)) return;
     if (!selectedWord || !selectedCell) return;
@@ -256,6 +256,19 @@ document.addEventListener('DOMContentLoaded', () => {
       typeLetter(key.normalize('NFD').replace(/[\u0300-\u036f]/g, ''));
     }
   });
+
+  // ── Exponer cwKeyPress globalmente para el teclado en pantalla ──
+  window.cwKeyPress = function(key) {
+    if (completedLevels.has(currentLevelIdx)) return;
+    if (!selectedWord || !selectedCell) return;
+    if (key === 'BACKSPACE') {
+      typeBackspace();
+    } else {
+      // Normalizar (ej: Ñ se queda, el resto de acentos se quita)
+      const normalized = key === 'Ñ' ? 'Ñ' : key.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+      if (/^[A-ZÑ]$/.test(normalized)) typeLetter(normalized);
+    }
+  };
 
   function typeLetter(letter) {
     if (solvedWords.has(selectedWord.id)) return;
