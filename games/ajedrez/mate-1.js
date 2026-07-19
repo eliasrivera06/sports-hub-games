@@ -912,6 +912,14 @@ function hideStreak() {
       font-size: 9px !important;
       border: 1px solid rgba(255,209,102,0.3) !important;
     }
+    .swal2-container {
+      z-index: 100000 !important;
+    }
+    .swal2-container.swal2-top-end,
+    .swal2-container.swal2-top-start,
+    .swal2-container.swal2-top {
+      top: 80px !important;
+    }
   `;
   document.head.appendChild(s);
 })();
