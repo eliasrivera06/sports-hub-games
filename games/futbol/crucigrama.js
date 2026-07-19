@@ -141,8 +141,8 @@ document.addEventListener('DOMContentLoaded', () => {
   function buildGrid() {
     const grid = document.getElementById('cwGrid');
     grid.innerHTML = '';
-    grid.style.gridTemplateColumns = `repeat(${COLS}, 52px)`;
-    grid.style.gridTemplateRows = `repeat(${ROWS}, 52px)`;
+    grid.style.gridTemplateColumns = `repeat(${COLS}, var(--cell-size, 52px))`;
+    grid.style.gridTemplateRows = `repeat(${ROWS}, var(--cell-size, 52px))`;
 
     for (let r = 0; r < ROWS; r++) {
       for (let c = 0; c < COLS; c++) {

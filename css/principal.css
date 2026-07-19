@@ -291,7 +291,18 @@ footer{
 
 @media (max-width:480px){
   .team{
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr); /* 2 por fila en móvil */
+    gap: 12px;
+    max-width: 100%;
+  }
+  .avatar{
+    height: 70px; /* más pequeño para que quepan 2 en fila */
+  }
+  .member{
+    padding: 10px;
+  }
+  .member p{
+    font-size: 8px;
   }
   .nav-link {
     font-size: 10px;

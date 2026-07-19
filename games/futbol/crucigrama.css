@@ -12,6 +12,11 @@
   padding: 0;
 }
 
+:root {
+  --cell-size: 52px;
+}
+
+
 body {
   background: #0d1117;
   font-family: 'Press Start 2P', monospace;
@@ -184,16 +189,47 @@ body {
   flex-wrap: wrap;
 }
 
+.cw-grid-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 10px 0;
+  display: block;
+}
+
 /* ── GRID ── */
 .cw-grid {
   display: grid;
   gap: 2px;
   flex-shrink: 0;
+  margin: 0 auto;
+  width: max-content;
 }
 
+/* Personalizar barra de desplazamiento del crucigrama */
+.cw-grid-wrapper::-webkit-scrollbar {
+  height: 8px;
+  width: 8px;
+}
+
+.cw-grid-wrapper::-webkit-scrollbar-track {
+  background: #161b22;
+  border-radius: 4px;
+}
+
+.cw-grid-wrapper::-webkit-scrollbar-thumb {
+  background: #30d158;
+  border-radius: 4px;
+}
+
+.cw-grid-wrapper::-webkit-scrollbar-thumb:hover {
+  background: #28b84e;
+}
+
+
 .cw-cell {
-  width: 52px;
-  height: 52px;
+  width: var(--cell-size);
+  height: var(--cell-size);
   background: #1c2230;
   border: 1px solid #2a3448;
   display: flex;
@@ -314,19 +350,121 @@ footer {
 }
 
 /* ── RESPONSIVE ── */
-@media (max-width: 700px) {
+@media (max-width: 768px) {
+  :root {
+    --cell-size: min(40px, 8.5vw);
+  }
+
+  .page {
+    padding: 15px 10px 30px;
+  }
+
+  .cw-grid-wrapper {
+    max-height: 60vh;
+    overflow: auto !important;
+    border: 2px dashed rgba(48, 209, 88, 0.4);
+    background: #0d1117;
+    padding: 8px !important;
+    border-radius: 4px;
+    margin-bottom: 15px;
+  }
+
+  .game-title {
+    font-size: 18px !important;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+  }
+
+  .game-subtitle {
+    font-size: 9px !important;
+    margin-bottom: 15px;
+    line-height: 1.4;
+  }
+
+  .score-bar {
+    gap: 6px !important;
+    margin-bottom: 12px !important;
+  }
+
+  .score-box {
+    padding: 8px 12px !important;
+  }
+
+  .score-label {
+    font-size: 8px !important;
+  }
+
+  .score-value {
+    font-size: 14px !important;
+  }
+
+  .top-bar {
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 10px !important;
+    margin-bottom: 15px !important;
+  }
+
+  .top-bar > div {
+    display: flex !important;
+    justify-content: center !important;
+    gap: 6px !important;
+    flex-wrap: wrap !important;
+    width: 100% !important;
+  }
+
+  .btn-retro {
+    font-size: 8px !important;
+    padding: 8px 12px !important;
+    border-width: 2px !important;
+    letter-spacing: 0.5px !important;
+  }
+
+  .clue-active {
+    font-size: 9px !important;
+    padding: 10px 12px !important;
+    margin-bottom: 15px !important;
+    line-height: 1.5 !important;
+    min-height: auto;
+  }
+
+  .game-layout {
+    gap: 15px;
+  }
+
+  .cw-grid {
+    margin: 0 auto !important;
+  }
+
   .cw-cell {
-    width: 34px;
-    height: 34px;
-    font-size: 12px;
+    font-size: 10px;
   }
 
   .cw-num {
-    font-size: 5px;
+    font-size: 5px !important;
+    top: 2px !important;
+    left: 2px !important;
+  }
+
+  .cw-letter {
+    font-size: 12px !important;
   }
 
   .clues-panel {
     min-width: 100%;
     max-width: 100%;
   }
-}
+
+  .clues-section-title {
+    font-size: 12px !important;
+    text-align: center;
+  }
+
+  .clue-item {
+    font-size: 10px !important;
+    line-height: 1.6;
+    margin-bottom: 10px;
+    padding: 6px;
+  }
+}

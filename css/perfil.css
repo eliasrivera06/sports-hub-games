@@ -45,24 +45,26 @@ body{
 .profile-container{
   display:flex;
   justify-content:center;
-  align-items:center;
-  height:calc(100vh - 70px); /* 👈 clave */
-  overflow:hidden; /* 👈 elimina scroll */
+  align-items:flex-start;
+  min-height:calc(100vh - 70px);
+  padding: 60px 16px 40px;
+  overflow-y:auto;
+  box-sizing:border-box;
 }
 
 /* CAJA */
 .profile-box{
-  width:500px;
-  max-height:100%;
-  overflow:hidden;
+  width:min(500px, 100%);
+  overflow:visible;
 
   background:#121420;
-  border:2px solid var(--yellow); /* más fino */
+  border:2px solid var(--yellow);
 
-  box-shadow:0 6px 0 #000; /* sin glow */
+  box-shadow:0 6px 0 #000;
 
   padding:18px;
   position:relative;
+  box-sizing:border-box;
 }
 /* BARRA */
 .window-bar{
@@ -122,11 +124,18 @@ body{
   margin-bottom:10px;
   font-size:10px;
 
-  background:#1a1c2c; /* más suave */
+  background:#1a1c2c;
   padding:8px 10px;
 
-  border-left:3px solid var(--yellow); /* detalle elegante */
+  border-left:3px solid var(--yellow);
   border-top:1px solid rgba(255,255,255,0.1);
+
+  /* Evitar que el texto desborde el cuadro */
+  overflow-wrap: break-word;
+  word-break: break-word;
+  min-width: 0;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .profile-title{
@@ -231,16 +240,21 @@ body{
   transform:translateY(-50%);
 
   cursor:pointer;
-  font-size:12px;
+  font-size:18px;
+  line-height:1;
 
-  color:#fff3e0;
-  opacity:0.7;
+  color:#00ff9f;
+  opacity:0.8;
   transition:0.2s;
+
+  /* Asegurar que quede centrado verticalmente */
+  display:flex;
+  align-items:center;
 }
 
 #swalEye:hover{
   opacity:1;
-  color:#00ff9f;
+  color:#fff3e0;
 }
 
 /* RESPONSIVE */
@@ -269,32 +283,68 @@ body{
   }
 }
 
-@media (max-width: 480px) {
-  .profile-box {
-    width: 90%;
-    padding: 20px;
+@media (max-width: 560px) {
+  .profile-container {
+    padding: 50px 12px 30px;
   }
+
+  .profile-box {
+    width: 100%;
+    padding: 16px 14px;
+  }
+
   .window-bar {
     top: -25px;
     height: 25px;
-  }
-  .profile-title {
-    font-size: 12px;
-  }
-  .avatar {
-    width: 80px;
-    height: 80px;
-  }
-  .info {
     font-size: 9px;
-    padding: 6px 8px;
   }
+
+  .profile-title {
+    font-size: 11px;
+    margin-bottom: 14px;
+  }
+
+  .avatar {
+    width: 70px;
+    height: 70px;
+    font-size: 8px;
+  }
+
+  .info {
+    font-size: 8px;
+    padding: 6px 8px;
+    line-height: 1.6;
+  }
+
   .btn-retro {
     padding: 10px;
-    font-size: 9px;
+    font-size: 8px;
   }
+
   .nav-link {
     font-size: 10px;
     padding: 5px;
+  }
+
+  /* Modal de editar en celular */
+  .swal2-popup {
+    font-size: 9px !important;
+    padding: 16px 12px !important;
+    width: 95% !important;
+  }
+
+  .swal2-input {
+    font-size: 9px !important;
+    padding: 8px !important;
+  }
+
+  .swal-pass-container .swal2-input {
+    padding-right: 40px !important;
+  }
+
+  .swal2-confirm,
+  .swal2-cancel {
+    font-size: 9px !important;
+    padding: 8px 12px !important;
   }
 }

@@ -176,84 +176,22 @@ function drawLights(activeLights, green = false) {
 // INICIAR JUEGO
 // =========================
 
-startBtn.addEventListener("click", startGame);
-
-function startGame() {
-
-    if (gameStarted) return;
-
-    clearInterval(timerInterval);
-    clearInterval(intervalId);
-    clearTimeout(timeoutId);
-
-    gameStarted = true;
-    lightsOff = false;
-    currentLights = 0;
-
-    currentReactionTime = 0;
-
-    timerText.textContent = "0.000";
-
-    statusText.textContent =
-        "PREPARATE...";
-
-    drawScene();
-
-    intervalId = setInterval(() => {
-
-        currentLights++;
-
-        drawScene();
-
-        if (currentLights >= 5) {
-
-            clearInterval(intervalId);
-
-            const randomDelay =
-                Math.random() * 1500 + 800;
-
-            timeoutId = setTimeout(() => {
-
-                lightsOff = true;
-
-                drawScene();
-
-                statusText.textContent =
-                    "¡YA! PRESIONA ESPACIO";
-
-                startTime =
-                    performance.now();
-
-                startReactionTimer();
-
-            }, randomDelay);
-        }
-
-    }, 700);
-}
-
 // =========================
-// TECLA ESPACIO
+// GESTIÓN DEL EVENTO DE REACCIÓN
 // =========================
 
-document.addEventListener("keydown", (e) => {
-
-    if (e.code !== "Space") return;
-
+function triggerReaction() {
     if (!gameStarted) return;
 
     // SALIDA FALSA
-
     if (!lightsOff) {
-
         clearInterval(intervalId);
         clearTimeout(timeoutId);
         clearInterval(timerInterval);
 
         gameStarted = false;
 
-        statusText.textContent =
-            "SALIDA FALSA";
+        statusText.textContent = "SALIDA FALSA";
 
         Swal.fire({
             icon: "error",
@@ -261,48 +199,34 @@ document.addEventListener("keydown", (e) => {
             text: "Presionaste antes de tiempo."
         });
 
+        // Restablecer botón
+        startBtn.textContent = "INICIAR";
+        startBtn.classList.remove("reacting");
         return;
     }
 
     // REACCION VALIDA
-
     clearInterval(timerInterval);
 
-    const reactionTime =
-        (performance.now() - startTime) / 1000;
+    const reactionTime = (performance.now() - startTime) / 1000;
 
-    timerText.textContent =
-        reactionTime.toFixed(3);
+    timerText.textContent = reactionTime.toFixed(3);
+    statusText.textContent = "CARRERA COMPLETADA";
 
-    statusText.textContent =
-        "CARRERA COMPLETADA";
-
-    if (
-        bestTime === null ||
-        reactionTime < bestTime
-    ) {
-
+    if (bestTime === null || reactionTime < bestTime) {
         bestTime = reactionTime;
-
-        bestTimeText.textContent =
-            `TU MEJOR TIEMPO: ${bestTime.toFixed(3)} s`;
+        bestTimeText.textContent = `TU MEJOR TIEMPO: ${bestTime.toFixed(3)} s`;
     }
 
     // Guardar en Supabase si hay sesión activa
     saveReactionTimeToSupabase(reactionTime);
 
     let rating = "";
-
     if (reactionTime <= 0.200) {
-
         rating = "⭐⭐⭐ EXCELENTE";
-
     } else if (reactionTime <= 0.350) {
-
         rating = "⭐⭐ MUY BUENO";
-
     } else {
-
         rating = "⭐ BUEN INTENTO";
     }
 
@@ -318,6 +242,81 @@ document.addEventListener("keydown", (e) => {
     });
 
     gameStarted = false;
+    // Restablecer botón
+    startBtn.textContent = "INICIAR";
+    startBtn.classList.remove("reacting");
+}
+
+startBtn.addEventListener("click", (e) => {
+    if (gameStarted) {
+        triggerReaction();
+    } else {
+        startGame();
+    }
+});
+
+// Registrar eventos táctiles y de click en el Canvas para mayor comodidad en celulares
+canvas.addEventListener("click", () => {
+    if (gameStarted) {
+        triggerReaction();
+    }
+});
+
+canvas.addEventListener("touchstart", (e) => {
+    if (gameStarted) {
+        e.preventDefault(); // Evita el click duplicado
+        triggerReaction();
+    }
+});
+
+function startGame() {
+    if (gameStarted) return;
+
+    clearInterval(timerInterval);
+    clearInterval(intervalId);
+    clearTimeout(timeoutId);
+
+    gameStarted = true;
+    lightsOff = false;
+    currentLights = 0;
+
+    currentReactionTime = 0;
+
+    timerText.textContent = "0.000";
+
+    statusText.textContent = "PREPARATE...";
+    startBtn.textContent = "¡PRESIONA AHORA!";
+    startBtn.classList.add("reacting");
+
+    drawScene();
+
+    intervalId = setInterval(() => {
+        currentLights++;
+        drawScene();
+
+        if (currentLights >= 5) {
+            clearInterval(intervalId);
+
+            const randomDelay = Math.random() * 1500 + 800;
+
+            timeoutId = setTimeout(() => {
+                lightsOff = true;
+                drawScene();
+
+                statusText.textContent = "¡YA! PRESIONA ESPACIO / PANTALLA";
+                startTime = performance.now();
+                startReactionTimer();
+            }, randomDelay);
+        }
+    }, 700);
+}
+
+// Escuchar tecla Espacio
+document.addEventListener("keydown", (e) => {
+    if (e.code !== "Space") return;
+    if (!gameStarted) return;
+    e.preventDefault(); // Evitar scroll de la página
+    triggerReaction();
 });
 
 // =========================

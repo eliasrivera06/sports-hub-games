@@ -46,10 +46,15 @@ async function login() {
       text: 'Inicio de sesión exitoso.',
       icon: 'success',
       background: '#121420',
-      color: '#00ff9f'
+      color: '#00ff9f',
+      width: '420px',
+      customClass: {
+        title: 'swal-title-fit'
+      }
     }).then((result) => {
       window.location.href = 'principal.html';
     });
+
   }
 }
 

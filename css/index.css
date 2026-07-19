@@ -24,12 +24,13 @@ body {
   overflow: hidden;
 }
 
-/* Contenedor de puertas */
+/* Contenedor de puertas — centrado, tamaño responsivo */
 .door-container {
   position: relative;
-  width: 400px; /* ajustable */
-  height: 400px;
+  width: clamp(260px, 80vw, 480px);   /* se adapta: móvil pequeño -> grande */
+  height: clamp(260px, 80vw, 480px);  /* cuadrado proporcional */
 }
+
 
 /* Puertas (base única) */
 .door {
@@ -38,8 +39,11 @@ body {
   width: 100%;
   height: 50%;
   object-fit: cover;
+  display: block;
   transition: transform 1.2s ease-in-out;
 }
+
+
 
 /* Posición */
 .top { top: 0; }
@@ -61,22 +65,22 @@ body {
   /* display se maneja desde JS: empieza en "none", pasa a "flex" */
 }
 
-html, body{
+html {
   height: 100%;
   margin: 0;
-  overflow: hidden; /* 🚫 elimina scroll */
 }
 
-body{
-  margin:0;
-  overflow:hidden;
-  display:flex;
-  flex-direction:column;
-  height:100vh;
+body {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  height: 100vh;
   background: var(--bg-main);
-  color:white;
+  color: white;
   font-family: 'Press Start 2P', cursive;
-  overflow-x:hidden;
+  overflow-x: hidden;
+  overflow-y: hidden;
 }
 
 /* 🎨 PALETA */
@@ -129,12 +133,12 @@ body{
 }
 
 /* CATEGORIAS FULL SCREEN */
-.categories{
-  display:flex;
-  width:100%;
-  height:calc(100vh - 100px);
-  position:relative;
-  flex:1; /* 🔥 ocupa TODO lo restante */
+.categories {
+  display: flex;
+  width: 100%;
+  flex: 1;
+  position: relative;
+  min-height: 0; /* permite que flex-children se compriman */
 }
 
 /* CARD FULL */
@@ -303,68 +307,110 @@ body{
   box-shadow: 0 0 10px #ffd166;
 }
 
-/* RESPONSIVE */
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+/* Tablet / landscape móvil (≤ 991px) */
 @media (max-width: 991px) {
-  .navbar {
-    height: auto;
-    padding: 10px 0;
-  }
-  .navbar .container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-  }
-  .navbar-collapse {
-    display: flex !important;
-    flex-basis: auto;
-  }
-  .navbar-nav {
-    flex-direction: row;
-    gap: 15px;
-    justify-content: center;
-  }
-  .nav-link {
-    font-size: 12px;
-  }
+  /* Las categorías se apilan verticalmente */
   .categories {
     flex-direction: column;
-    height: calc(100vh - 120px);
+    overflow-y: auto;
   }
-  .hero-text {
-    font-size: 14px;
-    height: 50px;
+
+  /* Cada tarjeta ocupa al menos 33% de la altura disponible */
+  .card-game {
+    flex: 1 1 33%;
+    min-height: 33vh;
   }
+
   .card-game:hover {
     flex: 1.1;
     transform: scale(1.02);
   }
+
+  .hero-text {
+    font-size: 13px;
+    height: auto;
+    padding: 12px 10px;
+  }
+
   .overlay h2 {
-    font-size: 20px;
+    font-size: 18px;
     margin-bottom: 10px;
   }
+
   .overlay p {
-    font-size: 14px;
+    font-size: 13px;
     margin-bottom: 10px;
   }
+
   .btn-custom {
     padding: 8px 14px;
-    font-size: 12px;
+    font-size: 11px;
+  }
+
+  /* Permite scroll si el contenido supera la pantalla */
+  body {
+    overflow-y: auto;
+  }
+
+  #page-content {
+    height: auto;
+    min-height: 100vh;
   }
 }
 
-@media (max-width: 480px) {
-  .nav-link {
-    font-size: 10px;
-    padding: 5px;
-  }
+/* Móvil pequeño (≤ 600px) */
+@media (max-width: 600px) {
   .hero-text {
-    font-size: 12px;
+    font-size: 10px;
+    padding: 10px 8px;
+    letter-spacing: 1px;
   }
+
+  .card-game {
+    min-height: 30vh;
+  }
+
+  .card-game:hover {
+    transform: none; /* evita overflow en pantallas pequeñas */
+  }
+
   .overlay h2 {
-    font-size: 18px;
+    font-size: 14px;
+    margin-bottom: 8px;
   }
+
   .overlay p {
+    font-size: 10px;
+    margin-bottom: 8px;
+  }
+
+  .btn-custom {
+    font-size: 9px;
+    padding: 7px 12px;
+  }
+}
+
+/* Muy pequeño (≤ 380px) */
+@media (max-width: 380px) {
+  .hero-text {
+    font-size: 8px;
+    padding: 8px 6px;
+  }
+
+  .overlay h2 {
     font-size: 12px;
+  }
+
+  .overlay p {
+    font-size: 9px;
+  }
+
+  .btn-custom {
+    font-size: 8px;
+    padding: 6px 10px;
   }
 }
